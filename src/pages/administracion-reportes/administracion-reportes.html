@@ -1,0 +1,66 @@
+<!--
+  Generated template for the AdministracionReportesPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    
+  <ion-navbar>
+      <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+      </button> 
+    <ion-title>Administración</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+
+  <ion-searchbar [(ngModel)]="terms"></ion-searchbar>
+  <ion-list>
+
+
+    <ion-item-sliding *ngFor="let c of reportes | searchCliente : terms">
+      <ion-item>
+        <div>
+
+          <h2>N Reporte: {{c.numeroFactura}}</h2>
+          <h2>Cod Tecn: {{c.codigoTecnico}}</h2>
+          <h2>Técnico: {{c.soporte}}</h2>
+          <h2>Fecha: {{c.fecha}}</h2>
+          <h2>Factura: {{c.factura}}</h2>
+          <h2>Serial: {{c.serial}}</h2>
+          <h2>Cliente: {{c.cliente}}</h2>
+          <h2>Estado: {{c.estado}}</h2>
+        </div>
+
+      </ion-item>
+
+      <ion-item-options side="right">
+        <button ion-button (click)="openItem(c)">
+          <ion-icon name="eye"></ion-icon>
+          Ver</button>
+        <button ion-button color="secondary" (click)="edit(c)">
+          <ion-icon name="create"></ion-icon>
+          Editar</button>
+        <button ion-button color="danger" (click)="openPdf(c)" download>
+          <ion-icon name="archive"></ion-icon>
+          Pdf</button>
+
+      </ion-item-options>
+
+
+
+    </ion-item-sliding>
+
+
+
+
+
+  </ion-list>
+
+
+</ion-content>
