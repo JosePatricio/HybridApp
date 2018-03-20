@@ -250,31 +250,22 @@ export class ReporteImpresorasPage {
         this.arrayPreventivoProcesamientoIds = this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
         this.arrayPreventivoProcesamiento = this.loadReportePreventivos(catalogo, data.reporteMantenimientoList);
       });
-      /*
-            this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('IMAGEN_PREVENTIVO').subscribe(catalogo => {
-              this.arrayPreventivoImagenIds = this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
-              this.arrayPreventivoImagen = this.loadReportePreventivos(catalogo, data.reporteMantenimientoList);
-            });
-      
-             this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('FIJACION_PREVENTIVO').subscribe(catalogo => {
-                this.arrayPreventivoFijacion = catalogo;
-                this.arrayPreventivoFijacionIds = this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
-              });
-        
-              this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('EXTERIORES').subscribe(catalogo => {
-                this.arrayPreventivoExteriores = catalogo;
-                this.arrayPreventivoExterioresIds = this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
-                this.loading.dismiss();
-              }, error => { },
-                function () { console.log('FINALIZADO ==  :) '); }
-              );*/
+
+      this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('IMAGEN_PREVENTIVO').subscribe(catalogo => {
+        this.arrayPreventivoImagenIds = this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
+        this.arrayPreventivoImagen = this.loadReportePreventivos(catalogo, data.reporteMantenimientoList);
+      });
+
+      this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('FIJACION_PREVENTIVO').subscribe(catalogo => {
+        this.arrayPreventivoFijacion = catalogo;
+        this.arrayPreventivoFijacionIds = this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
+      });
 
 
-
+      this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('EXTERIORES').subscribe(catalogo => { this.arrayPreventivoExteriores = catalogo; this.arrayPreventivoExterioresIds = this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList); });
 
 
       this.reporteMantenimientoListTemp = data.reporteMantenimientoList;
-      console.log('TAMANIO0  DE MANTENIMIETNO =' + data.reporteMantenimientoList.length);
 
       //VISIVILIDAD BOTON VER CORRECTIVOS
       data.reporteMantenimientoList.filter(sw => sw.idProductoRepuestoReporte !== null).forEach(element => {
@@ -371,41 +362,17 @@ export class ReporteImpresorasPage {
       this.datosReporteDTO.productoClienteReporte = this.productoClienteReporte;
 
 
+      this.datosReporteDTO.lista1 = this.listPrevEdition(this.arrayPreventivoProcesamientoIds, this.arrayPreventivoProcesamiento, this.reporteMantenimientoListTemp);
+      this.datosReporteDTO.lista2 = this.listPrevEdition(this.arrayPreventivoImagenIds, this.arrayPreventivoImagen, this.reporteMantenimientoListTemp);
+      this.datosReporteDTO.lista3 = this.listPrevEdition(this.arrayPreventivoFijacionIds, this.arrayPreventivoFijacion, this.reporteMantenimientoListTemp);
+      this.datosReporteDTO.lista4 = this.listPrevEdition(this.arrayPreventivoExterioresIds, this.arrayPreventivoExteriores, this.reporteMantenimientoListTemp);
 
-
-      /*  this.datosReporteDTO.lista1 = this.listPrev(this.arrayPreventivoProcesamientoIds, this.arrayPreventivoProcesamiento);
-        this.datosReporteDTO.lista2 = this.listPrev(this.arrayPreventivoImagenIds, this.arrayPreventivoImagen);
-        this.datosReporteDTO.lista3 = this.listPrev(this.arrayPreventivoFijacionIds, this.arrayPreventivoFijacion);
-        this.datosReporteDTO.lista4 = this.listPrev(this.arrayPreventivoExterioresIds, this.arrayPreventivoExteriores);
-  */
       this.datosReporteDTO.lista5 = this.listCorrEdition(this.arrayCorrectivoRepuestosSuministros, this.reporteMantenimientoListTemp, this.arrayCorrectivoSuministros);
       this.datosReporteDTO.lista6 = this.listCorrEdition(this.arrayCorrectivoRepuestosImagen, this.reporteMantenimientoListTemp, this.arrayCorrectivoImagen);
       this.datosReporteDTO.lista7 = this.listCorrEdition(this.arrayCorrectivoRepuestosFijacion, this.reporteMantenimientoListTemp, this.arrayCorrectivoFijacion);
       this.datosReporteDTO.lista8 = this.listCorrEdition(this.arrayCorrectivoRepuestosRevelado, this.reporteMantenimientoListTemp, this.arrayCorrectivoRevelado);
 
-
-
-      this.datosReporteDTO.lista5.forEach(x => {
-        console.log(x);
-      });
-      /*  this.datosReporteDTO.lista5.forEach(x => {
-          console.log(x);
-        });
-        console.log('*********************************************');
-        console.log('*********************************************');
   
-        this.arrayCorrectivoRepuestosSuministros.forEach(x => {
-          console.log(x);
-  
-        });*/
-
-      /*  this.datosReporteDTO.lista6.forEach(x => {
-          console.log(x);
-        });
-  */
-
-
-      //  console.log(JSON.stringify(this.datosReporteDTO));
 
       this.showLoaderSave();
 
@@ -418,7 +385,7 @@ export class ReporteImpresorasPage {
       ).catch((error: any) => {
         this.msgToast(false);
         this.loading.dismiss();
-      })
+      });
 
 
 
@@ -475,9 +442,6 @@ export class ReporteImpresorasPage {
       this.datosReporteDTO.lista8 = this.listCorr(this.arrayCorrectivoRepuestosRevelado);
 
 
-
-      console.log(this.datosReporteDTO);
-
       this.showLoaderSave();
       this.reporteProvider.saveAllReporteImpresoras(this.datosReporteDTO).then(
         response => {
@@ -497,6 +461,126 @@ export class ReporteImpresorasPage {
 
 
 
+
+
+  private listPrevEdition(ids: any, catalogos: Array<DetalleCatalogoReporte>, reporteMantenimientoList: Array<ReporteMantenimiento>) {
+    let list: Array<DetalleCatalogoReporte> = [];
+    let catalogo: DetalleCatalogoReporte;
+    let reporteMantenimientoListFiltered: Array<ReporteMantenimiento> = []
+
+
+    reporteMantenimientoList.filter(f => f.idDetalleCatalogoReporte !== null).forEach(element => {
+      reporteMantenimientoListFiltered.push(element);
+    });
+    let idSelected: number;
+    catalogos.forEach(catalogo_ => {
+      catalogo = new DetalleCatalogoReporte()
+      catalogo = catalogo_;
+
+      if (ids.length > 0) {
+        for (var n = 0; n <= ids.length - 1; n++) {
+          idSelected = parseInt(ids[n] + '');
+          if (idSelected === catalogo.id) {
+            catalogo.seleccion = true;
+            break;
+          } else {
+            catalogo.seleccion = false;
+            catalogo.idReporteMantenimiento = this.reporteMantenimientoByIdDetalle(catalogo, reporteMantenimientoListFiltered).id;
+          }
+        }
+      } else {
+        let reporteMantenimiento: ReporteMantenimiento;
+        reporteMantenimiento = this.reporteMantenimientoByIdDetalle(catalogo, reporteMantenimientoListFiltered);
+        catalogo.seleccion = false;
+        catalogo.idReporteMantenimiento = reporteMantenimiento.id;
+
+      }
+
+
+      list.push(catalogo);
+    });
+    return list;
+  }
+
+
+  private reporteMantenimientoByIdDetalle(detalleCatalogoReporte: DetalleCatalogoReporte, reporteMantenimientoList: Array<ReporteMantenimiento>) {
+    for (var n = 0; n <= reporteMantenimientoList.length - 1; n++) {
+      if (detalleCatalogoReporte.id === reporteMantenimientoList[n].idDetalleCatalogoReporte.id) {
+        return reporteMantenimientoList[n];
+      }
+    }
+    return new ReporteMantenimiento();
+  }
+
+
+  private productoRepReporte(detalleCatalogoReporte: DetalleCatalogoReporte, productoRepuestoReportes: Array<ProductoRepuestoReporte>) {
+    let productoRepuestoReporte: ProductoRepuestoReporte;
+    for (var n = 0; n <= productoRepuestoReportes.length - 1; n++) {
+      if (detalleCatalogoReporte.id === productoRepuestoReportes[n].idDetalleCatalogoReporte.id) {
+        productoRepuestoReporte = new ProductoRepuestoReporte();
+        productoRepuestoReporte = productoRepuestoReportes[n];
+        productoRepuestoReporte.auxFound = true;
+        return productoRepuestoReporte;
+
+      }
+    }
+    return null;
+  }
+
+
+  private listCorrEdition(productoRepuestoReportes: Array<ProductoRepuestoReporte>, reporteMantenimientoList: Array<ReporteMantenimiento>, arrayCorrectivo: Array<DetalleCatalogoReporte>) {
+
+    let listRes: Array<DetalleCatalogoReporte> = [];
+    let detalleCatalogoReporte: DetalleCatalogoReporte;
+
+    let reporteMantenimientoListFiltered: Array<ReporteMantenimiento> = []
+
+
+    reporteMantenimientoList.filter(f => f.idProductoRepuestoReporte !== null).forEach(element => {
+      reporteMantenimientoListFiltered.push(element);
+    });
+
+    arrayCorrectivo.forEach(catalogo => {
+      detalleCatalogoReporte = new DetalleCatalogoReporte();
+      detalleCatalogoReporte = catalogo;
+
+      let aux: ProductoRepuestoReporte = this.productoRepReporte(detalleCatalogoReporte, productoRepuestoReportes);
+
+      if (reporteMantenimientoListFiltered.length > 0) {
+
+
+        for (var n = 0; n <= reporteMantenimientoListFiltered.length - 1; n++) {
+          if (reporteMantenimientoListFiltered[n].idProductoRepuestoReporte.idDetalleCatalogoReporte.id === detalleCatalogoReporte.id) {
+            if (aux !== null) {
+              detalleCatalogoReporte = aux.idDetalleCatalogoReporte;
+              detalleCatalogoReporte.seleccion = true;
+              break
+            } else {
+              detalleCatalogoReporte.idReporteMantenimiento = reporteMantenimientoListFiltered[n].id;
+            }
+            break;
+          } else {
+            if (aux !== null) {
+              detalleCatalogoReporte.idProductoRepuestoReporte = aux.id;
+              detalleCatalogoReporte.seleccion = true;
+            }
+          }
+        }
+      } else {
+        if (aux !== null) {
+          detalleCatalogoReporte.idProductoRepuestoReporte = aux.id;
+          detalleCatalogoReporte.seleccion = true;
+          detalleCatalogoReporte.codigoRepuesto = aux.idProducto.codigoFabricante + '';
+          detalleCatalogoReporte.porcentaje = aux.porcentaje;
+          detalleCatalogoReporte.tipoRepuesto = aux.cambiado ? 'C' : 'S';
+        }
+      }
+      listRes.push(detalleCatalogoReporte);
+    });
+
+
+    return listRes;
+  }
 
   private listPrev(ids: any, catalogos: Array<DetalleCatalogoReporte>) {
     let list: Array<DetalleCatalogoReporte> = [];
@@ -520,93 +604,6 @@ export class ReporteImpresorasPage {
     });
     return list;
   }
-
-
-  private listCorrEdition(productoRepuestoReportes: Array<ProductoRepuestoReporte>, reporteMantenimientoList: Array<ReporteMantenimiento>, arrayCorrectivo: Array<DetalleCatalogoReporte>) {
-    let list: Array<DetalleCatalogoReporte> = new Array<DetalleCatalogoReporte>();
-    let listRes: Array<DetalleCatalogoReporte> = [];
-    let detalleCatalogoReporte: DetalleCatalogoReporte;
-
-    let reporteMantenimientoListFiltered: Array<ReporteMantenimiento> = []
-
-
-
-
-    reporteMantenimientoList.filter(sw => sw.idProductoRepuestoReporte !== null).forEach(element => {
-      reporteMantenimientoListFiltered.push(element);
-    });
-
-
-
-    productoRepuestoReportes.forEach(productoRepuestoRs => {
-      detalleCatalogoReporte = new DetalleCatalogoReporte();
-      detalleCatalogoReporte = productoRepuestoRs.idDetalleCatalogoReporte;
-
-      if (reporteMantenimientoListFiltered.length > 0) {
-        for (var n = 0; n <= reporteMantenimientoListFiltered.length - 1; n++) {
-          if (productoRepuestoRs.idDetalleCatalogoReporte.id === reporteMantenimientoListFiltered[n].idProductoRepuestoReporte.idDetalleCatalogoReporte.id) {
-            detalleCatalogoReporte.idReporteMantenimiento = reporteMantenimientoListFiltered[n].id;
-            detalleCatalogoReporte.seleccion = true;
-            detalleCatalogoReporte.codigoRepuesto = productoRepuestoRs.idProducto.codigoFabricante + '';
-            detalleCatalogoReporte.cambiado = productoRepuestoRs.cambiado;
-            detalleCatalogoReporte.solicitar = productoRepuestoRs.solicitar;
-            detalleCatalogoReporte.porcentaje = productoRepuestoRs.porcentaje;
-            detalleCatalogoReporte.tipoRepuesto = productoRepuestoRs.cambiado ? 'C' : 'S';
-            detalleCatalogoReporte.idProductoRepuestoReporte = reporteMantenimientoListFiltered[n].idProductoRepuestoReporte.id;
-            break;
-          } else {
-
-            detalleCatalogoReporte.seleccion = (productoRepuestoRs.id !== null);
-            detalleCatalogoReporte.idProductoRepuestoReporte = productoRepuestoRs.id;
-            detalleCatalogoReporte.codigoRepuesto = productoRepuestoRs.idProducto.codigoFabricante + '';
-            detalleCatalogoReporte.cambiado = productoRepuestoRs.cambiado;
-            detalleCatalogoReporte.solicitar = productoRepuestoRs.solicitar;
-            detalleCatalogoReporte.porcentaje = productoRepuestoRs.porcentaje;
-            detalleCatalogoReporte.tipoRepuesto = productoRepuestoRs.cambiado ? 'C' : 'S';
-
-          }
-        }
-      } else {
-
-        detalleCatalogoReporte.idProductoRepuestoReporte = productoRepuestoRs.id;
-        detalleCatalogoReporte.seleccion = true;
-
-      }
-
-
-      list.push(detalleCatalogoReporte);
-    });
-
-
-    arrayCorrectivo.forEach(catalogo => {
-      detalleCatalogoReporte = new DetalleCatalogoReporte();
-      detalleCatalogoReporte = catalogo;
-
-      for (var n = 0; n <= list.length - 1; n++) {
-        if (detalleCatalogoReporte.id === list[n].id) {
-          detalleCatalogoReporte.idReporteMantenimiento = list[n].idReporteMantenimiento;
-          detalleCatalogoReporte.idProductoRepuestoReporte = list[n].idProductoRepuestoReporte;
-          detalleCatalogoReporte.codigoRepuesto = list[n].codigoRepuesto;
-          detalleCatalogoReporte.cambiado = list[n].cambiado;
-          detalleCatalogoReporte.solicitar = list[n].solicitar;
-          detalleCatalogoReporte.porcentaje = list[n].porcentaje;
-          detalleCatalogoReporte.tipoRepuesto = list[n].cambiado ? 'C' : 'S';
-          detalleCatalogoReporte.seleccion = true;
-          break;
-        } else {
-
-          detalleCatalogoReporte.idReporteMantenimiento = list[n].idReporteMantenimiento;
-          detalleCatalogoReporte.seleccion = false;
-
-        }
-      }
-
-      listRes.push(detalleCatalogoReporte);
-
-    });
-    return listRes;
-  }
-
 
   private listCorr(ids: any) {
     let list: Array<DetalleCatalogoReporte> = new Array<DetalleCatalogoReporte>();
@@ -636,17 +633,12 @@ export class ReporteImpresorasPage {
     repuestos.forEach(catalogoReporte => {
       catalogo = new DetalleCatalogoReporte();
       catalogo = catalogoReporte;
-      let keepGoing: boolean = true;
 
       reporteMantenimientoList.filter(sw => sw.idDetalleCatalogoReporte !== null).forEach(mantenimiento => {
         if (catalogoReporte.id === mantenimiento.idDetalleCatalogoReporte.id && mantenimiento.estado === true) {
           catalogo.seleccion = true;
           catalogo.idReporteMantenimiento = mantenimiento.id;
         }
-        /*  if (keepGoing) {
-           
-            keepGoing = false;
-          }*/
       });
 
       list.push(catalogo);
@@ -688,7 +680,6 @@ export class ReporteImpresorasPage {
   }
 
   private llenarRepuestos(tipo: String, productoRepuestoReporte: ProductoRepuestoReporte): void {
-    console.log(tipo + ' |  ' + productoRepuestoReporte);
     if (tipo === 'SUMINISTROS') {
       this.arrayCorrectivoRepuestosSuministros.push(productoRepuestoReporte);
       this.visibleCorrectivosBtns[0] = true;
@@ -753,7 +744,6 @@ export class ReporteImpresorasPage {
     this.showLoader();
     let addModal = this.modalCtrl.create('ModalCorrectivosPage', { cabecera: cabecera, producto: this.producto });
     addModal.onDidDismiss(item => {
-      // console.log('CERRARRRR MODAL !!!!!!!!!' + item.productoRepuestoReporte);
       if ((item) && item.productoRepuestoReporte !== undefined) {
         this.llenarRepuestos(item.cabecera, item.productoRepuestoReporte);
       }
@@ -915,7 +905,6 @@ export class ReporteImpresorasPage {
 
   private llenarCatalogosCorrectivos(): void {
     this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('SUMINISTROS').subscribe(data => {
-      console.log(' CARGANDO...........  ');
       this.arrayCorrectivoSuministros = data;
     });
     this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('IMAGEN_CORRECTIVO').subscribe(data => {
@@ -929,7 +918,6 @@ export class ReporteImpresorasPage {
     });
     this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('ALIMENTACION').subscribe(data => {
       this.arrayCorrectivoAlimentacion = data;
-      console.log(' CARGADO  ');
     });
 
   }
@@ -1028,7 +1016,7 @@ export class ReporteImpresorasPage {
     });
 
     toast.onDidDismiss(() => {
-      console.log('Dismissed toast');
+     
     });
 
     toast.present();

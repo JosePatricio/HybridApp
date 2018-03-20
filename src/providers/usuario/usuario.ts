@@ -12,13 +12,13 @@ import { Api } from '../api/api';
 
 @Injectable()
 export class UsuarioProvider {
- 
-  
 
 
 
-  constructor( public api: Api) {
- 
+
+
+  constructor(public api: Api) {
+
   }
 
 
@@ -26,27 +26,8 @@ export class UsuarioProvider {
 
 
   public login(user: string, password: string): Observable<any> {
-
+    console.log(' LLAMAR A ,  usuariosService/login/' + user + '/' + password);
     return this.api.get('usuariosService/login/' + user + '/' + password);
   }
-
-
-
-  
-/*
- login(username: string, password: string) {
-        return this.http.post<any>('/api/authenticate', { username: username, password: password })
-            .map(user => {
-                // login successful if there's a jwt token in the response
-                if (user && user.token) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                }
- 
-                return user;
-            });
-    }
-
-*/
 
 }

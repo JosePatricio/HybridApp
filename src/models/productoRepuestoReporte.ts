@@ -19,5 +19,7 @@ export class ProductoRepuestoReporte {
   cambiado: boolean = false;
   solicitar: boolean = false;
   porcentaje: number;
+
+  auxFound: boolean = false;
 }
 

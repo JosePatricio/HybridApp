@@ -81,27 +81,27 @@ var map = {
 		13
 	],
 	"../pages/menu/menu.module": [
-		492,
+		487,
 		12
 	],
 	"../pages/modal-confirmacion-repuesto/modal-confirmacion-repuesto.module": [
-		487,
+		488,
 		11
 	],
 	"../pages/modal-correctivos/modal-correctivos.module": [
-		488,
+		489,
 		10
 	],
 	"../pages/modal-repuestos-seleccionados/modal-repuestos-seleccionados.module": [
-		489,
+		490,
 		9
 	],
 	"../pages/modal-repuestos/modal-repuestos.module": [
-		490,
+		491,
 		8
 	],
 	"../pages/modal-search-cliente/modal-search-cliente.module": [
-		491,
+		492,
 		7
 	],
 	"../pages/modal-search-producto/modal-search-producto.module": [
@@ -117,23 +117,23 @@ var map = {
 		5
 	],
 	"../pages/settings/settings.module": [
-		496,
+		500,
 		4
 	],
 	"../pages/signup/signup.module": [
-		497,
+		496,
 		3
 	],
 	"../pages/tabs/tabs.module": [
-		498,
+		497,
 		2
 	],
 	"../pages/tutorial/tutorial.module": [
-		499,
+		498,
 		1
 	],
 	"../pages/welcome/welcome.module": [
-		500,
+		499,
 		0
 	]
 };
@@ -188,6 +188,7 @@ var UsuarioProvider = (function () {
         this.api = api;
     }
     UsuarioProvider.prototype.login = function (user, password) {
+        console.log(' LLAMAR A ,  usuariosService/login/' + user + '/' + password);
         return this.api.get('usuariosService/login/' + user + '/' + password);
     };
     UsuarioProvider = __decorate([
@@ -1254,20 +1255,20 @@ var AppModule = (function () {
                         { loadChildren: '../pages/item-detail/item-detail.module#ItemDetailPageModule', name: 'ItemDetailPage', segment: 'item-detail', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/list-master/list-master.module#ListMasterPageModule', name: 'ListMasterPage', segment: 'list-master', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-confirmacion-repuesto/modal-confirmacion-repuesto.module#ModalConfirmacionRepuestoPageModule', name: 'ModalConfirmacionRepuestoPage', segment: 'modal-confirmacion-repuesto', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-correctivos/modal-correctivos.module#ModalCorrectivosPageModule', name: 'ModalCorrectivosPage', segment: 'modal-correctivos', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-repuestos-seleccionados/modal-repuestos-seleccionados.module#ModalRepuestosSeleccionadosPageModule', name: 'ModalRepuestosSeleccionadosPage', segment: 'modal-repuestos-seleccionados', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-repuestos/modal-repuestos.module#ModalRepuestosPageModule', name: 'ModalRepuestosPage', segment: 'modal-repuestos', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-search-cliente/modal-search-cliente.module#ModalSearchClientePageModule', name: 'ModalSearchClientePage', segment: 'modal-search-cliente', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-search-producto/modal-search-producto.module#ModalSearchProductoPageModule', name: 'ModalSearchProductoPage', segment: 'modal-search-producto', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reporte-impresoras/reporte-impresoras.module#ReporteImpresorasPageModule', name: 'ReporteImpresorasPage', segment: 'reporte-impresoras', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/search/search.module#SearchPageModule', name: 'SearchPage', segment: 'search', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/settings/settings.module#SettingsPageModule', name: 'SettingsPage', segment: 'settings', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/signup/signup.module#SignupPageModule', name: 'SignupPage', segment: 'signup', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/tabs/tabs.module#TabsPageModule', name: 'TabsPage', segment: 'tabs', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/tutorial/tutorial.module#TutorialPageModule', name: 'TutorialPage', segment: 'tutorial', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/welcome/welcome.module#WelcomePageModule', name: 'WelcomePage', segment: 'welcome', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/welcome/welcome.module#WelcomePageModule', name: 'WelcomePage', segment: 'welcome', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/settings/settings.module#SettingsPageModule', name: 'SettingsPage', segment: 'settings', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["a" /* IonicStorageModule */].forRoot(),
@@ -1833,6 +1834,7 @@ var ProductoRepuestoReporte = (function () {
         this.idProducto = new __WEBPACK_IMPORTED_MODULE_0__models_producto__["a" /* Producto */]();
         this.cambiado = false;
         this.solicitar = false;
+        this.auxFound = false;
     }
     return ProductoRepuestoReporte;
 }());
@@ -1974,7 +1976,7 @@ var DetalleInventario = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export ReporteMantenimiento */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReporteMantenimiento; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_models__ = __webpack_require__(36);
 
 var ReporteMantenimiento = (function () {
@@ -2648,7 +2650,8 @@ var AdministracionReportesPage = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_providers__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angular2_signaturepad_signature_pad__ = __webpack_require__(244);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angular2_signaturepad_signature_pad___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_angular2_signaturepad_signature_pad__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__administracion_reportes_administracion_reportes__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__models_reporteMantenimiento__ = __webpack_require__(452);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__administracion_reportes_administracion_reportes__ = __webpack_require__(73);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2658,6 +2661,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -2822,26 +2826,16 @@ var ReporteImpresorasPage = (function () {
                 _this.arrayPreventivoProcesamientoIds = _this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
                 _this.arrayPreventivoProcesamiento = _this.loadReportePreventivos(catalogo, data.reporteMantenimientoList);
             });
-            /*
-                  this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('IMAGEN_PREVENTIVO').subscribe(catalogo => {
-                    this.arrayPreventivoImagenIds = this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
-                    this.arrayPreventivoImagen = this.loadReportePreventivos(catalogo, data.reporteMantenimientoList);
-                  });
-            
-                   this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('FIJACION_PREVENTIVO').subscribe(catalogo => {
-                      this.arrayPreventivoFijacion = catalogo;
-                      this.arrayPreventivoFijacionIds = this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
-                    });
-              
-                    this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('EXTERIORES').subscribe(catalogo => {
-                      this.arrayPreventivoExteriores = catalogo;
-                      this.arrayPreventivoExterioresIds = this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
-                      this.loading.dismiss();
-                    }, error => { },
-                      function () { console.log('FINALIZADO ==  :) '); }
-                    );*/
+            _this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('IMAGEN_PREVENTIVO').subscribe(function (catalogo) {
+                _this.arrayPreventivoImagenIds = _this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
+                _this.arrayPreventivoImagen = _this.loadReportePreventivos(catalogo, data.reporteMantenimientoList);
+            });
+            _this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('FIJACION_PREVENTIVO').subscribe(function (catalogo) {
+                _this.arrayPreventivoFijacion = catalogo;
+                _this.arrayPreventivoFijacionIds = _this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
+            });
+            _this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('EXTERIORES').subscribe(function (catalogo) { _this.arrayPreventivoExteriores = catalogo; _this.arrayPreventivoExterioresIds = _this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList); });
             _this.reporteMantenimientoListTemp = data.reporteMantenimientoList;
-            console.log('TAMANIO0  DE MANTENIMIETNO =' + data.reporteMantenimientoList.length);
             //VISIVILIDAD BOTON VER CORRECTIVOS
             data.reporteMantenimientoList.filter(function (sw) { return sw.idProductoRepuestoReporte !== null; }).forEach(function (element) {
                 _this.llenarRepuestos(element.idProductoRepuestoReporte.idDetalleCatalogoReporte.idCabecera.codigo, element.idProductoRepuestoReporte);
@@ -2914,36 +2908,17 @@ var ReporteImpresorasPage = (function () {
             this.datosReporteDTO.idClienteSucursal = this.reporteForm.value.idClienteSucursal;
             this.datosReporteDTO.idTipoVisita = this.reporteForm.value.idTipoVisita;
             this.datosReporteDTO.productoClienteReporte = this.productoClienteReporte;
-            /*  this.datosReporteDTO.lista1 = this.listPrev(this.arrayPreventivoProcesamientoIds, this.arrayPreventivoProcesamiento);
-              this.datosReporteDTO.lista2 = this.listPrev(this.arrayPreventivoImagenIds, this.arrayPreventivoImagen);
-              this.datosReporteDTO.lista3 = this.listPrev(this.arrayPreventivoFijacionIds, this.arrayPreventivoFijacion);
-              this.datosReporteDTO.lista4 = this.listPrev(this.arrayPreventivoExterioresIds, this.arrayPreventivoExteriores);
-        */
+            this.datosReporteDTO.lista1 = this.listPrevEdition(this.arrayPreventivoProcesamientoIds, this.arrayPreventivoProcesamiento, this.reporteMantenimientoListTemp);
+            this.datosReporteDTO.lista2 = this.listPrevEdition(this.arrayPreventivoImagenIds, this.arrayPreventivoImagen, this.reporteMantenimientoListTemp);
+            this.datosReporteDTO.lista3 = this.listPrevEdition(this.arrayPreventivoFijacionIds, this.arrayPreventivoFijacion, this.reporteMantenimientoListTemp);
+            this.datosReporteDTO.lista4 = this.listPrevEdition(this.arrayPreventivoExterioresIds, this.arrayPreventivoExteriores, this.reporteMantenimientoListTemp);
             this.datosReporteDTO.lista5 = this.listCorrEdition(this.arrayCorrectivoRepuestosSuministros, this.reporteMantenimientoListTemp, this.arrayCorrectivoSuministros);
             this.datosReporteDTO.lista6 = this.listCorrEdition(this.arrayCorrectivoRepuestosImagen, this.reporteMantenimientoListTemp, this.arrayCorrectivoImagen);
             this.datosReporteDTO.lista7 = this.listCorrEdition(this.arrayCorrectivoRepuestosFijacion, this.reporteMantenimientoListTemp, this.arrayCorrectivoFijacion);
             this.datosReporteDTO.lista8 = this.listCorrEdition(this.arrayCorrectivoRepuestosRevelado, this.reporteMantenimientoListTemp, this.arrayCorrectivoRevelado);
-            this.datosReporteDTO.lista5.forEach(function (x) {
-                console.log(x);
-            });
-            /*  this.datosReporteDTO.lista5.forEach(x => {
-                console.log(x);
-              });
-              console.log('*********************************************');
-              console.log('*********************************************');
-        
-              this.arrayCorrectivoRepuestosSuministros.forEach(x => {
-                console.log(x);
-        
-              });*/
-            /*  this.datosReporteDTO.lista6.forEach(x => {
-                console.log(x);
-              });
-        */
-            //  console.log(JSON.stringify(this.datosReporteDTO));
             this.showLoaderSave();
             this.reporteProvider.updateAllReporteImpresoras(this.datosReporteDTO).then(function (response) {
-                _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_6__administracion_reportes_administracion_reportes__["a" /* AdministracionReportesPage */]);
+                _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_7__administracion_reportes_administracion_reportes__["a" /* AdministracionReportesPage */]);
                 _this.loading.dismiss();
                 _this.msgToast(true);
             }).catch(function (error) {
@@ -2993,10 +2968,9 @@ var ReporteImpresorasPage = (function () {
             this.datosReporteDTO.lista6 = this.listCorr(this.arrayCorrectivoRepuestosImagen);
             this.datosReporteDTO.lista7 = this.listCorr(this.arrayCorrectivoRepuestosFijacion);
             this.datosReporteDTO.lista8 = this.listCorr(this.arrayCorrectivoRepuestosRevelado);
-            console.log(this.datosReporteDTO);
             this.showLoaderSave();
             this.reporteProvider.saveAllReporteImpresoras(this.datosReporteDTO).then(function (response) {
-                _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_6__administracion_reportes_administracion_reportes__["a" /* AdministracionReportesPage */]);
+                _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_7__administracion_reportes_administracion_reportes__["a" /* AdministracionReportesPage */]);
                 _this.loading.dismiss();
                 _this.msgToast(true);
             }).catch(function (error) {
@@ -3004,6 +2978,107 @@ var ReporteImpresorasPage = (function () {
                 _this.loading.dismiss();
             });
         }
+    };
+    ReporteImpresorasPage.prototype.listPrevEdition = function (ids, catalogos, reporteMantenimientoList) {
+        var _this = this;
+        var list = [];
+        var catalogo;
+        var reporteMantenimientoListFiltered = [];
+        reporteMantenimientoList.filter(function (f) { return f.idDetalleCatalogoReporte !== null; }).forEach(function (element) {
+            reporteMantenimientoListFiltered.push(element);
+        });
+        var idSelected;
+        catalogos.forEach(function (catalogo_) {
+            catalogo = new __WEBPACK_IMPORTED_MODULE_3__models_models__["e" /* DetalleCatalogoReporte */]();
+            catalogo = catalogo_;
+            if (ids.length > 0) {
+                for (var n = 0; n <= ids.length - 1; n++) {
+                    idSelected = parseInt(ids[n] + '');
+                    if (idSelected === catalogo.id) {
+                        catalogo.seleccion = true;
+                        break;
+                    }
+                    else {
+                        catalogo.seleccion = false;
+                        catalogo.idReporteMantenimiento = _this.reporteMantenimientoByIdDetalle(catalogo, reporteMantenimientoListFiltered).id;
+                    }
+                }
+            }
+            else {
+                var reporteMantenimiento = void 0;
+                reporteMantenimiento = _this.reporteMantenimientoByIdDetalle(catalogo, reporteMantenimientoListFiltered);
+                catalogo.seleccion = false;
+                catalogo.idReporteMantenimiento = reporteMantenimiento.id;
+            }
+            list.push(catalogo);
+        });
+        return list;
+    };
+    ReporteImpresorasPage.prototype.reporteMantenimientoByIdDetalle = function (detalleCatalogoReporte, reporteMantenimientoList) {
+        for (var n = 0; n <= reporteMantenimientoList.length - 1; n++) {
+            if (detalleCatalogoReporte.id === reporteMantenimientoList[n].idDetalleCatalogoReporte.id) {
+                return reporteMantenimientoList[n];
+            }
+        }
+        return new __WEBPACK_IMPORTED_MODULE_6__models_reporteMantenimiento__["a" /* ReporteMantenimiento */]();
+    };
+    ReporteImpresorasPage.prototype.productoRepReporte = function (detalleCatalogoReporte, productoRepuestoReportes) {
+        var productoRepuestoReporte;
+        for (var n = 0; n <= productoRepuestoReportes.length - 1; n++) {
+            if (detalleCatalogoReporte.id === productoRepuestoReportes[n].idDetalleCatalogoReporte.id) {
+                productoRepuestoReporte = new __WEBPACK_IMPORTED_MODULE_3__models_models__["m" /* ProductoRepuestoReporte */]();
+                productoRepuestoReporte = productoRepuestoReportes[n];
+                productoRepuestoReporte.auxFound = true;
+                return productoRepuestoReporte;
+            }
+        }
+        return null;
+    };
+    ReporteImpresorasPage.prototype.listCorrEdition = function (productoRepuestoReportes, reporteMantenimientoList, arrayCorrectivo) {
+        var _this = this;
+        var listRes = [];
+        var detalleCatalogoReporte;
+        var reporteMantenimientoListFiltered = [];
+        reporteMantenimientoList.filter(function (f) { return f.idProductoRepuestoReporte !== null; }).forEach(function (element) {
+            reporteMantenimientoListFiltered.push(element);
+        });
+        arrayCorrectivo.forEach(function (catalogo) {
+            detalleCatalogoReporte = new __WEBPACK_IMPORTED_MODULE_3__models_models__["e" /* DetalleCatalogoReporte */]();
+            detalleCatalogoReporte = catalogo;
+            var aux = _this.productoRepReporte(detalleCatalogoReporte, productoRepuestoReportes);
+            if (reporteMantenimientoListFiltered.length > 0) {
+                for (var n = 0; n <= reporteMantenimientoListFiltered.length - 1; n++) {
+                    if (reporteMantenimientoListFiltered[n].idProductoRepuestoReporte.idDetalleCatalogoReporte.id === detalleCatalogoReporte.id) {
+                        if (aux !== null) {
+                            detalleCatalogoReporte = aux.idDetalleCatalogoReporte;
+                            detalleCatalogoReporte.seleccion = true;
+                            break;
+                        }
+                        else {
+                            detalleCatalogoReporte.idReporteMantenimiento = reporteMantenimientoListFiltered[n].id;
+                        }
+                        break;
+                    }
+                    else {
+                        if (aux !== null) {
+                            detalleCatalogoReporte.idProductoRepuestoReporte = aux.id;
+                            detalleCatalogoReporte.seleccion = true;
+                        }
+                    }
+                }
+            }
+            else {
+                if (aux !== null) {
+                    detalleCatalogoReporte.idProductoRepuestoReporte = aux.id;
+                    detalleCatalogoReporte.seleccion = true;
+                    detalleCatalogoReporte.codigoRepuesto = aux.idProducto.codigoFabricante + '';
+                    detalleCatalogoReporte.porcentaje = aux.porcentaje;
+                    detalleCatalogoReporte.tipoRepuesto = aux.cambiado ? 'C' : 'S';
+                }
+            }
+            listRes.push(detalleCatalogoReporte);
+        });
+        return listRes;
     };
     ReporteImpresorasPage.prototype.listPrev = function (ids, catalogos) {
         var list = [];
@@ -3025,71 +3100,6 @@ var ReporteImpresorasPage = (function () {
             list.push(catalogo);
         });
         return list;
-    };
-    ReporteImpresorasPage.prototype.listCorrEdition = function (productoRepuestoReportes, reporteMantenimientoList, arrayCorrectivo) {
-        var list = new Array();
-        var listRes = [];
-        var detalleCatalogoReporte;
-        var reporteMantenimientoListFiltered = [];
-        reporteMantenimientoList.filter(function (sw) { return sw.idProductoRepuestoReporte !== null; }).forEach(function (element) {
-            reporteMantenimientoListFiltered.push(element);
-        });
-        productoRepuestoReportes.forEach(function (productoRepuestoRs) {
-            detalleCatalogoReporte = new __WEBPACK_IMPORTED_MODULE_3__models_models__["e" /* DetalleCatalogoReporte */]();
-            detalleCatalogoReporte = productoRepuestoRs.idDetalleCatalogoReporte;
-            if (reporteMantenimientoListFiltered.length > 0) {
-                for (var n = 0; n <= reporteMantenimientoListFiltered.length - 1; n++) {
-                    if (productoRepuestoRs.idDetalleCatalogoReporte.id === reporteMantenimientoListFiltered[n].idProductoRepuestoReporte.idDetalleCatalogoReporte.id) {
-                        detalleCatalogoReporte.idReporteMantenimiento = reporteMantenimientoListFiltered[n].id;
-                        detalleCatalogoReporte.seleccion = true;
-                        detalleCatalogoReporte.codigoRepuesto = productoRepuestoRs.idProducto.codigoFabricante + '';
-                        detalleCatalogoReporte.cambiado = productoRepuestoRs.cambiado;
-                        detalleCatalogoReporte.solicitar = productoRepuestoRs.solicitar;
-                        detalleCatalogoReporte.porcentaje = productoRepuestoRs.porcentaje;
-                        detalleCatalogoReporte.tipoRepuesto = productoRepuestoRs.cambiado ? 'C' : 'S';
-                        detalleCatalogoReporte.idProductoRepuestoReporte = reporteMantenimientoListFiltered[n].idProductoRepuestoReporte.id;
-                        break;
-                    }
-                    else {
-                        detalleCatalogoReporte.seleccion = (productoRepuestoRs.id !== null);
-                        detalleCatalogoReporte.idProductoRepuestoReporte = productoRepuestoRs.id;
-                        detalleCatalogoReporte.codigoRepuesto = productoRepuestoRs.idProducto.codigoFabricante + '';
-                        detalleCatalogoReporte.cambiado = productoRepuestoRs.cambiado;
-                        detalleCatalogoReporte.solicitar = productoRepuestoRs.solicitar;
-                        detalleCatalogoReporte.porcentaje = productoRepuestoRs.porcentaje;
-                        detalleCatalogoReporte.tipoRepuesto = productoRepuestoRs.cambiado ? 'C' : 'S';
-                    }
-                }
-            }
-            else {
-                detalleCatalogoReporte.idProductoRepuestoReporte = productoRepuestoRs.id;
-                detalleCatalogoReporte.seleccion = true;
-            }
-            list.push(detalleCatalogoReporte);
-        });
-        arrayCorrectivo.forEach(function (catalogo) {
-            detalleCatalogoReporte = new __WEBPACK_IMPORTED_MODULE_3__models_models__["e" /* DetalleCatalogoReporte */]();
-            detalleCatalogoReporte = catalogo;
-            for (var n = 0; n <= list.length - 1; n++) {
-                if (detalleCatalogoReporte.id === list[n].id) {
-                    detalleCatalogoReporte.idReporteMantenimiento = list[n].idReporteMantenimiento;
-                    detalleCatalogoReporte.idProductoRepuestoReporte = list[n].idProductoRepuestoReporte;
-                    detalleCatalogoReporte.codigoRepuesto = list[n].codigoRepuesto;
-                    detalleCatalogoReporte.cambiado = list[n].cambiado;
-                    detalleCatalogoReporte.solicitar = list[n].solicitar;
-                    detalleCatalogoReporte.porcentaje = list[n].porcentaje;
-                    detalleCatalogoReporte.tipoRepuesto = list[n].cambiado ? 'C' : 'S';
-                    detalleCatalogoReporte.seleccion = true;
-                    break;
-                }
-                else {
-                    detalleCatalogoReporte.idReporteMantenimiento = list[n].idReporteMantenimiento;
-                    detalleCatalogoReporte.seleccion = false;
-                }
-            }
-            listRes.push(detalleCatalogoReporte);
-        });
-        return listRes;
     };
     ReporteImpresorasPage.prototype.listCorr = function (ids) {
         var list = new Array();
@@ -3113,16 +3123,11 @@ var ReporteImpresorasPage = (function () {
         repuestos.forEach(function (catalogoReporte) {
             catalogo = new __WEBPACK_IMPORTED_MODULE_3__models_models__["e" /* DetalleCatalogoReporte */]();
             catalogo = catalogoReporte;
-            var keepGoing = true;
             reporteMantenimientoList.filter(function (sw) { return sw.idDetalleCatalogoReporte !== null; }).forEach(function (mantenimiento) {
                 if (catalogoReporte.id === mantenimiento.idDetalleCatalogoReporte.id && mantenimiento.estado === true) {
                     catalogo.seleccion = true;
                     catalogo.idReporteMantenimiento = mantenimiento.id;
                 }
-                /*  if (keepGoing) {
-                   
-                    keepGoing = false;
-                  }*/
             });
             list.push(catalogo);
         });
@@ -3159,7 +3164,6 @@ var ReporteImpresorasPage = (function () {
         return idList;
     };
     ReporteImpresorasPage.prototype.llenarRepuestos = function (tipo, productoRepuestoReporte) {
-        console.log(tipo + ' |  ' + productoRepuestoReporte);
         if (tipo === 'SUMINISTROS') {
             this.arrayCorrectivoRepuestosSuministros.push(productoRepuestoReporte);
             this.visibleCorrectivosBtns[0] = true;
@@ -3218,7 +3222,6 @@ var ReporteImpresorasPage = (function () {
         this.showLoader();
         var addModal = this.modalCtrl.create('ModalCorrectivosPage', { cabecera: cabecera, producto: this.producto });
         addModal.onDidDismiss(function (item) {
-            // console.log('CERRARRRR MODAL !!!!!!!!!' + item.productoRepuestoReporte);
             if ((item) && item.productoRepuestoReporte !== undefined) {
                 _this.llenarRepuestos(item.cabecera, item.productoRepuestoReporte);
             }
@@ -3349,7 +3352,6 @@ var ReporteImpresorasPage = (function () {
     ReporteImpresorasPage.prototype.llenarCatalogosCorrectivos = function () {
         var _this = this;
         this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('SUMINISTROS').subscribe(function (data) {
-            console.log(' CARGANDO...........  ');
             _this.arrayCorrectivoSuministros = data;
         });
         this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('IMAGEN_CORRECTIVO').subscribe(function (data) {
@@ -3363,7 +3365,6 @@ var ReporteImpresorasPage = (function () {
         });
         this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('ALIMENTACION').subscribe(function (data) {
             _this.arrayCorrectivoAlimentacion = data;
-            console.log(' CARGADO  ');
         });
     };
     ReporteImpresorasPage.prototype.showLoader = function () {
@@ -3442,7 +3443,6 @@ var ReporteImpresorasPage = (function () {
             cssClass: css_Class
         });
         toast.onDidDismiss(function () {
-            console.log('Dismissed toast');
         });
         toast.present();
     };

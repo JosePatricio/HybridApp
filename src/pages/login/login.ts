@@ -85,41 +85,7 @@ export class LoginPage {
 
     this.loading.dismiss();
 
-
-    /*this.usuarioProvider.login_(this.account.username, this.account.password).subscribe(
-      data => {
-
-
-        if (JSON.stringify(data['estado']) == '1') {
-          localStorage.setItem('AUTENTHICATION', this.account.username);
-          this.navCtrl.push(MainPage);
-        } else {
-          localStorage.setItem('AUTENTHICATION', null);
-          let toast = this.toastCtrl.create({
-            message: this.loginErrorString,
-            duration: 3000,
-            position: 'top'
-          });
-          toast.present();
-        }
-
-      },
-      err => {
-        // console.log('oops', err);
-
-       
-        let toast = this.toastCtrl.create({
-          message: err,
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-
-      }
-    );*/
-
-
-
+    
 
   }
 
