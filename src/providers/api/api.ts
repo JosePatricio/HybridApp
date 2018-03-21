@@ -14,8 +14,8 @@ export class Api {
 
 
 
-  url: string = 'http://localhost:8080/connector-1.0/rest';
-  // url: string = 'http://ser-fafa.7e14.starter-us-west-2.openshiftapps.com/rest';
+  //url: string = 'http://localhost:8080/connector-1.0/rest';
+   url: string = 'http://lolo-serv.7e14.starter-us-west-2.openshiftapps.com/rest';
 
 
 

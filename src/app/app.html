@@ -1,3 +1,10 @@
+<div *ngIf="showSplash" class="splash">
+  <div class="spinner">
+    <div class="cube1"></div>
+    <div class="cube2"></div>
+  </div>
+</div>
+
 <ion-menu persistent="true" [content]="content" (ionClose)="collapseMenuOptions()">
   <ion-header>
     <ion-toolbar color="primary">
@@ -13,5 +20,6 @@
 </ion-menu>
 
 <ion-nav #content [root]="rootPage"></ion-nav>
+
 
 

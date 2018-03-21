@@ -15,6 +15,7 @@ import { AdministracionReportesPage } from '../pages/administracion-reportes/adm
 import { SideMenuContentComponent } from './../shared/side-menu-content/side-menu-content.component';
 import { SideMenuSettings } from './../shared/side-menu-content/models/side-menu-settings';
 import { MenuOptionModel } from './../shared/side-menu-content/models/menu-option-model';
+import { timer } from 'rxjs/observable/timer';
 
 
 @Component({
@@ -192,7 +193,7 @@ export class MyApp {
 
 
 
-
+  showSplash = true;
 
   constructor(private alertCtrl: AlertController, private menuCtrl: MenuController, private translate: TranslateService,
     /* platform: Platform*/private platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
@@ -219,6 +220,8 @@ export class MyApp {
     this.platform.ready().then(() => {
       this.statusBar.styleLightContent();
       this.splashScreen.hide();
+
+      timer(3000).subscribe(() => this.showSplash = false);
 
       // Initialize some options
       this.initializeOptions();

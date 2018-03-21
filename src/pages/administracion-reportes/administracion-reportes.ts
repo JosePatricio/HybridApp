@@ -61,9 +61,8 @@ export class AdministracionReportesPage {
 
   openPdf(item: any) {
     this.showLoader();
-
     let blobPdf;
-    this.reporteProvider.reportePdfImpresora(5).subscribe(
+    this.reporteProvider.reportePdfImpresora(item.id).subscribe(
       data => {
 
         blobPdf = data; // Lets store the pdf Blob

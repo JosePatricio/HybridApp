@@ -1,123 +1,12 @@
 webpackJsonp([21],{
 
-/***/ 139:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AdministracionReportesPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_providers__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_file__ = __webpack_require__(236);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_file_opener__ = __webpack_require__(237);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-//import { Cliente, Producto, Modelo, Marca } from '../../models/models';
-
-
-
-/**
- * Generated class for the AdministracionReportesPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-var AdministracionReportesPage = (function () {
-    function AdministracionReportesPage(navCtrl, modalCtrl, navParams, reporteProvider, api, file, loadingCtrl, fileOpener, toastCtrl) {
-        this.navCtrl = navCtrl;
-        this.modalCtrl = modalCtrl;
-        this.navParams = navParams;
-        this.reporteProvider = reporteProvider;
-        this.api = api;
-        this.file = file;
-        this.loadingCtrl = loadingCtrl;
-        this.fileOpener = fileOpener;
-        this.toastCtrl = toastCtrl;
-    }
-    AdministracionReportesPage.prototype.ionViewDidLoad = function () {
-        var _this = this;
-        this.reporteProvider.reportesBySubTipo('REPORTE')
-            .subscribe(function (reporte) {
-            _this.reportes = reporte;
-        }, function (error) { return _this.errorMessage = error; });
-    };
-    AdministracionReportesPage.prototype.openPdf = function (item) {
-        var _this = this;
-        this.showLoader();
-        var blobPdf;
-        this.reporteProvider.reportePdfImpresora(5).subscribe(function (data) {
-            blobPdf = data; // Lets store the pdf Blob
-            var filedir = _this.file.dataDirectory;
-            _this.file.writeFile(//save PDF
-            filedir, "reporte.pdf", blobPdf, { replace: true }).then(function () {
-                _this.fileOpener.open(//open in native PDF
-                filedir + 'reporte.pdf', 'application/pdf').then(function () {
-                    //	this.pdfobj.active = false;
-                }).catch(function (e) { return console.log('Open error', e); });
-            }).catch(function (e) { return console.log('Save error', e); });
-        }, function (error) {
-            _this.toas(error);
-        });
-        this.loading.dismiss();
-    };
-    AdministracionReportesPage.prototype.edit = function (item) {
-    };
-    AdministracionReportesPage.prototype.openItem = function (item) {
-        /*  let target = "_system";
-          this.inAppBrowser.create(this.api.urlServices() + '/reporteService/jasper/5', target, this.optiones);
-      */
-        //this.openPdf();
-        /* this.reporteProvider.reportePdfImpresora(5).subscribe(res => {
-           var fileURL = URL.createObjectURL(res);
-           window.open(fileURL);
-         });*/
-    };
-    AdministracionReportesPage.prototype.toas = function (msj) {
-        var toast = this.toastCtrl.create({
-            message: '!*****  ' + msj + '  **********',
-            duration: 9000,
-            position: 'top'
-        });
-        toast.present();
-    };
-    AdministracionReportesPage.prototype.showLoader = function () {
-        this.loading = this.loadingCtrl.create({
-            content: 'Cargando...'
-        });
-        this.loading.present();
-    };
-    AdministracionReportesPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-administracion-reportes',template:/*ion-inline-start:"D:\PROYECTOS\ANGULAR\reportes\src\pages\administracion-reportes\administracion-reportes.html"*/'<!--\n  Generated template for the AdministracionReportesPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n    \n  <ion-navbar>\n      <button ion-button menuToggle>\n          <ion-icon name="menu"></ion-icon>\n      </button> \n    <ion-title>Administración</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n\n  <ion-searchbar [(ngModel)]="terms"></ion-searchbar>\n  <ion-list>\n\n\n    <ion-item-sliding *ngFor="let c of reportes | searchCliente : terms">\n      <ion-item>\n        <div>\n\n          <h2>N Reporte: {{c.numeroFactura}}</h2>\n          <h2>Cod Tecn: {{c.codigoTecnico}}</h2>\n          <h2>Técnico: {{c.soporte}}</h2>\n          <h2>Fecha: {{c.fecha}}</h2>\n          <h2>Factura: {{c.factura}}</h2>\n          <h2>Serial: {{c.serial}}</h2>\n          <h2>Cliente: {{c.cliente}}</h2>\n          <h2>Estado: {{c.estado}}</h2>\n        </div>\n\n      </ion-item>\n\n      <ion-item-options side="right">\n        <button ion-button (click)="openItem(c)">\n          <ion-icon name="eye"></ion-icon>\n          Ver</button>\n        <button ion-button color="secondary" (click)="edit(c)">\n          <ion-icon name="create"></ion-icon>\n          Editar</button>\n        <button ion-button color="danger" (click)="openPdf(c)" download>\n          <ion-icon name="archive"></ion-icon>\n          Pdf</button>\n\n      </ion-item-options>\n\n\n\n    </ion-item-sliding>\n\n\n\n\n\n  </ion-list>\n\n\n</ion-content>'/*ion-inline-end:"D:\PROYECTOS\ANGULAR\reportes\src\pages\administracion-reportes\administracion-reportes.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_providers__["g" /* ReporteProvider */], __WEBPACK_IMPORTED_MODULE_2__providers_providers__["a" /* Api */],
-            __WEBPACK_IMPORTED_MODULE_3__ionic_native_file__["a" /* File */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_4__ionic_native_file_opener__["a" /* FileOpener */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* ToastController */]])
-    ], AdministracionReportesPage);
-    return AdministracionReportesPage;
-}());
-
-//# sourceMappingURL=administracion-reportes.js.map
-
-/***/ }),
-
-/***/ 140:
+/***/ 141:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Producto; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_categoria__ = __webpack_require__(238);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_models__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_models__ = __webpack_require__(36);
 /**
  * A generic model that our Master-Detail pages list, public create, public and delete.
  *
@@ -142,427 +31,7 @@ var Producto = (function () {
 
 /***/ }),
 
-/***/ 142:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReporteImpresorasPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_models__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_providers__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angular2_signaturepad_signature_pad__ = __webpack_require__(141);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angular2_signaturepad_signature_pad___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_angular2_signaturepad_signature_pad__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-/**
- * Generated class for the ReporteImpresorasPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-var ReporteImpresorasPage = (function () {
-    function ReporteImpresorasPage(navCtrl, navParams, formBuilder, modalCtrl, loadingCtrl, detalleCatalogoReporteProvider, clienteProvider, tipoVisitaProvider, reporteProvider, clienteSucursalProvider) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.formBuilder = formBuilder;
-        this.modalCtrl = modalCtrl;
-        this.loadingCtrl = loadingCtrl;
-        this.detalleCatalogoReporteProvider = detalleCatalogoReporteProvider;
-        this.clienteProvider = clienteProvider;
-        this.tipoVisitaProvider = tipoVisitaProvider;
-        this.reporteProvider = reporteProvider;
-        this.clienteSucursalProvider = clienteSucursalProvider;
-        this.signaturePadOptions = {
-            'minWidth': 1,
-            'canvasWidth': 500,
-            'canvasHeight': 300
-        };
-        this.clienteSucursales = new Array();
-        this.arrayPreventivoProcesamientoIds = [Number];
-        this.arrayPreventivoImagenIds = [Number];
-        this.arrayPreventivoFijacionIds = [Number];
-        this.arrayPreventivoExterioresIds = [Number];
-        this.arrayCorrectivoSuministros = new Array();
-        this.arrayCorrectivoImagen = new Array();
-        this.arrayCorrectivoFijacion = new Array();
-        this.arrayCorrectivoRevelado = new Array();
-        this.arrayCorrectivoAlimentacion = new Array();
-        this.datosReporteDTO = new __WEBPACK_IMPORTED_MODULE_3__models_models__["d" /* DatosReporteDTO */]();
-        this.tipoVisita = new __WEBPACK_IMPORTED_MODULE_3__models_models__["o" /* TipoVisitas */]();
-        this.cliente = new __WEBPACK_IMPORTED_MODULE_3__models_models__["b" /* Cliente */];
-        this.producto = new __WEBPACK_IMPORTED_MODULE_3__models_models__["j" /* Producto */];
-        this.modelo = new __WEBPACK_IMPORTED_MODULE_3__models_models__["i" /* Modelo */];
-        this.marca = new __WEBPACK_IMPORTED_MODULE_3__models_models__["h" /* Marca */];
-        this.productoDetalleReporte = new __WEBPACK_IMPORTED_MODULE_3__models_models__["l" /* ProductoDetalleReporte */];
-        this.productoRepuestoReporte = new __WEBPACK_IMPORTED_MODULE_3__models_models__["m" /* ProductoRepuestoReporte */];
-        this.reporte = new __WEBPACK_IMPORTED_MODULE_3__models_models__["n" /* Reporte */];
-        this.usuario = new __WEBPACK_IMPORTED_MODULE_3__models_models__["p" /* Usuario */];
-        this.detalleInventarioProducto = new __WEBPACK_IMPORTED_MODULE_3__models_models__["g" /* DetalleInventarioProducto */];
-        this.clienteSucursal = new __WEBPACK_IMPORTED_MODULE_3__models_models__["c" /* ClienteSucursal */];
-        this.productoClienteReporte = new __WEBPACK_IMPORTED_MODULE_3__models_models__["k" /* ProductoClienteReporte */];
-        this.texto = new String();
-        this.visibleCorrectivosBtns = [false, false, false, false, false, false];
-    }
-    ReporteImpresorasPage.prototype.ngOnInit = function () {
-        var _this = this;
-        this.reporteForm = this.createMyForm();
-        var user = JSON.parse(localStorage.getItem("AUTENTHICATION"));
-        this.usuario.id = user.id;
-        this.usuario.usuario = user.usuario;
-        this.usuario.codigo = user.codigo;
-        this.usuario.nombreCompleto = user.nombreCompleto;
-        if (this.navParams.get('tabReporte') === undefined) {
-            this.reporteTab = 'datos';
-        }
-        else {
-            this.reporteTab = this.navParams.get('tabReporte');
-        }
-        this.reporteProvider.numeroReporteFormateado(this.usuario.id, 'REPORTE', 'DIAGNOSTICO').subscribe(function (data) {
-            _this.numeroReporteTecnico = data['valor'];
-        });
-        this.reporteProvider.numeroReporte(this.usuario.id, 'REPORTE', 'DIAGNOSTICO').subscribe(function (data) {
-            _this.numeroReporte = data['valor'];
-        });
-        this.reporte.numerofactura = this.numeroReporte;
-        this.reporte.tipo = 'REPORTE';
-        this.reporte.subtipo = 'IMPRESORAS';
-        this.reporte.idUsuario = this.usuario;
-        this.reporte.estado = 'PROCESANDO';
-        //   console.log('NUMERO REPORTE ES ' + this.reporteProvider.numeroReporte(this.usuario.id, 'REPORTE', 'DIAGNOSTICO'));
-        this.llenarCatalogos();
-        /*  this.tiposVisitas.forEach(p => {
-                 console.log('el datos es ' + p.descripcion)
-               });*/
-    };
-    ReporteImpresorasPage.prototype.ionViewDidLoad = function () {
-    };
-    ReporteImpresorasPage.prototype.openModalCliente = function () {
-        var _this = this;
-        var addModal = this.modalCtrl.create('ModalSearchClientePage');
-        addModal.onDidDismiss(function (item) {
-            if (item !== undefined) {
-                _this.cliente = item;
-                _this.clienteSucursalProvider.getByIdCliente(_this.cliente.id).subscribe(function (data) {
-                    _this.clienteSucursales = data;
-                });
-            }
-        });
-        addModal.present();
-    };
-    ReporteImpresorasPage.prototype.openModalProducto = function () {
-        var _this = this;
-        var addModal = this.modalCtrl.create('ModalSearchProductoPage');
-        addModal.onDidDismiss(function (item) {
-            if (item) {
-                _this.producto = item;
-                _this.marca = _this.producto.idModelo.idMarca;
-                _this.modelo = _this.producto.idModelo;
-            }
-        });
-        addModal.present();
-    };
-    ReporteImpresorasPage.prototype.openModalCorrectivos = function (cabecera) {
-        var _this = this;
-        this.showLoader();
-        var addModal = this.modalCtrl.create('ModalCorrectivosPage', { cabecera: cabecera, producto: this.producto });
-        addModal.onDidDismiss(function (item) {
-            if (item.productoRepuestoReporte !== undefined) {
-                _this.llenarRepuestos(item.cabecera, item.productoRepuestoReporte);
-            }
-        });
-        addModal.present();
-        this.loading.dismiss();
-    };
-    ReporteImpresorasPage.prototype.openModalCorrectivosSeleccionados = function (tipo) {
-        var _this = this;
-        this.showLoader();
-        var repuestos;
-        if (tipo === 'SUMINISTROS') {
-            repuestos = this.arrayCorrectivoSuministros;
-        }
-        if (tipo === 'IMAGEN_CORRECTIVO') {
-            repuestos = this.arrayCorrectivoImagen;
-        }
-        if (tipo === 'FIJACION_CORRECTIVO') {
-            repuestos = this.arrayCorrectivoFijacion;
-        }
-        if (tipo === 'REVELADO') {
-            repuestos = this.arrayCorrectivoRevelado;
-        }
-        if (tipo === 'ALIMENTACION') {
-            repuestos = this.arrayCorrectivoAlimentacion;
-        }
-        var addModal = this.modalCtrl.create('ModalRepuestosSeleccionadosPage', { cabecera: tipo, arrayRepuestos: repuestos });
-        addModal.onDidDismiss(function (item) {
-            if (item.arrayRepuestos !== undefined) {
-                _this.actualizarRepuestos(item.cabecera, item.arrayRepuestos);
-            }
-        });
-        addModal.present();
-        this.loading.dismiss();
-    };
-    ReporteImpresorasPage.prototype.actualizarRepuestos = function (tipo, arrayCorrectivos) {
-        if (tipo === 'SUMINISTROS') {
-            this.arrayCorrectivoSuministros = arrayCorrectivos;
-        }
-        if (tipo === 'IMAGEN_CORRECTIVO') {
-            this.arrayCorrectivoImagen = arrayCorrectivos;
-        }
-        if (tipo === 'FIJACION_CORRECTIVO') {
-            this.arrayCorrectivoFijacion = arrayCorrectivos;
-        }
-        if (tipo === 'REVELADO') {
-            this.arrayCorrectivoRevelado = arrayCorrectivos;
-        }
-        if (tipo === 'ALIMENTACION') {
-            this.arrayCorrectivoAlimentacion = arrayCorrectivos;
-        }
-    };
-    ReporteImpresorasPage.prototype.llenarRepuestos = function (tipo, arrayCorrectivo) {
-        if (tipo === 'SUMINISTROS') {
-            this.arrayCorrectivoSuministros.push(arrayCorrectivo);
-            this.visibleCorrectivosBtns[0] = true;
-        }
-        if (tipo === 'IMAGEN_CORRECTIVO') {
-            this.arrayCorrectivoImagen.push(arrayCorrectivo);
-            this.visibleCorrectivosBtns[1] = true;
-        }
-        if (tipo === 'FIJACION_CORRECTIVO') {
-            this.arrayCorrectivoFijacion.push(arrayCorrectivo);
-            this.visibleCorrectivosBtns[2] = true;
-        }
-        if (tipo === 'REVELADO') {
-            this.arrayCorrectivoRevelado.push(arrayCorrectivo);
-            this.visibleCorrectivosBtns[3] = true;
-        }
-        if (tipo === 'ALIMENTACION') {
-            this.arrayCorrectivoAlimentacion.push(arrayCorrectivo);
-            this.visibleCorrectivosBtns[4] = true;
-        }
-    };
-    ReporteImpresorasPage.prototype.contador = function (valor) {
-        if (this.productoDetalleReporte.contadorColorAnterior == undefined || this.productoDetalleReporte.contadorColorAnterior === null) {
-            this.productoDetalleReporte.contadorColorAnterior = 0;
-        }
-        if (this.productoDetalleReporte.contadorBnAnterior == undefined || this.productoDetalleReporte.contadorBnAnterior === null) {
-            this.productoDetalleReporte.contadorBnAnterior = 0;
-        }
-        if (this.productoDetalleReporte.contadorColorActual == undefined || this.productoDetalleReporte.contadorColorActual === null) {
-            this.productoDetalleReporte.contadorColorActual = 0;
-        }
-        if (this.productoDetalleReporte.contadorBnActual == undefined || this.productoDetalleReporte.contadorBnActual === null) {
-            this.productoDetalleReporte.contadorBnActual = 0;
-        }
-        this.productoDetalleReporte.contadorTotalAnterior = parseFloat(this.productoDetalleReporte.contadorColorAnterior + '') +
-            parseFloat(this.productoDetalleReporte.contadorBnAnterior + '');
-        this.productoDetalleReporte.contadorTotalActual = parseFloat(this.productoDetalleReporte.contadorColorActual + '') +
-            parseFloat(this.productoDetalleReporte.contadorBnActual + '');
-        this.productoDetalleReporte.contadorTotalImpReal = parseFloat(this.productoDetalleReporte.contadorTotalAnterior + '') +
-            parseFloat(this.productoDetalleReporte.contadorTotalActual + '');
-        this.productoDetalleReporte.contadorColorImpReal = parseFloat(this.productoDetalleReporte.contadorColorAnterior + '') -
-            parseFloat(this.productoDetalleReporte.contadorColorActual + '');
-        this.productoDetalleReporte.contadorBnImpReal = parseFloat(this.productoDetalleReporte.contadorBnAnterior + '') -
-            parseFloat(this.productoDetalleReporte.contadorBnActual + '');
-    };
-    ReporteImpresorasPage.prototype.saveData = function () {
-        console.log(this.reporteForm.value);
-    };
-    ReporteImpresorasPage.prototype.guardar = function () {
-        this.reporte.numerofactura = this.numeroReporte;
-        this.reporte.referencia = this.reporteForm.value.referencia;
-        this.reporte.factura = this.reporteForm.value.factura;
-        this.reporte.sintomasEquipo = this.reporteForm.value.sintomas;
-        this.reporte.observacionesRecomendaciones = this.reporteForm.value.observacionesRecomendaciones;
-        this.reporte.notas = this.reporteForm.value.notas;
-        this.reporte.firmaClienteBase64 = this.signaturePad.toDataURL();
-        this.reporte.fecha = new Date();
-        this.reporte.fechaCreacion = new Date();
-        this.reporte.usuarioCreacion = this.usuario.usuario;
-        this.productoClienteReporte.atencion = this.reporteForm.value.atencion;
-        this.productoClienteReporte.ipEquipo = this.reporteForm.value.ipEquipo;
-        this.productoClienteReporte.puertoUsb = this.reporteForm.value.puertoUsb;
-        this.productoDetalleReporte.contadorTotalAnterior = this.reporteForm.value.contadorTotalAnterior;
-        this.productoDetalleReporte.contadorColorAnterior = this.reporteForm.value.contadorColorAnterior;
-        this.productoDetalleReporte.contadorBnAnterior = this.reporteForm.value.contadorBnAnterior;
-        this.productoDetalleReporte.contadorTotalActual = this.reporteForm.value.contadorTotalActual;
-        this.productoDetalleReporte.contadorColorActual = this.reporteForm.value.contadorColorActual;
-        this.productoDetalleReporte.contadorBnActual = this.reporteForm.value.contadorBnActual;
-        this.productoDetalleReporte.contadorTotalImpReal = this.reporteForm.value.contadorTotalImpReal;
-        this.productoDetalleReporte.contadorColorImpReal = this.reporteForm.value.contadorColorImpReal;
-        this.productoDetalleReporte.contadorBnImpReal = this.reporteForm.value.contadorBnImpReal;
-        this.productoDetalleReporte.mantenimiento = this.reporteForm.value.mantenimiento;
-        this.productoDetalleReporte.otros = this.reporteForm.value.otros;
-        this.productoDetalleReporte.servicioFacturar = this.reporteForm.value.servicioFacturar;
-        this.productoDetalleReporte.servicioFacturarEstado = this.reporteForm.value.servicioFacturarEstado;
-        this.datosReporteDTO.productoDetalleReporte = this.productoDetalleReporte;
-        this.datosReporteDTO.reporte = this.reporte;
-        this.datosReporteDTO.producto = this.producto;
-        this.datosReporteDTO.serie = this.detalleInventarioProducto.serial;
-        this.datosReporteDTO.cliente = this.cliente;
-        this.datosReporteDTO.usuarios = this.usuario;
-        this.datosReporteDTO.idClienteSucursal = this.reporteForm.value.idClienteSucursal;
-        this.datosReporteDTO.idTipoVisita = this.reporteForm.value.tipoVisita;
-        this.datosReporteDTO.productoClienteReporte = this.productoClienteReporte;
-        this.datosReporteDTO.lista1 = this.listPrev(this.arrayPreventivoProcesamientoIds);
-        this.datosReporteDTO.lista2 = this.listPrev(this.arrayPreventivoImagenIds);
-        this.datosReporteDTO.lista3 = this.listPrev(this.arrayPreventivoFijacionIds);
-        this.datosReporteDTO.lista4 = this.listPrev(this.arrayPreventivoExterioresIds);
-        this.datosReporteDTO.lista5 = this.listCorr(this.arrayCorrectivoSuministros);
-        this.datosReporteDTO.lista6 = this.listCorr(this.arrayCorrectivoImagen);
-        this.datosReporteDTO.lista7 = this.listCorr(this.arrayCorrectivoFijacion);
-        this.datosReporteDTO.lista8 = this.listCorr(this.arrayCorrectivoRevelado);
-        console.log(JSON.stringify(this.datosReporteDTO));
-        this.reporteProvider.saveAllReporteImpresoras(this.datosReporteDTO);
-    };
-    ReporteImpresorasPage.prototype.listPrev = function (ids) {
-        var list = new Array();
-        var obj;
-        ids.forEach(function (data) {
-            obj = new __WEBPACK_IMPORTED_MODULE_3__models_models__["e" /* DetalleCatalogoReporte */]();
-            obj.id = parseInt(data + '');
-            if (obj.id !== NaN) {
-                obj.seleccion = true;
-            }
-            else {
-                obj.seleccion = false;
-            }
-            list.push(obj);
-        });
-        return list;
-    };
-    ReporteImpresorasPage.prototype.listCorr = function (ids) {
-        var list = new Array();
-        var obj;
-        ids.forEach(function (data) {
-            obj = new __WEBPACK_IMPORTED_MODULE_3__models_models__["e" /* DetalleCatalogoReporte */]();
-            obj.idProductoRepuestoReporte = data.id;
-            obj.codigoRepuesto = data.idProducto.codigoFabricante;
-            obj.cambiado = data.cambiado;
-            obj.solicitar = data.solicitar;
-            obj.porcentaje = data.porcentaje;
-            obj.tipoRepuesto = obj.cambiado ? 'C' : 'S';
-            obj.seleccion = true;
-            list.push(obj);
-        });
-        return list;
-    };
-    ReporteImpresorasPage.prototype.ngAfterViewInit = function () {
-        // this.signaturePad is now available
-        //  this.signaturePad.set('minWidth', 5); // set szimek/signature_pad options at runtime
-        //   this.signaturePad.clear(); // invoke functions from szimek/signature_pad API
-    };
-    ReporteImpresorasPage.prototype.clearSignature = function () {
-        this.signaturePad.clear();
-    };
-    ReporteImpresorasPage.prototype.drawComplete = function () {
-        this.signatureImage = this.signaturePad.toDataURL();
-        console.log('FIRMA ES  ' + this.signatureImage);
-    };
-    ReporteImpresorasPage.prototype.llenarCatalogos = function () {
-        var _this = this;
-        this.tipoVisitaProvider.getAllTipoVisitas().subscribe(function (data) {
-            _this.tiposVisitas = data;
-        });
-        this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('PROCESAMIENTO').subscribe(function (data) {
-            _this.arrayPreventivoProcesamiento = data;
-        });
-        this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('IMAGEN_PREVENTIVO').subscribe(function (data) {
-            _this.arrayPreventivoImagen = data;
-        });
-        this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('FIJACION_PREVENTIVO').subscribe(function (data) {
-            _this.arrayPreventivoFijacion = data;
-        });
-        this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('EXTERIORES').subscribe(function (data) {
-            _this.arrayPreventivoExteriores = data;
-        });
-    };
-    ReporteImpresorasPage.prototype.showLoader = function () {
-        this.loading = this.loadingCtrl.create({
-            content: 'Cargando...'
-        });
-        this.loading.present();
-    };
-    ReporteImpresorasPage.prototype.createMyForm = function () {
-        return this.formBuilder.group({
-            reporteformu: [],
-            cliente: [''],
-            ruc: [''],
-            atencion: [this.productoClienteReporte.atencion, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].required],
-            ipEquipo: [this.productoClienteReporte.ipEquipo, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].required],
-            puertoUsb: [this.productoClienteReporte.puertoUsb],
-            direccion: [''],
-            ciudad: [''],
-            email: [''],
-            telefono: [''],
-            telefono2: [''],
-            tipoVisita: [__WEBPACK_IMPORTED_MODULE_3__models_models__["o" /* TipoVisitas */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].required],
-            idClienteSucursal: [this.clienteSucursal.id, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].required],
-            factura: [],
-            referencia: [this.reporte.referencia, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].minLength(4)],
-            equipoProducto: [''],
-            marca: [''],
-            modelo: [''],
-            serie: [],
-            contadorTotalAnterior: [''],
-            contadorColorAnterior: [],
-            contadorBnAnterior: [],
-            contadorTotalActual: [],
-            contadorColorActual: [],
-            contadorBnActual: [],
-            contadorTotalImpReal: [],
-            contadorColorImpReal: [],
-            contadorBnImpReal: [],
-            mantenimiento: [],
-            otros: [],
-            servicioFacturar: [],
-            servicioFacturarEstado: [],
-            observacionesRecomendaciones: [],
-            notas: [],
-            sintomas: [],
-            nulo: [],
-            botonCliente: [],
-            sortButton: [],
-            busqueda: [],
-            signature: [this.reporte.firmaClienteBase64, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].required],
-        });
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_5_angular2_signaturepad_signature_pad__["SignaturePad"]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_5_angular2_signaturepad_signature_pad__["SignaturePad"])
-    ], ReporteImpresorasPage.prototype, "signaturePad", void 0);
-    ReporteImpresorasPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-reporte-impresoras',template:/*ion-inline-start:"D:\PROYECTOS\ANGULAR\reportes\src\pages\reporte-impresoras\reporte-impresoras.html"*/'<ion-header>\n    <ion-navbar>\n        <button ion-button menuToggle>\n            <ion-icon name="menu"></ion-icon>\n        </button>\n    </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n\n    <form [formGroup]="reporteForm" (ngSubmit)="saveData()">\n\n\n\n        <ion-row>\n            <ion-col text-center>\n                <ion-title>Reporte Técnico</ion-title>\n                <ion-title>N° {{ numeroReporteTecnico }}</ion-title>\n                <ion-title>{{ usuario.codigo }}</ion-title>\n            </ion-col>\n        </ion-row>\n\n\n\n        <div padding>\n            <ion-segment [(ngModel)]="reporteTab" name="reportename" formControlName="reporteformu" style="vertical-align: middle">\n                <ion-segment-button value="datos">\n                    <ion-icon name="person"></ion-icon>\n                </ion-segment-button>\n                <ion-segment-button value="equipo">\n                    <ion-icon name="print"></ion-icon>\n                </ion-segment-button>\n                <ion-segment-button value="preventivo">\n                    <ion-icon name="barcode"></ion-icon>\n                </ion-segment-button>\n                <ion-segment-button value="correctivo">\n                    <ion-icon name="barcode"></ion-icon>\n                </ion-segment-button>\n                <ion-segment-button value="observaciones">\n                    <ion-icon name="list-box"></ion-icon>\n                </ion-segment-button>\n                <ion-segment-button value="cliente">\n                    <ion-icon name="create"></ion-icon>\n                </ion-segment-button>\n\n            </ion-segment>\n        </div>\n\n\n        <div [ngSwitch]="reporteTab">\n            <ion-list *ngSwitchCase="\'datos\'">\n                <ion-item>\n                    <ion-thumbnail item-start>\n                        <ion-title>Datos generales</ion-title>\n                        <br/>\n\n                        <ion-list>\n\n\n\n                            <ion-item>\n\n                                <ion-grid>\n                                    <ion-row align-items-start>\n\n                                        <ion-col>\n                                            <button ion-button full (click)="openModalCliente()">\n                                                <ion-icon name="search"> Buscar Cliente </ion-icon>\n                                            </button>\n                                        </ion-col>\n\n\n                                    </ion-row>\n                                </ion-grid>\n                            </ion-item>\n\n\n\n\n                            <ion-item>\n\n                                <ion-label floating>Empresa/Cliente</ion-label>\n                                <ion-input type="text" [(ngModel)]="cliente.cliente" style="pointer-events: none" formControlName="cliente"></ion-input>\n\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>No. RUC</ion-label>\n                                <ion-input type="text" [(ngModel)]="cliente.ruc" style="pointer-events: none" formControlName="ruc"></ion-input>\n                            </ion-item>\n\n\n                            <ion-item>\n                                <ion-label floating>Atención</ion-label>\n                                <ion-input type="text" [(ngModel)]="productoClienteReporte.atencion" formControlName="atencion"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Telefono</ion-label>\n                                <ion-input type="text" [(ngModel)]="cliente.telefono" style="pointer-events: none" formControlName="telefono"></ion-input>\n                            </ion-item>\n                            <ion-item>\n                                <ion-label floating>Telefono</ion-label>\n                                <ion-input type="text" [(ngModel)]="cliente.telefono2" style="pointer-events: none" formControlName="telefono2"></ion-input>\n                            </ion-item>\n\n\n                            <ion-item>\n                                <ion-label floating>Dirección</ion-label>\n                                <ion-input type="text" [(ngModel)]="cliente.direccion" style="pointer-events: none" formControlName="direccion"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Ciudad</ion-label>\n                                <ion-input type="text" [(ngModel)]="cliente.ciudad" style="pointer-events: none" formControlName="ciudad"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Correo</ion-label>\n                                <ion-input type="text" [(ngModel)]="cliente.email" style="pointer-events: none" formControlName="email"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Referencia</ion-label>\n                                <ion-input type="text" ([ngModel])="reporte.referencia" formControlName="referencia"></ion-input>\n\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Factura #</ion-label>\n                                <ion-input type="text" ([ngModel])="reporte.factura" formControlName="factura"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Tipo visita</ion-label>\n\n                                <ion-select ([ngModel])="tipoVisita.id" formControlName="tipoVisita">\n                                    <ion-option *ngFor="let item of tiposVisitas" [value]="item.id">{{item.descripcion}}</ion-option>\n                                </ion-select>\n\n                            </ion-item>\n\n\n\n\n                        </ion-list>\n\n\n\n\n                    </ion-thumbnail>\n\n                </ion-item>\n            </ion-list>\n\n\n            <ion-list *ngSwitchCase="\'equipo\'">\n                <ion-item>\n                    <ion-thumbnail item-start>\n                        <ion-title>Datos de equipo / Tipo de servicio</ion-title>\n                        <br/>\n                        <ion-list>\n\n\n                            <ion-item>\n\n                                <ion-grid>\n                                    <ion-row align-items-start>\n\n                                        <ion-col>\n                                            <button ion-button full (click)="openModalProducto()">\n                                                <ion-icon name="search"> Buscar Equipo </ion-icon>\n                                            </button>\n                                        </ion-col>\n\n                                    </ion-row>\n                                </ion-grid>\n                            </ion-item>\n\n\n                            <ion-item>\n                                <ion-label floating>Sucursal</ion-label>\n                                <ion-select ([ngModel])="clienteSucursal.id" formControlName="idClienteSucursal">\n                                    <ion-option *ngFor="let item of clienteSucursales" [value]="item.id">{{item.nombre}}</ion-option>\n                                </ion-select>\n                            </ion-item>\n\n\n\n                            <ion-item>\n                                <ion-label floating>Equipo</ion-label>\n                                <ion-input type="text" [(ngModel)]="producto.descripcionCompra" style="pointer-events: none" formControlName="equipoProducto"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Marca</ion-label>\n                                <ion-input type="text" [(ngModel)]="marca.marca" style="pointer-events: none" formControlName="marca"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Modelo</ion-label>\n                                <ion-input type="text" [(ngModel)]="modelo.modelo" style="pointer-events: none" formControlName="modelo"></ion-input>\n                            </ion-item>\n\n\n                            <ion-item>\n                                <ion-label floating>Ip Equipo</ion-label>\n                                <ion-input type="text" [(ngModel)]="productoClienteReporte.ipEquipo" formControlName="ipEquipo"></ion-input>\n                            </ion-item>\n\n\n                            <ion-item>\n                                <ion-label floating>Puerto USB</ion-label>\n                                <ion-input type="text" [(ngModel)]="productoClienteReporte.puertoUsb" formControlName="puertoUsb"></ion-input>\n                            </ion-item>\n\n\n\n                            <ion-item>\n                                <ion-label floating>Serie</ion-label>\n                                <ion-input type="text" [(ngModel)]="detalleInventarioProducto.serial" formControlName="serie"></ion-input>\n                            </ion-item>\n\n\n\n\n                            <ion-item>\n\n\n                                <ion-grid item-content>\n                                    <ion-row col-12>\n                                        <ion-label floating>Contadores</ion-label>\n                                    </ion-row>\n                                    <ion-row col-12>\n                                        <br/>\n                                    </ion-row>\n                                    <ion-row>\n                                        <ion-col col-3>\n\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            Total\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            Color\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            B/N\n                                        </ion-col>\n                                    </ion-row>\n                                    <ion-row>\n                                        <ion-col col-3>\n                                            Anterior\n                                        </ion-col>\n                                        <ion-col col-3>\n\n                                            <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorTotalAnterior" formControlName="contadorTotalAnterior"></ion-input>\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorColorAnterior" formControlName="contadorColorAnterior"\n                                                (ionChange)="contador(\'contadorColorAnterior\')" placeholder="..."></ion-input>\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorBnAnterior" formControlName="contadorBnAnterior" (ionChange)="contador(\'contadorBnAnterior\')"\n                                                placeholder="..."></ion-input>\n                                        </ion-col>\n                                    </ion-row>\n\n                                    <ion-row>\n                                        <ion-col col-3>\n                                            Actual\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            <ion-input [(ngModel)]="productoDetalleReporte.contadorTotalActual" formControlName="contadorTotalActual"></ion-input>\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorColorActual" formControlName="contadorColorActual" (ionChange)="contador(\'contadorColorActual\')"\n                                                placeholder="..."></ion-input>\n\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorBnActual" formControlName="contadorBnActual" (ionChange)="contador(\'contadorBnActual\')"\n                                                placeholder="..."></ion-input>\n\n                                        </ion-col>\n                                    </ion-row>\n\n                                    <ion-row>\n                                        <ion-col col-3>\n                                            Imp. Real\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorTotalImpReal" formControlName="contadorTotalImpReal"></ion-input>\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorColorImpReal" formControlName="contadorColorImpReal"></ion-input>\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorBnImpReal" formControlName="contadorBnImpReal"></ion-input>\n                                        </ion-col>\n                                    </ion-row>\n\n\n\n                                    <ion-row>\n\n\n                                        <ion-col col-2>\n                                            <ion-input type="number" placeholder="Mantenimiento" [(ngModel)]="productoDetalleReporte.mantenimiento" formControlName="mantenimiento"></ion-input>\n\n                                        </ion-col>\n\n                                        <ion-col col-2>\n                                            <ion-input type="number" placeholder="Otros" [(ngModel)]="productoDetalleReporte.otros" formControlName="otros"></ion-input>\n\n                                        </ion-col>\n                                        <ion-col col-4>\n                                            <ion-label>Servicio a FACTURAR</ion-label>\n                                        </ion-col>\n\n                                        <ion-col col-1>\n                                            <ion-checkbox [(ngModel)]="productoDetalleReporte.servicioFacturarEstado" formControlName="servicioFacturarEstado"></ion-checkbox>\n                                        </ion-col>\n\n                                        <ion-col col-3>\n                                            <ion-input type="number" placeholder="US$" [(ngModel)]="productoDetalleReporte.servicioFacturar" formControlName="servicioFacturar"></ion-input>\n\n                                        </ion-col>\n\n                                    </ion-row>\n\n\n\n                                </ion-grid>\n\n                            </ion-item>\n\n\n                            <ion-item>\n                                <ion-label floating>Síntomas</ion-label>\n                                <ion-input type="text" [(ngModel)]="reporte.sintomas" formControlName="sintomas"></ion-input>\n                            </ion-item>\n\n\n\n                        </ion-list>\n\n\n                    </ion-thumbnail>\n\n                </ion-item>\n            </ion-list>\n\n\n\n            <ion-list *ngSwitchCase="\'preventivo\'">\n                <ion-item>\n                    <ion-thumbnail item-start>\n                        <ion-title>Mantenimiento Preventivo </ion-title>\n\n                        <br/>\n                        <ion-list>\n\n\n                            <ion-item>\n                                <ion-label>Sección de Procesamiento</ion-label>\n                                <ion-select [(ngModel)]="arrayPreventivoProcesamientoIds" formControlName="nulo" multiple="true" cancelText="cancel" okText="ok">\n                                    <ion-option *ngFor="let item of arrayPreventivoProcesamiento; let i = index" [value]="item.id" selected="false">{{item.descripcion}}</ion-option>\n                                </ion-select>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label>Sección de Imagen</ion-label>\n                                <ion-select [(ngModel)]="arrayPreventivoImagenIds" formControlName="nulo" multiple="true" cancelText="cancel" okText="ok">\n                                    <ion-option *ngFor="let item of arrayPreventivoImagen; let i = index" [value]="item.id" selected="false">{{item.descripcion}}</ion-option>\n                                </ion-select>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label>Sección de Fijación</ion-label>\n                                <ion-select [(ngModel)]="arrayPreventivoFijacionIds" formControlName="nulo" multiple="true" cancelText="cancel" okText="ok">\n                                    <ion-option *ngFor="let item of arrayPreventivoFijacion; let i = index" [value]="item.id" selected="false">{{item.descripcion}}</ion-option>\n                                </ion-select>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label>Sección de Exteriores</ion-label>\n                                <ion-select [(ngModel)]="arrayPreventivoExterioresIds" formControlName="nulo" multiple="true" cancelText="cancel" okText="ok">\n                                    <ion-option *ngFor="let item of arrayPreventivoExteriores; let i = index" [value]="item.id" selected="false">{{item.descripcion}}</ion-option>\n                                </ion-select>\n                            </ion-item>\n\n\n\n                        </ion-list>\n\n                    </ion-thumbnail>\n\n\n\n\n\n\n\n\n                </ion-item>\n            </ion-list>\n\n            <ion-list *ngSwitchCase="\'correctivo\'">\n                <ion-item>\n                    <ion-thumbnail item-start>\n                        <ion-title>Mantenimiento Correctivo</ion-title>\n                        <br/>\n                        <ion-list>\n\n\n\n                            <ion-item>\n                                <ion-grid>\n                                    <ion-row>\n                                        <ion-col text-left>\n                                            <button *ngIf=\'visibleCorrectivosBtns[0]\' ion-button icon-only (click)="openModalCorrectivosSeleccionados(\'SUMINISTROS\')">\n                                                <ion-icon name="eye"></ion-icon>\n                                            </button>\n\n\n                                            <button ion-button (click)="openModalCorrectivos(\'SUMINISTROS\')">\n                                                <ion-icon name="search"> SUMINISTROS </ion-icon>\n                                            </button>\n                                        </ion-col>\n                                    </ion-row>\n                                </ion-grid>\n                            </ion-item>\n\n\n\n                            <ion-item>\n                                <ion-grid>\n                                    <ion-row>\n                                        <ion-col text-left>\n                                            <button *ngIf=\'visibleCorrectivosBtns[1]\' ion-button icon-only (click)="openModalCorrectivosSeleccionados(\'IMAGEN_CORRECTIVO\')">\n                                                <ion-icon name="eye"></ion-icon>\n                                            </button>\n                                            <button ion-button (click)="openModalCorrectivos(\'IMAGEN_CORRECTIVO\')">\n                                                <ion-icon name="search"> SECCION DE IMAGEN </ion-icon>\n                                            </button>\n                                        </ion-col>\n                                    </ion-row>\n                                </ion-grid>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-grid>\n                                    <ion-row>\n                                        <ion-col text-left>\n                                            <button *ngIf=\'visibleCorrectivosBtns[2]\' ion-button icon-only (click)="openModalCorrectivosSeleccionados(\'FIJACION_CORRECTIVO\')">\n                                                <ion-icon name="eye"></ion-icon>\n                                            </button>\n                                            <button ion-button (click)="openModalCorrectivos(\'FIJACION_CORRECTIVO\')">\n                                                <ion-icon name="search"> SECCION DE FIJACION </ion-icon>\n                                            </button>\n                                        </ion-col>\n                                    </ion-row>\n                                </ion-grid>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-grid>\n                                    <ion-row>\n                                        <ion-col text-left>\n                                            <button *ngIf=\'visibleCorrectivosBtns[3]\' ion-button icon-only (click)="openModalCorrectivosSeleccionados(\'REVELADO\')">\n                                                <ion-icon name="eye"></ion-icon>\n                                            </button>\n                                            <button ion-button (click)="openModalCorrectivos(\'REVELADO\')">\n                                                <ion-icon name="search"> SECCION DE REVELADO </ion-icon>\n                                            </button>\n                                        </ion-col>\n                                    </ion-row>\n                                </ion-grid>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-grid>\n                                    <ion-row>\n                                        <ion-col text-left>\n                                            <button *ngIf=\'visibleCorrectivosBtns[4]\' ion-button icon-only (click)="openModalCorrectivosSeleccionados(\'ALIMENTACION\')">\n                                                <ion-icon name="eye"></ion-icon>\n                                            </button>\n                                            <button ion-button (click)="openModalCorrectivos(\'ALIMENTACION\')">\n                                                <ion-icon name="search"> SECCION DE ALIMENTACION </ion-icon>\n                                            </button>\n                                        </ion-col>\n                                    </ion-row>\n                                </ion-grid>\n                            </ion-item>\n                            <ion-item>\n                                <ion-grid>\n                                    <ion-row>\n                                        <ion-col text-left>\n                                            <button *ngIf=\'visibleCorrectivosBtns[5]\' ion-button icon-only (click)="openModalCorrectivosSeleccionados(\'OTROS\')">\n                                                <ion-icon name="eye"></ion-icon>\n                                            </button>\n                                            <button ion-button (click)="openModalCorrectivos(\'OTROS\')">\n                                                <ion-icon name="search"> OTROS</ion-icon>\n                                            </button>\n                                        </ion-col>\n                                    </ion-row>\n                                </ion-grid>\n                            </ion-item>\n\n\n                        </ion-list>\n\n                    </ion-thumbnail>\n\n                </ion-item>\n            </ion-list>\n\n\n\n            <ion-list *ngSwitchCase="\'observaciones\'">\n                <ion-item>\n                    <ion-thumbnail item-start>\n                        <ion-title>Observaciones / Recomendaciones</ion-title>\n                        <br/>\n                        <ion-list>\n                            <ion-item>\n\n                                <ion-label floating>Observaciones / Recomendaciones</ion-label>\n                                <ion-input type="text" [(ngModel)]="reporte.observacionesRecomendaciones" formControlName="observacionesRecomendaciones"></ion-input>\n\n                            </ion-item>\n\n                            <ion-item>\n\n                                <ion-label floating>Notas de Técnico</ion-label>\n                                <ion-input type="text" [(ngModel)]="reporte.notas" formControlName="notas"></ion-input>\n\n                            </ion-item>\n\n\n                        </ion-list>\n                    </ion-thumbnail>\n\n                </ion-item>\n            </ion-list>\n\n\n            <ion-list *ngSwitchCase="\'cliente\'">\n                <ion-item>\n                    <ion-thumbnail item-start>\n                        <ion-title>Exclusivo para el cliente</ion-title>\n                        <br/>\n\n                        <ion-list>\n\n\n                            <ion-item>\n\n                                <ion-grid>\n                                    <ion-row>\n\n                                        <ion-col col-4>\n                                            <button ion-button full color="light" (click)="clearSignature()">Limpiar</button>\n                                        </ion-col>\n                                        <ion-col col-4>\n\n                                        </ion-col>\n                                        <ion-col col-4>\n\n                                        </ion-col>\n                                    </ion-row>\n                                </ion-grid>\n                                <signature-pad [options]="signaturePadOptions" id="signatureCanvas"></signature-pad>\n\n                                <ion-grid>\n                                    <ion-row>\n\n                                        <ion-col col-2>\n\n                                        </ion-col>\n                                        <ion-col col-6>\n                                            {{cliente.cliente}}\n                                        </ion-col>\n                                        <ion-col col-4>\n\n                                        </ion-col>\n                                    </ion-row>\n                                </ion-grid>\n\n                            </ion-item>\n\n                            <ion-item>\n\n                                <ion-label fixed>Responsable</ion-label>\n                                <ion-label>{{usuario.nombreCompleto}}</ion-label>\n\n                            </ion-item>\n\n\n                        </ion-list>\n\n\n                    </ion-thumbnail>\n\n                </ion-item>\n\n\n                <ion-item>\n\n                    <ion-grid>\n                        <ion-row align-items-start>\n\n                            <ion-col>\n                                <button ion-button full (click)="guardar()" ion-button full [disabled]="!reporteForm.valid"></button>\n                                <!--  <button type="submit" ion-button full [disabled]="!reporteForm.valid">Guardar</button>-->\n\n\n                            </ion-col>\n\n                        </ion-row>\n                    </ion-grid>\n                </ion-item>\n\n            </ion-list>\n\n\n        </div>\n\n    </form>\n\n</ion-content>'/*ion-inline-end:"D:\PROYECTOS\ANGULAR\reportes\src\pages\reporte-impresoras\reporte-impresoras.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_providers__["d" /* DetalleCatalogoReporteProvider */], __WEBPACK_IMPORTED_MODULE_4__providers_providers__["b" /* ClienteProvider */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_providers__["i" /* TipoVisitaProvider */], __WEBPACK_IMPORTED_MODULE_4__providers_providers__["g" /* ReporteProvider */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_providers__["c" /* ClienteSucursalProvider */]])
-    ], ReporteImpresorasPage);
-    return ReporteImpresorasPage;
-}());
-
-//# sourceMappingURL=reporte-impresoras.js.map
-
-/***/ }),
-
-/***/ 154:
+/***/ 153:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -575,32 +44,32 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 154;
+webpackEmptyAsyncContext.id = 153;
 
 /***/ }),
 
-/***/ 214:
+/***/ 213:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
 	"../pages/administracion-reportes/administracion-reportes.module": [
-		477,
+		481,
 		20
 	],
 	"../pages/cards/cards.module": [
-		478,
+		480,
 		18
 	],
 	"../pages/content/content.module": [
-		479,
+		482,
 		17
 	],
 	"../pages/item-create/item-create.module": [
-		480,
+		483,
 		16
 	],
 	"../pages/item-detail/item-detail.module": [
-		481,
+		484,
 		15
 	],
 	"../pages/list-master/list-master.module": [
@@ -608,63 +77,63 @@ var map = {
 		14
 	],
 	"../pages/login/login.module": [
-		482,
+		486,
 		13
 	],
 	"../pages/menu/menu.module": [
-		483,
+		487,
 		12
 	],
 	"../pages/modal-confirmacion-repuesto/modal-confirmacion-repuesto.module": [
-		484,
+		488,
 		11
 	],
 	"../pages/modal-correctivos/modal-correctivos.module": [
-		486,
+		489,
 		10
 	],
 	"../pages/modal-repuestos-seleccionados/modal-repuestos-seleccionados.module": [
-		487,
+		490,
 		9
 	],
 	"../pages/modal-repuestos/modal-repuestos.module": [
-		488,
+		491,
 		8
 	],
 	"../pages/modal-search-cliente/modal-search-cliente.module": [
-		489,
+		492,
 		7
 	],
 	"../pages/modal-search-producto/modal-search-producto.module": [
-		490,
+		493,
 		6
 	],
 	"../pages/reporte-impresoras/reporte-impresoras.module": [
-		492,
+		494,
 		19
 	],
 	"../pages/search/search.module": [
-		491,
+		495,
 		5
 	],
 	"../pages/settings/settings.module": [
-		493,
+		497,
 		4
 	],
 	"../pages/signup/signup.module": [
-		494,
+		496,
 		3
 	],
 	"../pages/tabs/tabs.module": [
-		495,
+		498,
 		2
 	],
 	"../pages/tutorial/tutorial.module": [
-		496,
+		500,
 		1
 	],
 	"../pages/welcome/welcome.module": [
-		497,
+		499,
 		0
 	]
 };
@@ -679,7 +148,7 @@ function webpackAsyncContext(req) {
 webpackAsyncContext.keys = function webpackAsyncContextKeys() {
 	return Object.keys(map);
 };
-webpackAsyncContext.id = 214;
+webpackAsyncContext.id = 213;
 module.exports = webpackAsyncContext;
 
 /***/ }),
@@ -690,9 +159,9 @@ module.exports = webpackAsyncContext;
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UsuarioProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_catch__ = __webpack_require__(437);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_catch__ = __webpack_require__(439);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_catch__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_observable_throw__ = __webpack_require__(439);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_observable_throw__ = __webpack_require__(441);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_observable_throw___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_observable_throw__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api_api__ = __webpack_require__(30);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -719,6 +188,7 @@ var UsuarioProvider = (function () {
         this.api = api;
     }
     UsuarioProvider.prototype.login = function (user, password) {
+        console.log(' LLAMAR A ,  usuariosService/login/' + user + '/' + password);
         return this.api.get('usuariosService/login/' + user + '/' + password);
     };
     UsuarioProvider = __decorate([
@@ -764,6 +234,9 @@ var DetalleCatalogoReporteProvider = (function () {
     }
     DetalleCatalogoReporteProvider.prototype.getDetalleCatalogoReporteByCabeceraCodigo = function (codigo) {
         return this.api.get_type('detalleCatalogoReporteService/getDetalleCatalogoReporteByCabeceraCodigo/' + codigo);
+    };
+    DetalleCatalogoReporteProvider.prototype.getCabeceraCatalogoReportesByTipo = function (tipo) {
+        return this.api.get_type('detalleCatalogoReporteService/getCabeceraCatalogoReportesByTipo/' + tipo);
     };
     DetalleCatalogoReporteProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
@@ -828,7 +301,7 @@ var TipoVisitaProvider = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api_api__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_operators__ = __webpack_require__(215);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_operators__ = __webpack_require__(214);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_operators___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_operators__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -962,7 +435,7 @@ var ProductoRepuestoReporteProvider = (function () {
     function ProductoRepuestoReporteProvider(api) {
         this.api = api;
     }
-    ProductoRepuestoReporteProvider.prototype.getDetalleCatalogoReporteByCabeceraCodigo = function (idDetalle, idModelo) {
+    ProductoRepuestoReporteProvider.prototype.getByIdDetalleCatalogoReporteByIdModelo = function (idDetalle, idModelo) {
         return this.api.get_type('productoRepuestoReporteServiceRest/getByIdDetalleCatalogoReporteByIdModelo/' + idDetalle + '/' + idModelo);
     };
     ProductoRepuestoReporteProvider = __decorate([
@@ -996,7 +469,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 /*
 
-import { Observable } from 'rxjs';
+
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
@@ -1019,43 +492,12 @@ var ReporteProvider = (function () {
     ReporteProvider.prototype.reportePdfImpresora = function (idReporte) {
         return this.api.getPdf('/reporteService/descarga/' + idReporte);
     };
-    /*
-      public agregarCliente(item: Cliente) {
-    
-        console.log('*************************************************************');
-    
-        console.log(JSON.stringify(item));
-    
-        console.log('***********************DWDW**************************************');
-    
-        return this.httpClient.post<Cliente>(this.url, JSON.stringify(item), httpOptions).pipe(
-          tap(
-    
-            (user: Cliente) => this.log(`added User w/ id=${user.id}`)
-    
-          ),
-          catchError(this.handleError<Cliente>('addUser'))
-        );
-    
-    
-      }
-    
-    
-    
-      private handleError<T>(operation = 'operation', result?: T) {
-        return (error: any): Observable<T> => {
-          console.error('Error es = ' + JSON.stringify(error));
-          return of(result as T);
-        };
-      }
-    
-      private log(message: string) {
-        console.log('UserService: ' + message);
-     
-    */
     ReporteProvider.prototype.saveAllReporteImpresoras = function (item) {
         console.log('FROM SERVICE  ' + item);
         return this.api.postHttp('reporteService/saveAllReporteImpresoras/', item);
+    };
+    ReporteProvider.prototype.updateAllReporteImpresoras = function (item) {
+        return this.api.putHttp('reporteService/updateAllReporteImpresoras/' + item.reporte.id, item);
     };
     ReporteProvider.prototype.numeroReporte = function (idUsuario, tipo, subtipo) {
         return this.api.get_type('reporteService/numeroReporte/' + idUsuario + '/' + tipo + '/' + subtipo);
@@ -1065,6 +507,9 @@ var ReporteProvider = (function () {
     };
     ReporteProvider.prototype.reportesBySubTipo = function (tipo) {
         return this.api.get_pipe('reporteService/reportesBySubTipo/' + tipo);
+    };
+    ReporteProvider.prototype.reportesById = function (id) {
+        return this.api.get_type('reporteService/reporteById/' + id);
     };
     ReporteProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
@@ -1148,6 +593,8 @@ var Categoria = (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DetalleCatalogoReporte; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__cabeceraCatalogoReporte__ = __webpack_require__(240);
+
 /**
  * A generic model that our Master-Detail pages list, public create, public and delete.
  *
@@ -1159,6 +606,8 @@ var Categoria = (function () {
  */
 var DetalleCatalogoReporte = (function () {
     function DetalleCatalogoReporte() {
+        this.seleccion = false;
+        this.idCabecera = new __WEBPACK_IMPORTED_MODULE_0__cabeceraCatalogoReporte__["a" /* CabeceraCatalogoReporte */]();
     }
     return DetalleCatalogoReporte;
 }());
@@ -1168,6 +617,30 @@ var DetalleCatalogoReporte = (function () {
 /***/ }),
 
 /***/ 240:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CabeceraCatalogoReporte; });
+/**
+ * A generic model that our Master-Detail pages list, public create, public and delete.
+ *
+ * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
+ * "Customer, public" or a "Animal, public" or something like that.
+ *
+ * The Items service manages creating instances of Item, public so go ahead and rename
+ * that something that fits your app as well.
+ */
+var CabeceraCatalogoReporte = (function () {
+    function CabeceraCatalogoReporte() {
+    }
+    return CabeceraCatalogoReporte;
+}());
+
+//# sourceMappingURL=cabeceraCatalogoReporte.js.map
+
+/***/ }),
+
+/***/ 241:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1191,7 +664,7 @@ var Marca = (function () {
 
 /***/ }),
 
-/***/ 241:
+/***/ 242:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1215,7 +688,7 @@ var Usuario = (function () {
 
 /***/ }),
 
-/***/ 242:
+/***/ 243:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1230,7 +703,7 @@ var AsignacionReparaciones = (function () {
 
 /***/ }),
 
-/***/ 243:
+/***/ 244:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1254,14 +727,33 @@ var TipoVisitas = (function () {
 
 /***/ }),
 
-/***/ 283:
+/***/ 245:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReporteMantenimiento; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_models__ = __webpack_require__(36);
+
+var ReporteMantenimiento = (function () {
+    function ReporteMantenimiento() {
+        this.idProductoRepuestoReporte = new __WEBPACK_IMPORTED_MODULE_0__models_models__["m" /* ProductoRepuestoReporte */]();
+        this.idDetalleCatalogoReporte = new __WEBPACK_IMPORTED_MODULE_0__models_models__["e" /* DetalleCatalogoReporte */]();
+    }
+    return ReporteMantenimiento;
+}());
+
+//# sourceMappingURL=reporteMantenimiento.js.map
+
+/***/ }),
+
+/***/ 286:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SideMenuContentComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_side_menu_redirect_events__ = __webpack_require__(473);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_side_menu_redirect_events__ = __webpack_require__(476);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1579,7 +1071,7 @@ var SideMenuContentComponent = (function () {
 
 /***/ }),
 
-/***/ 284:
+/***/ 287:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1605,16 +1097,16 @@ export const CasaPage = 'CasaPage';
 
 /***/ }),
 
-/***/ 285:
+/***/ 288:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PipesModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__search_cliente_search_cliente__ = __webpack_require__(440);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__sort_cliente_sort_cliente__ = __webpack_require__(441);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__search_producto_search_producto__ = __webpack_require__(442);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__search_cliente_search_cliente__ = __webpack_require__(455);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__sort_cliente_sort_cliente__ = __webpack_require__(456);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__search_producto_search_producto__ = __webpack_require__(457);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1643,13 +1135,13 @@ var PipesModule = (function () {
 
 /***/ }),
 
-/***/ 288:
+/***/ 291:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(289);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(296);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(292);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(299);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -1657,7 +1149,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 296:
+/***/ 299:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1666,35 +1158,35 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_camera__ = __webpack_require__(287);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__ = __webpack_require__(157);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_status_bar__ = __webpack_require__(158);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_storage__ = __webpack_require__(159);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ngx_translate_core__ = __webpack_require__(138);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ngx_translate_http_loader__ = __webpack_require__(324);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_camera__ = __webpack_require__(289);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__ = __webpack_require__(156);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_status_bar__ = __webpack_require__(157);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_storage__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ngx_translate_core__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ngx_translate_http_loader__ = __webpack_require__(327);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ionic_angular__ = __webpack_require__(48);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__providers_providers__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__app_component__ = __webpack_require__(472);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__app_component__ = __webpack_require__(475);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__providers_usuario_usuario__ = __webpack_require__(228);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_http__ = __webpack_require__(227);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__shared_side_menu_content_side_menu_content_component__ = __webpack_require__(283);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__shared_side_menu_content_side_menu_content_component__ = __webpack_require__(286);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__providers_detalle_catalogo_reporte_detalle_catalogo_reporte__ = __webpack_require__(229);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__providers_cliente_cliente__ = __webpack_require__(231);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__providers_reporte_reporte__ = __webpack_require__(234);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__providers_producto_producto__ = __webpack_require__(232);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__providers_tipo_visita_tipo_visita__ = __webpack_require__(230);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__providers_parametros_parametros__ = __webpack_require__(474);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__providers_parametros_parametros__ = __webpack_require__(477);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__providers_cliente_sucursal_cliente_sucursal__ = __webpack_require__(235);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__providers_consultas_consultas__ = __webpack_require__(475);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_reporte_impresoras_reporte_impresoras__ = __webpack_require__(142);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_administracion_reportes_administracion_reportes__ = __webpack_require__(139);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pipes_pipes_module__ = __webpack_require__(285);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__providers_consultas_consultas__ = __webpack_require__(478);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_reporte_impresoras_reporte_impresoras__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_administracion_reportes_administracion_reportes__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pipes_pipes_module__ = __webpack_require__(288);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__providers_producto_repuesto_reporte_producto_repuesto_reporte__ = __webpack_require__(233);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__ionic_native_in_app_browser__ = __webpack_require__(476);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__ionic_native_in_app_browser__ = __webpack_require__(479);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__ionic_native_file_opener__ = __webpack_require__(237);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__ionic_native_file__ = __webpack_require__(236);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30_angular2_signaturepad__ = __webpack_require__(286);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30_angular2_signaturepad__ = __webpack_require__(290);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30_angular2_signaturepad___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_30_angular2_signaturepad__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1775,27 +1267,27 @@ var AppModule = (function () {
                 }),
                 __WEBPACK_IMPORTED_MODULE_9_ionic_angular__["f" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_11__app_component__["a" /* MyApp */], {}, {
                     links: [
-                        { loadChildren: '../pages/administracion-reportes/administracion-reportes.module#AdministracionReportesPageModule', name: 'AdministracionReportesPage', segment: 'administracion-reportes', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/cards/cards.module#CardsPageModule', name: 'CardsPage', segment: 'cards', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/administracion-reportes/administracion-reportes.module#AdministracionReportesPageModule', name: 'AdministracionReportesPage', segment: 'administracion-reportes', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/content/content.module#ContentPageModule', name: 'ContentPage', segment: 'content', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/item-create/item-create.module#ItemCreatePageModule', name: 'ItemCreatePage', segment: 'item-create', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/item-detail/item-detail.module#ItemDetailPageModule', name: 'ItemDetailPage', segment: 'item-detail', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/list-master/list-master.module#ListMasterPageModule', name: 'ListMasterPage', segment: 'list-master', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-confirmacion-repuesto/modal-confirmacion-repuesto.module#ModalConfirmacionRepuestoPageModule', name: 'ModalConfirmacionRepuestoPage', segment: 'modal-confirmacion-repuesto', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/list-master/list-master.module#ListMasterPageModule', name: 'ListMasterPage', segment: 'list-master', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-correctivos/modal-correctivos.module#ModalCorrectivosPageModule', name: 'ModalCorrectivosPage', segment: 'modal-correctivos', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-repuestos-seleccionados/modal-repuestos-seleccionados.module#ModalRepuestosSeleccionadosPageModule', name: 'ModalRepuestosSeleccionadosPage', segment: 'modal-repuestos-seleccionados', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-repuestos/modal-repuestos.module#ModalRepuestosPageModule', name: 'ModalRepuestosPage', segment: 'modal-repuestos', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-search-cliente/modal-search-cliente.module#ModalSearchClientePageModule', name: 'ModalSearchClientePage', segment: 'modal-search-cliente', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-search-producto/modal-search-producto.module#ModalSearchProductoPageModule', name: 'ModalSearchProductoPage', segment: 'modal-search-producto', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/search/search.module#SearchPageModule', name: 'SearchPage', segment: 'search', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reporte-impresoras/reporte-impresoras.module#ReporteImpresorasPageModule', name: 'ReporteImpresorasPage', segment: 'reporte-impresoras', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/settings/settings.module#SettingsPageModule', name: 'SettingsPage', segment: 'settings', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/search/search.module#SearchPageModule', name: 'SearchPage', segment: 'search', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/signup/signup.module#SignupPageModule', name: 'SignupPage', segment: 'signup', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/settings/settings.module#SettingsPageModule', name: 'SettingsPage', segment: 'settings', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/tabs/tabs.module#TabsPageModule', name: 'TabsPage', segment: 'tabs', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/tutorial/tutorial.module#TutorialPageModule', name: 'TutorialPage', segment: 'tutorial', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/welcome/welcome.module#WelcomePageModule', name: 'WelcomePage', segment: 'welcome', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/welcome/welcome.module#WelcomePageModule', name: 'WelcomePage', segment: 'welcome', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/tutorial/tutorial.module#TutorialPageModule', name: 'TutorialPage', segment: 'tutorial', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["a" /* IonicStorageModule */].forRoot(),
@@ -1845,7 +1337,7 @@ var AppModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operators__ = __webpack_require__(215);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operators__ = __webpack_require__(214);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operators___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_operators__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(227);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1869,8 +1361,8 @@ var Api = (function () {
     function Api(httpClient, http) {
         this.httpClient = httpClient;
         this.http = http;
-        // url: string = 'http://localhost:8080/connector-1.0/rest';
-        this.url = 'http://ser-fafa.7e14.starter-us-west-2.openshiftapps.com/rest';
+        //url: string = 'http://localhost:8080/connector-1.0/rest';
+        this.url = 'http://lolo-serv.7e14.starter-us-west-2.openshiftapps.com/rest';
     }
     Api.prototype.urlServices = function () {
         return this.url;
@@ -1881,18 +1373,12 @@ var Api = (function () {
         req.responseType = "blob";
         req.onload = function (event) {
             var blob = req.response;
-            console.log(blob.size);
             var link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
             link.download = fileName + ".pdf";
             link.click();
         };
         req.send();
-    };
-    Api.prototype.getHttpPdf = function (service) {
-        return this.http.get(this.url + service, { responseType: __WEBPACK_IMPORTED_MODULE_4__angular_http__["f" /* ResponseContentType */].Blob }).map(function (res) {
-            return new Blob([res.blob()], { type: 'application/pdf' });
-        });
     };
     Api.prototype.getPdf = function (service) {
         return this.httpClient.get(this.url + service, {
@@ -1902,18 +1388,17 @@ var Api = (function () {
         });
     };
     Api.prototype.consola = function (texto) {
-        console.log('SWEDEN  ' + texto);
         return this.httpClient.get('https://serviciosnode.herokuapp.com/api/consola/' + texto);
     };
     Api.prototype.get = function (endpoint, params, reqOpts) {
         if (!reqOpts) {
             reqOpts = {
-                params: new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["c" /* HttpParams */]()
+                params: new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpParams */]()
             };
         }
         // Support easy query params for GET requests
         if (params) {
-            reqOpts.params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["c" /* HttpParams */]();
+            reqOpts.params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpParams */]();
             for (var k in params) {
                 reqOpts.params.set(k, params[k]);
             }
@@ -1923,12 +1408,12 @@ var Api = (function () {
     Api.prototype.get_pipe = function (endpoint, params, reqOpts) {
         if (!reqOpts) {
             reqOpts = {
-                params: new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["c" /* HttpParams */]()
+                params: new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpParams */]()
             };
         }
         // Support easy query params for GET requests
         if (params) {
-            reqOpts.params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["c" /* HttpParams */]();
+            reqOpts.params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpParams */]();
             for (var k in params) {
                 reqOpts.params.set(k, params[k]);
             }
@@ -1959,12 +1444,12 @@ var Api = (function () {
     Api.prototype.get_type = function (endpoint, params, reqOpts) {
         if (!reqOpts) {
             reqOpts = {
-                params: new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["c" /* HttpParams */]()
+                params: new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpParams */]()
             };
         }
         // Support easy query params for GET requests
         if (params) {
-            reqOpts.params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["c" /* HttpParams */]();
+            reqOpts.params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpParams */]();
             for (var k in params) {
                 reqOpts.params.set(k, params[k]);
             }
@@ -1979,26 +1464,41 @@ var Api = (function () {
         var hdrs = new __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Headers */]();
         hdrs.append('Content-Type', "application/json");
         var options = new __WEBPACK_IMPORTED_MODULE_4__angular_http__["d" /* RequestOptions */]({ headers: hdrs });
-        this.http.post(this.url + '/' + service, JSON.stringify(item), options).toPromise().then(function (response) {
-            console.log('Succes ! ' + response);
-        }).catch(function (error) {
-            console.log('SI HAY ERROR ');
-        });
+        return this.http.post(this.url + '/' + service, JSON.stringify(item), options).toPromise();
+    };
+    Api.prototype.putHttp = function (service, item) {
+        var hdrs = new __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Headers */]();
+        hdrs.append('Content-Type', "application/json");
+        var options = new __WEBPACK_IMPORTED_MODULE_4__angular_http__["d" /* RequestOptions */]({ headers: hdrs });
+        return this.http.put(this.url + '/' + service, JSON.stringify(item), options).toPromise();
     };
     Api.prototype.getHttp = function (endpoint, params, reqOpts) {
         if (!reqOpts) {
             reqOpts = {
-                params: new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["c" /* HttpParams */]()
+                params: new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpParams */]()
             };
         }
-        // Support easy query params for GET requests
         if (params) {
-            reqOpts.params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["c" /* HttpParams */]();
+            reqOpts.params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpParams */]();
             for (var k in params) {
                 reqOpts.params.set(k, params[k]);
             }
         }
         return this.http.get(this.url + '/' + endpoint, reqOpts);
+    };
+    Api.prototype.putHttpClient = function (endpoint, obj) {
+        // const params = new HttpParams().set('id', obj.reporte.id);
+        var headers = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["c" /* HttpHeaders */]().set('content-type', 'application/json');
+        headers.set('responseType', 'text');
+        console.log('ENLACE CLIENT  ' + this.url + '/' + endpoint);
+        return this.httpClient.put(this.url + '/' + endpoint, obj, {
+            headers: headers
+            // ,params
+        });
+    };
+    Api.prototype.extractData = function (res) {
+        return res.text() ? res.json() : {};
+        ;
     };
     /*
      
@@ -2036,28 +1536,31 @@ var Api = (function () {
 
 /***/ }),
 
-/***/ 42:
+/***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__categoria__ = __webpack_require__(238);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__cliente__ = __webpack_require__(443);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__cliente__ = __webpack_require__(442);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__detalleCatalogoReporte__ = __webpack_require__(239);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__marca__ = __webpack_require__(240);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modelo__ = __webpack_require__(444);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__producto__ = __webpack_require__(140);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__tipoProducto__ = __webpack_require__(445);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__usuario__ = __webpack_require__(241);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__productoDetalleReporte__ = __webpack_require__(446);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__reporte__ = __webpack_require__(447);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__productoRepuestoReporte__ = __webpack_require__(448);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__clienteSucursal__ = __webpack_require__(449);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__productoClienteReporte__ = __webpack_require__(450);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__datosReporteDTO__ = __webpack_require__(451);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__TipoVisitas__ = __webpack_require__(243);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__asignacionReparaciones__ = __webpack_require__(242);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__detalleInventarioProducto__ = __webpack_require__(452);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__detalleInventario__ = __webpack_require__(453);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__marca__ = __webpack_require__(241);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modelo__ = __webpack_require__(443);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__producto__ = __webpack_require__(141);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__tipoProducto__ = __webpack_require__(444);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__usuario__ = __webpack_require__(242);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__productoDetalleReporte__ = __webpack_require__(445);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__reporte__ = __webpack_require__(446);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__productoRepuestoReporte__ = __webpack_require__(447);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__clienteSucursal__ = __webpack_require__(448);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__productoClienteReporte__ = __webpack_require__(449);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__datosReporteDTO__ = __webpack_require__(450);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__TipoVisitas__ = __webpack_require__(244);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__asignacionReparaciones__ = __webpack_require__(243);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__detalleInventarioProducto__ = __webpack_require__(451);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__detalleInventario__ = __webpack_require__(452);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__reporteMantenimiento__ = __webpack_require__(245);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__cabeceraCatalogoReporte__ = __webpack_require__(240);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__proyectos__ = __webpack_require__(453);
 /* unused harmony reexport Categoria */
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__cliente__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_2__detalleCatalogoReporte__["a"]; });
@@ -2065,17 +1568,23 @@ var Api = (function () {
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_4__modelo__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_5__producto__["a"]; });
 /* unused harmony reexport TipoProducto */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return __WEBPACK_IMPORTED_MODULE_7__usuario__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return __WEBPACK_IMPORTED_MODULE_9__reporte__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return __WEBPACK_IMPORTED_MODULE_7__usuario__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return __WEBPACK_IMPORTED_MODULE_9__reporte__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_8__productoDetalleReporte__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_10__productoRepuestoReporte__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return __WEBPACK_IMPORTED_MODULE_14__TipoVisitas__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return __WEBPACK_IMPORTED_MODULE_14__TipoVisitas__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_15__asignacionReparaciones__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_11__clienteSucursal__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_13__datosReporteDTO__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_12__productoClienteReporte__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_16__detalleInventarioProducto__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_17__detalleInventario__["a"]; });
+/* unused harmony reexport ReporteMantenimiento */
+/* unused harmony reexport CabeceraCatalogoReporte */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return __WEBPACK_IMPORTED_MODULE_20__proyectos__["a"]; });
+
+
+
 
 
 
@@ -2099,13 +1608,13 @@ var Api = (function () {
 
 /***/ }),
 
-/***/ 436:
+/***/ 438:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Settings; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_storage__ = __webpack_require__(159);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_storage__ = __webpack_require__(158);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2188,7 +1697,325 @@ var Settings = (function () {
 
 /***/ }),
 
-/***/ 440:
+/***/ 442:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Cliente; });
+/**
+ * A generic model that our Master-Detail pages list, public create, public and delete.
+ *
+ * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
+ * "Customer, public" or a "Animal, public" or something like that.
+ *
+ * The Items service manages creating instances of Item, public so go ahead and rename
+ * that something that fits your app as well.
+ */
+var Cliente = (function () {
+    function Cliente() {
+    }
+    return Cliente;
+}());
+
+//# sourceMappingURL=cliente.js.map
+
+/***/ }),
+
+/***/ 443:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Modelo; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_marca__ = __webpack_require__(241);
+/**
+ * A generic model that our Master-Detail pages list, public create, public and delete.
+ *
+ * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
+ * "Customer, public" or a "Animal, public" or something like that.
+ *
+ * The Items service manages creating instances of Item, public so go ahead and rename
+ * that something that fits your app as well.
+ */
+
+var Modelo = (function () {
+    function Modelo() {
+        this.idMarca = new __WEBPACK_IMPORTED_MODULE_0__models_marca__["a" /* Marca */]();
+    }
+    return Modelo;
+}());
+
+//# sourceMappingURL=modelo.js.map
+
+/***/ }),
+
+/***/ 444:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export TipoProducto */
+/**
+ * A generic model that our Master-Detail pages list, public create, public and delete.
+ *
+ * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
+ * "Customer, public" or a "Animal, public" or something like that.
+ *
+ * The Items service manages creating instances of Item, public so go ahead and rename
+ * that something that fits your app as well.
+ */
+var TipoProducto = (function () {
+    function TipoProducto() {
+    }
+    return TipoProducto;
+}());
+
+//# sourceMappingURL=tipoProducto.js.map
+
+/***/ }),
+
+/***/ 445:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProductoDetalleReporte; });
+/**
+ * A generic model that our Master-Detail pages list, public create, public and delete.
+ *
+ * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
+ * "Customer, public" or a "Animal, public" or something like that.
+ *
+ * The Items service manages creating instances of Item, public so go ahead and rename
+ * that something that fits your app as well.
+ */
+var ProductoDetalleReporte = (function () {
+    function ProductoDetalleReporte() {
+    }
+    return ProductoDetalleReporte;
+}());
+
+//# sourceMappingURL=productoDetalleReporte.js.map
+
+/***/ }),
+
+/***/ 446:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Reporte; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_asignacionReparaciones__ = __webpack_require__(243);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_TipoVisitas__ = __webpack_require__(244);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_usuario__ = __webpack_require__(242);
+/**
+ * A generic model that our Master-Detail pages list, public create, public and delete.
+ *
+ * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
+ * "Customer, public" or a "Animal, public" or something like that.
+ *
+ * The Items service manages creating instances of Item, public so go ahead and rename
+ * that something that fits your app as well.
+ */
+
+
+
+var Reporte = (function () {
+    function Reporte() {
+        this.idAsignacion = new __WEBPACK_IMPORTED_MODULE_0__models_asignacionReparaciones__["a" /* AsignacionReparaciones */]();
+        this.idVisita = new __WEBPACK_IMPORTED_MODULE_1__models_TipoVisitas__["a" /* TipoVisitas */]();
+        this.idUsuario = new __WEBPACK_IMPORTED_MODULE_2__models_usuario__["a" /* Usuario */]();
+    }
+    return Reporte;
+}());
+
+//# sourceMappingURL=reporte.js.map
+
+/***/ }),
+
+/***/ 447:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProductoRepuestoReporte; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_producto__ = __webpack_require__(141);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_detalleCatalogoReporte__ = __webpack_require__(239);
+/**
+ * A generic model that our Master-Detail pages list, public create, public and delete.
+ *
+ * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
+ * "Customer, public" or a "Animal, public" or something like that.
+ *
+ * The Items service manages creating instances of Item, public so go ahead and rename
+ * that something that fits your app as well.
+ */
+
+
+var ProductoRepuestoReporte = (function () {
+    function ProductoRepuestoReporte() {
+        this.idDetalleCatalogoReporte = new __WEBPACK_IMPORTED_MODULE_1__models_detalleCatalogoReporte__["a" /* DetalleCatalogoReporte */]();
+        this.idProducto = new __WEBPACK_IMPORTED_MODULE_0__models_producto__["a" /* Producto */]();
+        this.cambiado = false;
+        this.solicitar = false;
+        this.auxFound = false;
+    }
+    return ProductoRepuestoReporte;
+}());
+
+//# sourceMappingURL=productoRepuestoReporte.js.map
+
+/***/ }),
+
+/***/ 448:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ClienteSucursal; });
+var ClienteSucursal = (function () {
+    function ClienteSucursal() {
+    }
+    return ClienteSucursal;
+}());
+
+//# sourceMappingURL=clienteSucursal.js.map
+
+/***/ }),
+
+/***/ 449:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProductoClienteReporte; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_models__ = __webpack_require__(36);
+
+var ProductoClienteReporte = (function () {
+    function ProductoClienteReporte() {
+        this.idReporte = new __WEBPACK_IMPORTED_MODULE_0__models_models__["o" /* Reporte */]();
+        this.idProductoDetalleReporte = new __WEBPACK_IMPORTED_MODULE_0__models_models__["l" /* ProductoDetalleReporte */]();
+        this.idCliente = new __WEBPACK_IMPORTED_MODULE_0__models_models__["b" /* Cliente */]();
+        this.idProducto = new __WEBPACK_IMPORTED_MODULE_0__models_models__["j" /* Producto */]();
+        this.idProyecto = new __WEBPACK_IMPORTED_MODULE_0__models_models__["n" /* Proyectos */]();
+        this.reporteMantenimientoList = new Array();
+        this.idDetalleInventarioProducto = new __WEBPACK_IMPORTED_MODULE_0__models_models__["g" /* DetalleInventarioProducto */]();
+    }
+    return ProductoClienteReporte;
+}());
+
+//# sourceMappingURL=productoClienteReporte.js.map
+
+/***/ }),
+
+/***/ 450:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DatosReporteDTO; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_models__ = __webpack_require__(36);
+
+var DatosReporteDTO = (function () {
+    function DatosReporteDTO() {
+        this.reporte = new __WEBPACK_IMPORTED_MODULE_0__models_models__["o" /* Reporte */]();
+        this.cliente = new __WEBPACK_IMPORTED_MODULE_0__models_models__["b" /* Cliente */]();
+        this.producto = new __WEBPACK_IMPORTED_MODULE_0__models_models__["j" /* Producto */]();
+        this.productoDetalleReporte = new __WEBPACK_IMPORTED_MODULE_0__models_models__["l" /* ProductoDetalleReporte */]();
+        this.productoClienteReporte = new __WEBPACK_IMPORTED_MODULE_0__models_models__["k" /* ProductoClienteReporte */]();
+        this.asignacionReparacion = new __WEBPACK_IMPORTED_MODULE_0__models_models__["a" /* AsignacionReparaciones */]();
+        this.lista1 = new Array();
+        this.lista2 = new Array();
+        this.lista3 = new Array();
+        this.lista4 = new Array();
+        this.lista5 = new Array();
+        this.lista6 = new Array();
+        this.lista7 = new Array();
+        this.lista8 = new Array();
+        this.lista9 = new Array();
+        this.lista10 = new Array();
+        this.lista11 = new Array();
+        this.lista12 = new Array();
+    }
+    return DatosReporteDTO;
+}());
+
+//# sourceMappingURL=datosReporteDTO.js.map
+
+/***/ }),
+
+/***/ 451:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DetalleInventarioProducto; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_models__ = __webpack_require__(36);
+/**
+ * A generic model that our Master-Detail pages list, public create, public and delete.
+ *
+ * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
+ * "Customer, public" or a "Animal, public" or something like that.
+ *
+ * The Items service manages creating instances of Item, public so go ahead and rename
+ * that something that fits your app as well.
+ */
+
+var DetalleInventarioProducto = (function () {
+    function DetalleInventarioProducto() {
+        this.idDetalleInventario = new __WEBPACK_IMPORTED_MODULE_0__models_models__["f" /* DetalleInventario */]();
+    }
+    return DetalleInventarioProducto;
+}());
+
+//# sourceMappingURL=detalleInventarioProducto.js.map
+
+/***/ }),
+
+/***/ 452:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DetalleInventario; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_models__ = __webpack_require__(36);
+/**
+ * A generic model that our Master-Detail pages list, public create, public and delete.
+ *
+ * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
+ * "Customer, public" or a "Animal, public" or something like that.
+ *
+ * The Items service manages creating instances of Item, public so go ahead and rename
+ * that something that fits your app as well.
+ */
+
+var DetalleInventario = (function () {
+    function DetalleInventario() {
+        // CabeceraInventario idCabeceraInventario:;
+        this.idProducto = new __WEBPACK_IMPORTED_MODULE_0__models_models__["j" /* Producto */]();
+    }
+    return DetalleInventario;
+}());
+
+//# sourceMappingURL=detalleInventario.js.map
+
+/***/ }),
+
+/***/ 453:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Proyectos; });
+/**
+ * A generic model that our Master-Detail pages list, public create, public and delete.
+ *
+ * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
+ * "Customer, public" or a "Animal, public" or something like that.
+ *
+ * The Items service manages creating instances of Item, public so go ahead and rename
+ * that something that fits your app as well.
+ */
+var Proyectos = (function () {
+    function Proyectos() {
+    }
+    return Proyectos;
+}());
+
+//# sourceMappingURL=proyectos.js.map
+
+/***/ }),
+
+/***/ 455:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2231,7 +2058,7 @@ var SearchClientePipe = (function () {
 
 /***/ }),
 
-/***/ 441:
+/***/ 456:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2277,7 +2104,7 @@ var SortClientePipe = (function () {
 
 /***/ }),
 
-/***/ 442:
+/***/ 457:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2305,7 +2132,7 @@ var SearchProductoPipe = (function () {
             return items;
         terms = terms.toLowerCase();
         return items.filter(function (it) {
-            return it.descripcion.toLowerCase().includes(terms);
+            return it.codigoFabricante.toLowerCase().includes(terms);
         });
     };
     SearchProductoPipe = __decorate([
@@ -2320,314 +2147,23 @@ var SearchProductoPipe = (function () {
 
 /***/ }),
 
-/***/ 443:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Cliente; });
-/**
- * A generic model that our Master-Detail pages list, public create, public and delete.
- *
- * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
- * "Customer, public" or a "Animal, public" or something like that.
- *
- * The Items service manages creating instances of Item, public so go ahead and rename
- * that something that fits your app as well.
- */
-var Cliente = (function () {
-    function Cliente() {
-    }
-    return Cliente;
-}());
-
-//# sourceMappingURL=cliente.js.map
-
-/***/ }),
-
-/***/ 444:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Modelo; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_marca__ = __webpack_require__(240);
-/**
- * A generic model that our Master-Detail pages list, public create, public and delete.
- *
- * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
- * "Customer, public" or a "Animal, public" or something like that.
- *
- * The Items service manages creating instances of Item, public so go ahead and rename
- * that something that fits your app as well.
- */
-
-var Modelo = (function () {
-    function Modelo() {
-        this.idMarca = new __WEBPACK_IMPORTED_MODULE_0__models_marca__["a" /* Marca */]();
-    }
-    return Modelo;
-}());
-
-//# sourceMappingURL=modelo.js.map
-
-/***/ }),
-
-/***/ 445:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export TipoProducto */
-/**
- * A generic model that our Master-Detail pages list, public create, public and delete.
- *
- * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
- * "Customer, public" or a "Animal, public" or something like that.
- *
- * The Items service manages creating instances of Item, public so go ahead and rename
- * that something that fits your app as well.
- */
-var TipoProducto = (function () {
-    function TipoProducto() {
-    }
-    return TipoProducto;
-}());
-
-//# sourceMappingURL=tipoProducto.js.map
-
-/***/ }),
-
-/***/ 446:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProductoDetalleReporte; });
-/**
- * A generic model that our Master-Detail pages list, public create, public and delete.
- *
- * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
- * "Customer, public" or a "Animal, public" or something like that.
- *
- * The Items service manages creating instances of Item, public so go ahead and rename
- * that something that fits your app as well.
- */
-var ProductoDetalleReporte = (function () {
-    function ProductoDetalleReporte() {
-    }
-    return ProductoDetalleReporte;
-}());
-
-//# sourceMappingURL=productoDetalleReporte.js.map
-
-/***/ }),
-
-/***/ 447:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Reporte; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_asignacionReparaciones__ = __webpack_require__(242);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_TipoVisitas__ = __webpack_require__(243);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_usuario__ = __webpack_require__(241);
-/**
- * A generic model that our Master-Detail pages list, public create, public and delete.
- *
- * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
- * "Customer, public" or a "Animal, public" or something like that.
- *
- * The Items service manages creating instances of Item, public so go ahead and rename
- * that something that fits your app as well.
- */
-
-
-
-var Reporte = (function () {
-    function Reporte() {
-        this.idAsignacion = new __WEBPACK_IMPORTED_MODULE_0__models_asignacionReparaciones__["a" /* AsignacionReparaciones */]();
-        this.idVisita = new __WEBPACK_IMPORTED_MODULE_1__models_TipoVisitas__["a" /* TipoVisitas */]();
-        this.idUsuario = new __WEBPACK_IMPORTED_MODULE_2__models_usuario__["a" /* Usuario */]();
-    }
-    return Reporte;
-}());
-
-//# sourceMappingURL=reporte.js.map
-
-/***/ }),
-
-/***/ 448:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProductoRepuestoReporte; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_producto__ = __webpack_require__(140);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_detalleCatalogoReporte__ = __webpack_require__(239);
-/**
- * A generic model that our Master-Detail pages list, public create, public and delete.
- *
- * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
- * "Customer, public" or a "Animal, public" or something like that.
- *
- * The Items service manages creating instances of Item, public so go ahead and rename
- * that something that fits your app as well.
- */
-
-
-var ProductoRepuestoReporte = (function () {
-    function ProductoRepuestoReporte() {
-        this.idDetalleCatalogoReporte = new __WEBPACK_IMPORTED_MODULE_1__models_detalleCatalogoReporte__["a" /* DetalleCatalogoReporte */]();
-        this.idProducto = new __WEBPACK_IMPORTED_MODULE_0__models_producto__["a" /* Producto */]();
-        this.cambiado = false;
-        this.solicitar = false;
-    }
-    return ProductoRepuestoReporte;
-}());
-
-//# sourceMappingURL=productoRepuestoReporte.js.map
-
-/***/ }),
-
-/***/ 449:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ClienteSucursal; });
-var ClienteSucursal = (function () {
-    function ClienteSucursal() {
-    }
-    return ClienteSucursal;
-}());
-
-//# sourceMappingURL=clienteSucursal.js.map
-
-/***/ }),
-
-/***/ 450:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProductoClienteReporte; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_models__ = __webpack_require__(42);
-
-var ProductoClienteReporte = (function () {
-    function ProductoClienteReporte() {
-        this.idReporte = new __WEBPACK_IMPORTED_MODULE_0__models_models__["n" /* Reporte */]();
-        this.idProductoDetalleReporte = new __WEBPACK_IMPORTED_MODULE_0__models_models__["l" /* ProductoDetalleReporte */]();
-        this.idCliente = new __WEBPACK_IMPORTED_MODULE_0__models_models__["b" /* Cliente */]();
-        // DetalleInventarioProducto idDetalleInventarioProducto: ;
-        this.idProducto = new __WEBPACK_IMPORTED_MODULE_0__models_models__["j" /* Producto */]();
-        //  Proyectos idProyecto: ;
-    }
-    return ProductoClienteReporte;
-}());
-
-//# sourceMappingURL=productoClienteReporte.js.map
-
-/***/ }),
-
-/***/ 451:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DatosReporteDTO; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_models__ = __webpack_require__(42);
-
-var DatosReporteDTO = (function () {
-    function DatosReporteDTO() {
-        this.reporte = new __WEBPACK_IMPORTED_MODULE_0__models_models__["n" /* Reporte */]();
-        this.cliente = new __WEBPACK_IMPORTED_MODULE_0__models_models__["b" /* Cliente */]();
-        this.producto = new __WEBPACK_IMPORTED_MODULE_0__models_models__["j" /* Producto */]();
-        this.productoDetalleReporte = new __WEBPACK_IMPORTED_MODULE_0__models_models__["l" /* ProductoDetalleReporte */]();
-        this.productoClienteReporte = new __WEBPACK_IMPORTED_MODULE_0__models_models__["k" /* ProductoClienteReporte */]();
-        this.asignacionReparacion = new __WEBPACK_IMPORTED_MODULE_0__models_models__["a" /* AsignacionReparaciones */]();
-        this.lista1 = new Array();
-        this.lista2 = new Array();
-        this.lista3 = new Array();
-        this.lista4 = new Array();
-        this.lista5 = new Array();
-        this.lista6 = new Array();
-        this.lista7 = new Array();
-        this.lista8 = new Array();
-        this.lista9 = new Array();
-        this.lista10 = new Array();
-        this.lista11 = new Array();
-        this.lista12 = new Array();
-    }
-    return DatosReporteDTO;
-}());
-
-//# sourceMappingURL=datosReporteDTO.js.map
-
-/***/ }),
-
-/***/ 452:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DetalleInventarioProducto; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_models__ = __webpack_require__(42);
-/**
- * A generic model that our Master-Detail pages list, public create, public and delete.
- *
- * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
- * "Customer, public" or a "Animal, public" or something like that.
- *
- * The Items service manages creating instances of Item, public so go ahead and rename
- * that something that fits your app as well.
- */
-
-var DetalleInventarioProducto = (function () {
-    function DetalleInventarioProducto() {
-        //Bodega idBodega:;
-        this.idDetalleInventario = new __WEBPACK_IMPORTED_MODULE_0__models_models__["f" /* DetalleInventario */]();
-    }
-    return DetalleInventarioProducto;
-}());
-
-//# sourceMappingURL=detalleInventarioProducto.js.map
-
-/***/ }),
-
-/***/ 453:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DetalleInventario; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_models__ = __webpack_require__(42);
-/**
- * A generic model that our Master-Detail pages list, public create, public and delete.
- *
- * Change "Item" to the noun your app will use. For example, public a "Contact, public" or a
- * "Customer, public" or a "Animal, public" or something like that.
- *
- * The Items service manages creating instances of Item, public so go ahead and rename
- * that something that fits your app as well.
- */
-
-var DetalleInventario = (function () {
-    function DetalleInventario() {
-        // CabeceraInventario idCabeceraInventario:;
-        this.idProducto = new __WEBPACK_IMPORTED_MODULE_0__models_models__["j" /* Producto */]();
-    }
-    return DetalleInventario;
-}());
-
-//# sourceMappingURL=detalleInventario.js.map
-
-/***/ }),
-
-/***/ 472:
+/***/ 475:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_splash_screen__ = __webpack_require__(157);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(158);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ngx_translate_core__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_splash_screen__ = __webpack_require__(156);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(157);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ngx_translate_core__ = __webpack_require__(140);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_angular__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_pages__ = __webpack_require__(284);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_pages__ = __webpack_require__(287);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_providers__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_reporte_impresoras_reporte_impresoras__ = __webpack_require__(142);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_administracion_reportes_administracion_reportes__ = __webpack_require__(139);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__shared_side_menu_content_side_menu_content_component__ = __webpack_require__(283);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_reporte_impresoras_reporte_impresoras__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_administracion_reportes_administracion_reportes__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__shared_side_menu_content_side_menu_content_component__ = __webpack_require__(286);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rxjs_observable_timer__ = __webpack_require__(218);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rxjs_observable_timer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_rxjs_observable_timer__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2637,6 +2173,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -2670,6 +2207,7 @@ var MyApp = (function () {
                 wp: '56px'
             }
         };
+        this.showSplash = true;
         platform.ready().then(function () {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
@@ -2708,6 +2246,7 @@ var MyApp = (function () {
                     iconName: 'print',
                     displayName: 'Impresoras',
                     component: __WEBPACK_IMPORTED_MODULE_7__pages_reporte_impresoras_reporte_impresoras__["a" /* ReporteImpresorasPage */]
+                    // component: { ReporteImpresorasPage, isEdit: true }
                 },
                 {
                     iconName: 'qr-scanner',
@@ -2801,6 +2340,7 @@ var MyApp = (function () {
         this.platform.ready().then(function () {
             _this.statusBar.styleLightContent();
             _this.splashScreen.hide();
+            Object(__WEBPACK_IMPORTED_MODULE_10_rxjs_observable_timer__["timer"])(3000).subscribe(function () { return _this.showSplash = false; });
             // Initialize some options
             _this.initializeOptions();
         });
@@ -2846,7 +2386,7 @@ var MyApp = (function () {
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_9__shared_side_menu_content_side_menu_content_component__["a" /* SideMenuContentComponent */])
     ], MyApp.prototype, "sideMenu", void 0);
     MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({template:/*ion-inline-start:"D:\PROYECTOS\ANGULAR\reportes\src\app\app.html"*/'<ion-menu persistent="true" [content]="content" (ionClose)="collapseMenuOptions()">\n\n  <ion-header>\n\n    <ion-toolbar color="primary">\n\n      <ion-title>{{ (sideMenuSettings.accordionMode ? \' \' : \'Default\') + \' Menu\' }}</ion-title>\n\n    </ion-toolbar>\n\n  </ion-header>\n\n\n\n  <ion-content>\n\n    <!-- Side Menu -->\n\n    <side-menu-content [settings]="sideMenuSettings" [options]="options" (selectOption)="selectOption($event)"></side-menu-content>\n\n\n\n  </ion-content>\n\n</ion-menu>\n\n\n\n<ion-nav #content [root]="rootPage"></ion-nav>\n\n\n\n\n\n'/*ion-inline-end:"D:\PROYECTOS\ANGULAR\reportes\src\app\app.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({template:/*ion-inline-start:"D:\PROYECTOS\ANGULAR\reportes\src\app\app.html"*/'<div *ngIf="showSplash" class="splash">\n\n  <div class="spinner">\n\n    <div class="cube1"></div>\n\n    <div class="cube2"></div>\n\n  </div>\n\n</div>\n\n\n\n<ion-menu persistent="true" [content]="content" (ionClose)="collapseMenuOptions()">\n\n  <ion-header>\n\n    <ion-toolbar color="primary">\n\n      <ion-title>{{ (sideMenuSettings.accordionMode ? \' \' : \'Default\') + \' Menu\' }}</ion-title>\n\n    </ion-toolbar>\n\n  </ion-header>\n\n\n\n  <ion-content>\n\n    <!-- Side Menu -->\n\n    <side-menu-content [settings]="sideMenuSettings" [options]="options" (selectOption)="selectOption($event)"></side-menu-content>\n\n\n\n  </ion-content>\n\n</ion-menu>\n\n\n\n<ion-nav #content [root]="rootPage"></ion-nav>\n\n\n\n\n\n'/*ion-inline-end:"D:\PROYECTOS\ANGULAR\reportes\src\app\app.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["i" /* MenuController */], __WEBPACK_IMPORTED_MODULE_3__ngx_translate_core__["c" /* TranslateService */],
             __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["n" /* Platform */], __WEBPACK_IMPORTED_MODULE_6__providers_providers__["h" /* Settings */], __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["b" /* Config */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_1__ionic_native_splash_screen__["a" /* SplashScreen */]])
@@ -2858,7 +2398,7 @@ var MyApp = (function () {
 
 /***/ }),
 
-/***/ 473:
+/***/ 476:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2869,7 +2409,7 @@ var SideMenuRedirectEvent = 'sidemenu:redirect';
 
 /***/ }),
 
-/***/ 474:
+/***/ 477:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2909,7 +2449,7 @@ var ParametrosProvider = (function () {
 
 /***/ }),
 
-/***/ 475:
+/***/ 478:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2954,7 +2494,7 @@ var ConsultasProvider = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_api__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__settings_settings__ = __webpack_require__(436);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__settings_settings__ = __webpack_require__(438);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__usuario_usuario__ = __webpack_require__(228);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__detalle_catalogo_reporte_detalle_catalogo_reporte__ = __webpack_require__(229);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tipo_visita_tipo_visita__ = __webpack_require__(230);
@@ -2986,7 +2526,952 @@ var ConsultasProvider = (function () {
 
 //# sourceMappingURL=providers.js.map
 
+/***/ }),
+
+/***/ 73:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AdministracionReportesPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_providers__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_file__ = __webpack_require__(236);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_file_opener__ = __webpack_require__(237);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__reporte_impresoras_reporte_impresoras__ = __webpack_require__(74);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+//import { Cliente, Producto, Modelo, Marca } from '../../models/models';
+
+
+
+
+/**
+ * Generated class for the AdministracionReportesPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var AdministracionReportesPage = (function () {
+    function AdministracionReportesPage(navCtrl, modalCtrl, navParams, reporteProvider, api, file, loadingCtrl, fileOpener, toastCtrl) {
+        this.navCtrl = navCtrl;
+        this.modalCtrl = modalCtrl;
+        this.navParams = navParams;
+        this.reporteProvider = reporteProvider;
+        this.api = api;
+        this.file = file;
+        this.loadingCtrl = loadingCtrl;
+        this.fileOpener = fileOpener;
+        this.toastCtrl = toastCtrl;
+    }
+    AdministracionReportesPage.prototype.ionViewDidLoad = function () {
+        var _this = this;
+        this.reporteProvider.reportesBySubTipo('REPORTE')
+            .subscribe(function (reporte) {
+            _this.reportes = reporte;
+        }, function (error) { return _this.errorMessage = error; });
+    };
+    AdministracionReportesPage.prototype.openPdf = function (item) {
+        var _this = this;
+        this.showLoader();
+        var blobPdf;
+        this.reporteProvider.reportePdfImpresora(5).subscribe(function (data) {
+            blobPdf = data; // Lets store the pdf Blob
+            var filedir = _this.file.dataDirectory;
+            _this.file.writeFile(//save PDF
+            filedir, "reporte.pdf", blobPdf, { replace: true }).then(function () {
+                _this.fileOpener.open(//open in native PDF
+                filedir + 'reporte.pdf', 'application/pdf').then(function () {
+                    //	this.pdfobj.active = false;
+                }).catch(function (e) { return console.log('Open error', e); });
+            }).catch(function (e) { return console.log('Save error', e); });
+        }, function (error) {
+            _this.toas(error);
+        });
+        this.loading.dismiss();
+    };
+    AdministracionReportesPage.prototype.edit = function (item) {
+        var reporteDto = item;
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_5__reporte_impresoras_reporte_impresoras__["a" /* ReporteImpresorasPage */], { reporteDto: reporteDto, isEdit: true });
+    };
+    AdministracionReportesPage.prototype.openItem = function (item) {
+        /*  let target = "_system";
+          this.inAppBrowser.create(this.api.urlServices() + '/reporteService/jasper/5', target, this.optiones);
+      */
+        //this.openPdf();
+        /* this.reporteProvider.reportePdfImpresora(5).subscribe(res => {
+           var fileURL = URL.createObjectURL(res);
+           window.open(fileURL);
+         });*/
+    };
+    AdministracionReportesPage.prototype.toas = function (msj) {
+        var toast = this.toastCtrl.create({
+            message: '!*****  ' + msj + '  **********',
+            duration: 9000,
+            position: 'top'
+        });
+        toast.present();
+    };
+    AdministracionReportesPage.prototype.showLoader = function () {
+        this.loading = this.loadingCtrl.create({
+            content: 'Cargando...'
+        });
+        this.loading.present();
+    };
+    AdministracionReportesPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'page-administracion-reportes',template:/*ion-inline-start:"D:\PROYECTOS\ANGULAR\reportes\src\pages\administracion-reportes\administracion-reportes.html"*/'<!--\n  Generated template for the AdministracionReportesPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n    \n  <ion-navbar>\n      <button ion-button menuToggle>\n          <ion-icon name="menu"></ion-icon>\n      </button> \n    <ion-title>Administración</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n\n  <ion-searchbar [(ngModel)]="terms"></ion-searchbar>\n  <ion-list>\n\n\n    <ion-item-sliding *ngFor="let c of reportes | searchCliente : terms">\n      <ion-item>\n        <div>\n\n          <h2>N Reporte: {{c.numeroFactura}}</h2>\n          <h2>Cod Tecn: {{c.codigoTecnico}}</h2>\n          <h2>Técnico: {{c.soporte}}</h2>\n          <h2>Fecha: {{c.fecha}}</h2>\n          <h2>Factura: {{c.factura}}</h2>\n          <h2>Serial: {{c.serial}}</h2>\n          <h2>Cliente: {{c.cliente}}</h2>\n          <h2>Estado: {{c.estado}}</h2>\n        </div>\n\n      </ion-item>\n\n      <ion-item-options side="right">\n        <button ion-button (click)="openItem(c)">\n          <ion-icon name="eye"></ion-icon>\n          Ver</button>\n        <button ion-button color="secondary" (click)="edit(c)">\n          <ion-icon name="create"></ion-icon>\n          Editar</button>\n        <button ion-button color="danger" (click)="openPdf(c)" download>\n          <ion-icon name="archive"></ion-icon>\n          Pdf</button>\n\n      </ion-item-options>\n\n\n\n    </ion-item-sliding>\n\n\n\n\n\n  </ion-list>\n\n\n</ion-content>'/*ion-inline-end:"D:\PROYECTOS\ANGULAR\reportes\src\pages\administracion-reportes\administracion-reportes.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_providers__["g" /* ReporteProvider */], __WEBPACK_IMPORTED_MODULE_2__providers_providers__["a" /* Api */],
+            __WEBPACK_IMPORTED_MODULE_3__ionic_native_file__["a" /* File */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
+            __WEBPACK_IMPORTED_MODULE_4__ionic_native_file_opener__["a" /* FileOpener */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* ToastController */]])
+    ], AdministracionReportesPage);
+    return AdministracionReportesPage;
+}());
+
+//# sourceMappingURL=administracion-reportes.js.map
+
+/***/ }),
+
+/***/ 74:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReporteImpresorasPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_models__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_providers__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angular2_signaturepad_signature_pad__ = __webpack_require__(246);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angular2_signaturepad_signature_pad___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_angular2_signaturepad_signature_pad__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__models_reporteMantenimiento__ = __webpack_require__(245);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__administracion_reportes_administracion_reportes__ = __webpack_require__(73);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+/**
+ * Generated class for the ReporteImpresorasPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var ReporteImpresorasPage = (function () {
+    function ReporteImpresorasPage(navCtrl, navParams, formBuilder, modalCtrl, loadingCtrl, detalleCatalogoReporteProvider, clienteProvider, tipoVisitaProvider, reporteProvider, clienteSucursalProvider, cdRef, toastCtrl, alertCtrl) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.formBuilder = formBuilder;
+        this.modalCtrl = modalCtrl;
+        this.loadingCtrl = loadingCtrl;
+        this.detalleCatalogoReporteProvider = detalleCatalogoReporteProvider;
+        this.clienteProvider = clienteProvider;
+        this.tipoVisitaProvider = tipoVisitaProvider;
+        this.reporteProvider = reporteProvider;
+        this.clienteSucursalProvider = clienteSucursalProvider;
+        this.cdRef = cdRef;
+        this.toastCtrl = toastCtrl;
+        this.alertCtrl = alertCtrl;
+        this.signaturePadOptions = {
+            'minWidth': 1,
+            'canvasWidth': 500,
+            'canvasHeight': 300
+        };
+        this.clienteSucursales = new Array();
+        this.arrayPreventivoProcesamiento = [];
+        this.arrayPreventivoProcesamientoIds = [Number];
+        this.arrayPreventivoImagen = [];
+        this.arrayPreventivoImagenIds = [Number];
+        this.arrayPreventivoFijacion = [];
+        this.arrayPreventivoFijacionIds = [Number];
+        this.arrayPreventivoExteriores = [];
+        this.arrayPreventivoExterioresIds = [Number];
+        this.arrayCorrectivoRepuestosSuministros = new Array();
+        this.arrayCorrectivoRepuestosImagen = new Array();
+        this.arrayCorrectivoRepuestosFijacion = new Array();
+        this.arrayCorrectivoRepuestosRevelado = new Array();
+        this.arrayCorrectivoRepuestosAlimentacion = new Array();
+        this.arrayCorrectivoSuministros = [];
+        this.arrayCorrectivoImagen = [];
+        this.arrayCorrectivoFijacion = [];
+        this.arrayCorrectivoRevelado = [];
+        this.arrayCorrectivoAlimentacion = [];
+        this.reporteMantenimientoListTemp = [];
+        this.datosReporteDTO = new __WEBPACK_IMPORTED_MODULE_3__models_models__["d" /* DatosReporteDTO */]();
+        this.tipoVisita = new __WEBPACK_IMPORTED_MODULE_3__models_models__["p" /* TipoVisitas */]();
+        this.cliente = new __WEBPACK_IMPORTED_MODULE_3__models_models__["b" /* Cliente */];
+        this.producto = new __WEBPACK_IMPORTED_MODULE_3__models_models__["j" /* Producto */];
+        this.modelo = new __WEBPACK_IMPORTED_MODULE_3__models_models__["i" /* Modelo */];
+        this.marca = new __WEBPACK_IMPORTED_MODULE_3__models_models__["h" /* Marca */];
+        this.productoDetalleReporte = new __WEBPACK_IMPORTED_MODULE_3__models_models__["l" /* ProductoDetalleReporte */];
+        this.productoRepuestoReporte = new __WEBPACK_IMPORTED_MODULE_3__models_models__["m" /* ProductoRepuestoReporte */];
+        this.reporte = new __WEBPACK_IMPORTED_MODULE_3__models_models__["o" /* Reporte */];
+        this.usuario = new __WEBPACK_IMPORTED_MODULE_3__models_models__["q" /* Usuario */];
+        this.detalleInventarioProducto = new __WEBPACK_IMPORTED_MODULE_3__models_models__["g" /* DetalleInventarioProducto */];
+        this.clienteSucursal = new __WEBPACK_IMPORTED_MODULE_3__models_models__["c" /* ClienteSucursal */];
+        this.productoClienteReporte = new __WEBPACK_IMPORTED_MODULE_3__models_models__["k" /* ProductoClienteReporte */];
+        this.proyecto = new __WEBPACK_IMPORTED_MODULE_3__models_models__["n" /* Proyectos */];
+        this.visibleCorrectivosBtns = [false, false, false, false, false, false];
+        this.nombreListaCorrectivo = [];
+    }
+    ReporteImpresorasPage.prototype.ngOnInit = function () {
+        var _this = this;
+        this.reporteForm = this.createMyForm();
+        var user = JSON.parse(localStorage.getItem("AUTENTHICATION"));
+        this.usuario.id = user.id;
+        this.usuario.usuario = user.usuario;
+        this.usuario.codigo = user.codigo;
+        this.usuario.nombreCompleto = user.nombreCompleto;
+        this.isEdit = (this.navParams.get('isEdit') === true);
+        if (this.navParams.get('tabReporte') === undefined) {
+            this.reporteTab = 'datos';
+        }
+        else {
+            this.reporteTab = this.navParams.get('tabReporte');
+        }
+        this.detalleCatalogoReporteProvider.getCabeceraCatalogoReportesByTipo('CORRECTIVO').
+            subscribe(function (data) {
+            var c = 0;
+            data.forEach(function (x) {
+                _this.nombreListaCorrectivo[c] = x.descripcion;
+                c++;
+            });
+        });
+        if (this.navParams.get('reporteDto') !== undefined) {
+            var idReporte = this.navParams.get('reporteDto')['id'];
+            this.llenarReportePorId(idReporte);
+        }
+        else {
+            this.llenarCatalogosPreventivos();
+            this.reporteProvider.numeroReporteFormateado(this.usuario.id, 'REPORTE', 'DIAGNOSTICO').subscribe(function (data) {
+                _this.numeroReporteTecnico = data['valor'];
+            });
+            this.reporteProvider.numeroReporte(this.usuario.id, 'REPORTE', 'DIAGNOSTICO').subscribe(function (data) {
+                _this.numeroReporte = data['valor'];
+            });
+            this.reporte.numerofactura = this.numeroReporte;
+            this.reporte.tipo = 'REPORTE';
+            this.reporte.subtipo = 'IMPRESORAS';
+            this.reporte.idUsuario = this.usuario;
+            this.reporte.estado = 'PROCESANDO';
+        }
+    };
+    ReporteImpresorasPage.prototype.llenarReportePorId = function (idReporte) {
+        var _this = this;
+        this.showLoader();
+        this.reporteProvider.reportesById(idReporte).subscribe(function (data) {
+            _this.reporte.numerofactura = data.idReporte.numerofactura;
+            _this.productoClienteReporte = data;
+            _this.cliente = data.idCliente;
+            _this.reporte = data.idReporte;
+            _this.numeroReporteTecnico = data.idReporte.numerofactura + '';
+            _this.productoDetalleReporte = data.idProductoDetalleReporte;
+            if (data.idProducto !== null) {
+                _this.producto = data.idProducto;
+                _this.modelo = data.idProducto.idModelo;
+                _this.marca = data.idProducto.idModelo.idMarca;
+            }
+            if (_this.detalleInventarioProducto.id === undefined) {
+                _this.detalleInventarioProducto = new __WEBPACK_IMPORTED_MODULE_3__models_models__["g" /* DetalleInventarioProducto */];
+                _this.detalleInventarioProducto.serial = _this.productoClienteReporte.serie;
+            }
+            else {
+                _this.detalleInventarioProducto = data.idDetalleInventarioProducto;
+            }
+            _this.clienteSucursal = data.idClienteSucursal;
+            _this.clienteSucursalProvider.getByIdCliente(data.idCliente.id).subscribe(function (cs) {
+                _this.clienteSucursales = cs;
+                _this.clienteSucursales.forEach(function (client, index) {
+                    if (_this.clienteSucursal !== null) {
+                        if (client.id == _this.clienteSucursal.id) {
+                            _this.clienteSucursal = _this.clienteSucursales[index];
+                            return;
+                        }
+                    }
+                });
+            });
+            _this.tipoVisita = data.idReporte.idVisita;
+            _this.tipoVisitaProvider.getAllTipoVisitas().subscribe(function (data) {
+                _this.tiposVisitas = data;
+                _this.tiposVisitas.forEach(function (visita, index) {
+                    if (_this.tipoVisita !== null) {
+                        if (visita.id == _this.tipoVisita.id) {
+                            _this.tipoVisita = _this.tiposVisitas[index];
+                            _this.reporteForm.value.idTipoVisita = _this.tipoVisita.id;
+                            return;
+                        }
+                    }
+                });
+            });
+            _this.llenarCatalogosCorrectivos();
+            _this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('PROCESAMIENTO').subscribe(function (catalogo) {
+                _this.arrayPreventivoProcesamientoIds = _this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
+                _this.arrayPreventivoProcesamiento = _this.loadReportePreventivos(catalogo, data.reporteMantenimientoList);
+            });
+            _this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('IMAGEN_PREVENTIVO').subscribe(function (catalogo) {
+                _this.arrayPreventivoImagenIds = _this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
+                _this.arrayPreventivoImagen = _this.loadReportePreventivos(catalogo, data.reporteMantenimientoList);
+            });
+            _this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('FIJACION_PREVENTIVO').subscribe(function (catalogo) {
+                _this.arrayPreventivoFijacion = catalogo;
+                _this.arrayPreventivoFijacionIds = _this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
+            });
+            _this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('EXTERIORES').subscribe(function (catalogo) { _this.arrayPreventivoExteriores = catalogo; _this.arrayPreventivoExterioresIds = _this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList); });
+            _this.reporteMantenimientoListTemp = data.reporteMantenimientoList;
+            //VISIVILIDAD BOTON VER CORRECTIVOS
+            data.reporteMantenimientoList.filter(function (sw) { return sw.idProductoRepuestoReporte !== null; }).forEach(function (element) {
+                _this.llenarRepuestos(element.idProductoRepuestoReporte.idDetalleCatalogoReporte.idCabecera.codigo, element.idProductoRepuestoReporte);
+            });
+            //FIN VISIVILIDAD BOTON VER CORRECTIVOS
+            /*                                   FILL FORM VALUES                                                                                             */
+            _this.reporteForm.patchValue({
+                idTipoVisita: _this.tipoVisita.id,
+                idClienteSucursal: _this.clienteSucursal.id,
+                referenciaCtrl: _this.reporte.referencia,
+                facturaCtrl: _this.reporte.factura,
+                sintomas: _this.reporte.sintomasEquipo,
+                observacionesRecomendaciones: _this.reporte.observacionesRecomendaciones,
+                notas: _this.reporte.notas,
+                atencion: _this.productoClienteReporte.atencion,
+                ipEquipo: _this.productoClienteReporte.ipEquipo,
+                puertoUsb: _this.productoClienteReporte.puertoUsb,
+                contadorTotalAnterior: _this.productoDetalleReporte.contadorTotalAnterior,
+                contadorColorAnterior: _this.productoDetalleReporte.contadorColorAnterior,
+                contadorBnAnterior: _this.productoDetalleReporte.contadorBnAnterior,
+                contadorTotalActual: _this.productoDetalleReporte.contadorTotalActual,
+                contadorColorActual: _this.productoDetalleReporte.contadorColorActual,
+                contadorBnActual: _this.productoDetalleReporte.contadorBnActual,
+                contadorTotalImpReal: _this.productoDetalleReporte.contadorTotalImpReal,
+                contadorColorImpReal: _this.productoDetalleReporte.contadorColorImpReal,
+                contadorBnImpReal: _this.productoDetalleReporte.contadorBnImpReal,
+                mantenimiento: _this.productoDetalleReporte.mantenimiento,
+                otros: _this.productoDetalleReporte.otros,
+                servicioFacturar: _this.productoDetalleReporte.servicioFacturar,
+                servicioFacturarEstado: _this.productoDetalleReporte.servicioFacturarEstado
+            });
+            /*                                 END  FILL FORM VALUES                                                                                             */
+            _this.loading.dismiss();
+        });
+    };
+    ReporteImpresorasPage.prototype.guardar = function () {
+        var _this = this;
+        if (this.isEdit) {
+            // this.reporte.numerofactura = this.numeroReporte;
+            this.reporte.referencia = this.reporteForm.value.referenciaCtrl;
+            this.reporte.factura = this.reporteForm.value.facturaCtrl;
+            this.reporte.sintomasEquipo = this.reporteForm.value.sintomas;
+            this.reporte.observacionesRecomendaciones = this.reporteForm.value.observacionesRecomendaciones;
+            this.reporte.notas = this.reporteForm.value.notas;
+            this.reporte.firmaClienteBase64 = this.signaturePad.toDataURL();
+            //  this.proyecto.id = 10;
+            this.productoClienteReporte.idProyecto = this.proyecto;
+            this.productoClienteReporte.atencion = this.reporteForm.value.atencion;
+            this.productoClienteReporte.ipEquipo = this.reporteForm.value.ipEquipo;
+            this.productoClienteReporte.puertoUsb = this.reporteForm.value.puertoUsb;
+            this.productoDetalleReporte.contadorTotalAnterior = this.reporteForm.value.contadorTotalAnterior;
+            this.productoDetalleReporte.contadorColorAnterior = this.reporteForm.value.contadorColorAnterior;
+            this.productoDetalleReporte.contadorBnAnterior = this.reporteForm.value.contadorBnAnterior;
+            this.productoDetalleReporte.contadorTotalActual = this.reporteForm.value.contadorTotalActual;
+            this.productoDetalleReporte.contadorColorActual = this.reporteForm.value.contadorColorActual;
+            this.productoDetalleReporte.contadorBnActual = this.reporteForm.value.contadorBnActual;
+            this.productoDetalleReporte.contadorTotalImpReal = this.reporteForm.value.contadorTotalImpReal;
+            this.productoDetalleReporte.contadorColorImpReal = this.reporteForm.value.contadorColorImpReal;
+            this.productoDetalleReporte.contadorBnImpReal = this.reporteForm.value.contadorBnImpReal;
+            this.productoDetalleReporte.mantenimiento = this.reporteForm.value.mantenimiento;
+            this.productoDetalleReporte.otros = this.reporteForm.value.otros;
+            this.productoDetalleReporte.servicioFacturar = this.reporteForm.value.servicioFacturar;
+            this.productoDetalleReporte.servicioFacturarEstado = this.reporteForm.value.servicioFacturarEstado;
+            this.datosReporteDTO.productoDetalleReporte = this.productoDetalleReporte;
+            this.datosReporteDTO.reporte = this.reporte;
+            this.datosReporteDTO.producto = this.producto;
+            this.datosReporteDTO.serie = this.detalleInventarioProducto.serial;
+            this.datosReporteDTO.cliente = this.cliente;
+            this.datosReporteDTO.usuarios = this.usuario;
+            this.datosReporteDTO.idClienteSucursal = this.reporteForm.value.idClienteSucursal;
+            this.datosReporteDTO.idTipoVisita = this.reporteForm.value.idTipoVisita;
+            this.datosReporteDTO.productoClienteReporte = this.productoClienteReporte;
+            this.datosReporteDTO.lista1 = this.listPrevEdition(this.arrayPreventivoProcesamientoIds, this.arrayPreventivoProcesamiento, this.reporteMantenimientoListTemp);
+            this.datosReporteDTO.lista2 = this.listPrevEdition(this.arrayPreventivoImagenIds, this.arrayPreventivoImagen, this.reporteMantenimientoListTemp);
+            this.datosReporteDTO.lista3 = this.listPrevEdition(this.arrayPreventivoFijacionIds, this.arrayPreventivoFijacion, this.reporteMantenimientoListTemp);
+            this.datosReporteDTO.lista4 = this.listPrevEdition(this.arrayPreventivoExterioresIds, this.arrayPreventivoExteriores, this.reporteMantenimientoListTemp);
+            this.datosReporteDTO.lista5 = this.listCorrEdition(this.arrayCorrectivoRepuestosSuministros, this.reporteMantenimientoListTemp, this.arrayCorrectivoSuministros);
+            this.datosReporteDTO.lista6 = this.listCorrEdition(this.arrayCorrectivoRepuestosImagen, this.reporteMantenimientoListTemp, this.arrayCorrectivoImagen);
+            this.datosReporteDTO.lista7 = this.listCorrEdition(this.arrayCorrectivoRepuestosFijacion, this.reporteMantenimientoListTemp, this.arrayCorrectivoFijacion);
+            this.datosReporteDTO.lista8 = this.listCorrEdition(this.arrayCorrectivoRepuestosRevelado, this.reporteMantenimientoListTemp, this.arrayCorrectivoRevelado);
+            this.showLoaderSave();
+            this.reporteProvider.updateAllReporteImpresoras(this.datosReporteDTO).then(function (response) {
+                _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_7__administracion_reportes_administracion_reportes__["a" /* AdministracionReportesPage */]);
+                _this.loading.dismiss();
+                _this.msgToast(true);
+            }).catch(function (error) {
+                _this.msgToast(false);
+                _this.loading.dismiss();
+            });
+        }
+        else {
+            this.reporte.numerofactura = this.numeroReporte;
+            this.reporte.referencia = this.reporteForm.value.referenciaCtrl;
+            this.reporte.factura = this.reporteForm.value.facturaCtrl;
+            this.reporte.sintomasEquipo = this.reporteForm.value.sintomas;
+            this.reporte.observacionesRecomendaciones = this.reporteForm.value.observacionesRecomendaciones;
+            this.reporte.notas = this.reporteForm.value.notas;
+            this.reporte.firmaClienteBase64 = this.signaturePad.toDataURL();
+            this.reporte.usuarioCreacion = this.usuario.usuario;
+            this.productoClienteReporte.atencion = this.reporteForm.value.atencion;
+            this.productoClienteReporte.ipEquipo = this.reporteForm.value.ipEquipo;
+            this.productoClienteReporte.puertoUsb = this.reporteForm.value.puertoUsb;
+            this.productoDetalleReporte.contadorTotalAnterior = this.reporteForm.value.contadorTotalAnterior;
+            this.productoDetalleReporte.contadorColorAnterior = this.reporteForm.value.contadorColorAnterior;
+            this.productoDetalleReporte.contadorBnAnterior = this.reporteForm.value.contadorBnAnterior;
+            this.productoDetalleReporte.contadorTotalActual = this.reporteForm.value.contadorTotalActual;
+            this.productoDetalleReporte.contadorColorActual = this.reporteForm.value.contadorColorActual;
+            this.productoDetalleReporte.contadorBnActual = this.reporteForm.value.contadorBnActual;
+            this.productoDetalleReporte.contadorTotalImpReal = this.reporteForm.value.contadorTotalImpReal;
+            this.productoDetalleReporte.contadorColorImpReal = this.reporteForm.value.contadorColorImpReal;
+            this.productoDetalleReporte.contadorBnImpReal = this.reporteForm.value.contadorBnImpReal;
+            this.productoDetalleReporte.mantenimiento = this.reporteForm.value.mantenimiento;
+            this.productoDetalleReporte.otros = this.reporteForm.value.otros;
+            this.productoDetalleReporte.servicioFacturar = this.reporteForm.value.servicioFacturar;
+            this.productoDetalleReporte.servicioFacturarEstado = this.reporteForm.value.servicioFacturarEstado;
+            this.datosReporteDTO.productoDetalleReporte = this.productoDetalleReporte;
+            this.datosReporteDTO.reporte = this.reporte;
+            this.datosReporteDTO.producto = this.producto;
+            this.datosReporteDTO.serie = this.detalleInventarioProducto.serial;
+            this.datosReporteDTO.cliente = this.cliente;
+            this.datosReporteDTO.usuarios = this.usuario;
+            this.datosReporteDTO.idClienteSucursal = this.reporteForm.value.idClienteSucursal;
+            this.datosReporteDTO.idTipoVisita = this.reporteForm.value.idTipoVisita;
+            this.datosReporteDTO.productoClienteReporte = this.productoClienteReporte;
+            this.datosReporteDTO.lista1 = this.listPrev(this.arrayPreventivoProcesamientoIds, this.arrayPreventivoProcesamiento);
+            this.datosReporteDTO.lista2 = this.listPrev(this.arrayPreventivoImagenIds, this.arrayPreventivoImagen);
+            this.datosReporteDTO.lista3 = this.listPrev(this.arrayPreventivoFijacionIds, this.arrayPreventivoFijacion);
+            this.datosReporteDTO.lista4 = this.listPrev(this.arrayPreventivoExterioresIds, this.arrayPreventivoExteriores);
+            this.datosReporteDTO.lista5 = this.listCorr(this.arrayCorrectivoRepuestosSuministros);
+            this.datosReporteDTO.lista6 = this.listCorr(this.arrayCorrectivoRepuestosImagen);
+            this.datosReporteDTO.lista7 = this.listCorr(this.arrayCorrectivoRepuestosFijacion);
+            this.datosReporteDTO.lista8 = this.listCorr(this.arrayCorrectivoRepuestosRevelado);
+            this.showLoaderSave();
+            this.reporteProvider.saveAllReporteImpresoras(this.datosReporteDTO).then(function (response) {
+                _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_7__administracion_reportes_administracion_reportes__["a" /* AdministracionReportesPage */]);
+                _this.loading.dismiss();
+                _this.msgToast(true);
+            }).catch(function (error) {
+                _this.msgToast(false);
+                _this.loading.dismiss();
+            });
+        }
+    };
+    ReporteImpresorasPage.prototype.listPrevEdition = function (ids, catalogos, reporteMantenimientoList) {
+        var _this = this;
+        var list = [];
+        var catalogo;
+        var reporteMantenimientoListFiltered = [];
+        reporteMantenimientoList.filter(function (f) { return f.idDetalleCatalogoReporte !== null; }).forEach(function (element) {
+            reporteMantenimientoListFiltered.push(element);
+        });
+        var idSelected;
+        catalogos.forEach(function (catalogo_) {
+            catalogo = new __WEBPACK_IMPORTED_MODULE_3__models_models__["e" /* DetalleCatalogoReporte */]();
+            catalogo = catalogo_;
+            if (ids.length > 0) {
+                for (var n = 0; n <= ids.length - 1; n++) {
+                    idSelected = parseInt(ids[n] + '');
+                    if (idSelected === catalogo.id) {
+                        catalogo.seleccion = true;
+                        break;
+                    }
+                    else {
+                        catalogo.seleccion = false;
+                        catalogo.idReporteMantenimiento = _this.reporteMantenimientoByIdDetalle(catalogo, reporteMantenimientoListFiltered).id;
+                    }
+                }
+            }
+            else {
+                var reporteMantenimiento = void 0;
+                reporteMantenimiento = _this.reporteMantenimientoByIdDetalle(catalogo, reporteMantenimientoListFiltered);
+                catalogo.seleccion = false;
+                catalogo.idReporteMantenimiento = reporteMantenimiento.id;
+            }
+            list.push(catalogo);
+        });
+        return list;
+    };
+    ReporteImpresorasPage.prototype.reporteMantenimientoByIdDetalle = function (detalleCatalogoReporte, reporteMantenimientoList) {
+        for (var n = 0; n <= reporteMantenimientoList.length - 1; n++) {
+            if (detalleCatalogoReporte.id === reporteMantenimientoList[n].idDetalleCatalogoReporte.id) {
+                return reporteMantenimientoList[n];
+            }
+        }
+        return new __WEBPACK_IMPORTED_MODULE_6__models_reporteMantenimiento__["a" /* ReporteMantenimiento */]();
+    };
+    ReporteImpresorasPage.prototype.productoRepReporte = function (detalleCatalogoReporte, productoRepuestoReportes) {
+        var productoRepuestoReporte;
+        for (var n = 0; n <= productoRepuestoReportes.length - 1; n++) {
+            if (detalleCatalogoReporte.id === productoRepuestoReportes[n].idDetalleCatalogoReporte.id) {
+                productoRepuestoReporte = new __WEBPACK_IMPORTED_MODULE_3__models_models__["m" /* ProductoRepuestoReporte */]();
+                productoRepuestoReporte = productoRepuestoReportes[n];
+                productoRepuestoReporte.auxFound = true;
+                return productoRepuestoReporte;
+            }
+        }
+        return null;
+    };
+    ReporteImpresorasPage.prototype.listCorrEdition = function (productoRepuestoReportes, reporteMantenimientoList, arrayCorrectivo) {
+        var _this = this;
+        var listRes = [];
+        var detalleCatalogoReporte;
+        var reporteMantenimientoListFiltered = [];
+        reporteMantenimientoList.filter(function (f) { return f.idProductoRepuestoReporte !== null; }).forEach(function (element) {
+            reporteMantenimientoListFiltered.push(element);
+        });
+        arrayCorrectivo.forEach(function (catalogo) {
+            detalleCatalogoReporte = new __WEBPACK_IMPORTED_MODULE_3__models_models__["e" /* DetalleCatalogoReporte */]();
+            detalleCatalogoReporte = catalogo;
+            var aux = _this.productoRepReporte(detalleCatalogoReporte, productoRepuestoReportes);
+            if (reporteMantenimientoListFiltered.length > 0) {
+                for (var n = 0; n <= reporteMantenimientoListFiltered.length - 1; n++) {
+                    if (reporteMantenimientoListFiltered[n].idProductoRepuestoReporte.idDetalleCatalogoReporte.id === detalleCatalogoReporte.id) {
+                        if (aux !== null) {
+                            detalleCatalogoReporte = aux.idDetalleCatalogoReporte;
+                            detalleCatalogoReporte.seleccion = true;
+                            break;
+                        }
+                        else {
+                            detalleCatalogoReporte.idReporteMantenimiento = reporteMantenimientoListFiltered[n].id;
+                        }
+                        break;
+                    }
+                    else {
+                        if (aux !== null) {
+                            detalleCatalogoReporte.idProductoRepuestoReporte = aux.id;
+                            detalleCatalogoReporte.seleccion = true;
+                        }
+                    }
+                }
+            }
+            else {
+                if (aux !== null) {
+                    detalleCatalogoReporte.idProductoRepuestoReporte = aux.id;
+                    detalleCatalogoReporte.seleccion = true;
+                    detalleCatalogoReporte.codigoRepuesto = aux.idProducto.codigoFabricante + '';
+                    detalleCatalogoReporte.porcentaje = aux.porcentaje;
+                    detalleCatalogoReporte.tipoRepuesto = aux.cambiado ? 'C' : 'S';
+                }
+            }
+            listRes.push(detalleCatalogoReporte);
+        });
+        return listRes;
+    };
+    ReporteImpresorasPage.prototype.listPrev = function (ids, catalogos) {
+        var list = [];
+        var catalogo;
+        var idSelected;
+        catalogos.forEach(function (catalogo_) {
+            catalogo = new __WEBPACK_IMPORTED_MODULE_3__models_models__["e" /* DetalleCatalogoReporte */]();
+            catalogo = catalogo_;
+            for (var n = 0; n <= ids.length - 1; n++) {
+                idSelected = parseInt(ids[n] + '');
+                if (idSelected === catalogo.id) {
+                    catalogo.seleccion = true;
+                    break;
+                }
+                else {
+                    catalogo.seleccion = false;
+                }
+            }
+            list.push(catalogo);
+        });
+        return list;
+    };
+    ReporteImpresorasPage.prototype.listCorr = function (ids) {
+        var list = new Array();
+        var obj;
+        ids.forEach(function (data) {
+            obj = new __WEBPACK_IMPORTED_MODULE_3__models_models__["e" /* DetalleCatalogoReporte */]();
+            obj.idProductoRepuestoReporte = data.id;
+            obj.codigoRepuesto = data.idProducto.codigoFabricante;
+            obj.cambiado = data.cambiado;
+            obj.solicitar = data.solicitar;
+            obj.porcentaje = data.porcentaje;
+            obj.tipoRepuesto = obj.cambiado ? 'C' : 'S';
+            obj.seleccion = true;
+            list.push(obj);
+        });
+        return list;
+    };
+    ReporteImpresorasPage.prototype.loadReportePreventivos = function (repuestos, reporteMantenimientoList) {
+        var list = [];
+        var catalogo;
+        repuestos.forEach(function (catalogoReporte) {
+            catalogo = new __WEBPACK_IMPORTED_MODULE_3__models_models__["e" /* DetalleCatalogoReporte */]();
+            catalogo = catalogoReporte;
+            reporteMantenimientoList.filter(function (sw) { return sw.idDetalleCatalogoReporte !== null; }).forEach(function (mantenimiento) {
+                if (catalogoReporte.id === mantenimiento.idDetalleCatalogoReporte.id && mantenimiento.estado === true) {
+                    catalogo.seleccion = true;
+                    catalogo.idReporteMantenimiento = mantenimiento.id;
+                }
+            });
+            list.push(catalogo);
+        });
+        return list;
+    };
+    ReporteImpresorasPage.prototype.loadReportePreventivosIds = function (arrayPreventivos, reporteMantenimientoList) {
+        var _this = this;
+        var idList = [Number];
+        if (arrayPreventivos !== null && reporteMantenimientoList !== null) {
+            arrayPreventivos.forEach(function (catalogo) {
+                reporteMantenimientoList.filter(function (sw) { return sw.idDetalleCatalogoReporte !== null; }).forEach(function (element) {
+                    if (element.idDetalleCatalogoReporte.id === catalogo.id) {
+                        _this.someData = catalogo.id;
+                        idList.push(_this.someData);
+                    }
+                });
+            });
+        }
+        return idList;
+    };
+    ReporteImpresorasPage.prototype.loadReporteCorrectivosIds = function (arrayPreventivos, reporteMantenimientoList) {
+        var _this = this;
+        var idList = [Number];
+        if (arrayPreventivos !== null && reporteMantenimientoList !== null) {
+            arrayPreventivos.forEach(function (catalogo) {
+                reporteMantenimientoList.filter(function (sw) { return sw.idProductoRepuestoReporte !== null; }).forEach(function (element) {
+                    if (element.idDetalleCatalogoReporte.id === catalogo.id) {
+                        _this.someData = catalogo.id;
+                        idList.push(_this.someData);
+                    }
+                });
+            });
+        }
+        return idList;
+    };
+    ReporteImpresorasPage.prototype.llenarRepuestos = function (tipo, productoRepuestoReporte) {
+        if (tipo === 'SUMINISTROS') {
+            this.arrayCorrectivoRepuestosSuministros.push(productoRepuestoReporte);
+            this.visibleCorrectivosBtns[0] = true;
+        }
+        if (tipo === 'IMAGEN_CORRECTIVO') {
+            this.arrayCorrectivoRepuestosImagen.push(productoRepuestoReporte);
+            this.visibleCorrectivosBtns[1] = true;
+        }
+        if (tipo === 'FIJACION_CORRECTIVO') {
+            this.arrayCorrectivoRepuestosFijacion.push(productoRepuestoReporte);
+            this.visibleCorrectivosBtns[2] = true;
+        }
+        if (tipo === 'REVELADO') {
+            this.arrayCorrectivoRepuestosRevelado.push(productoRepuestoReporte);
+            this.visibleCorrectivosBtns[3] = true;
+        }
+        if (tipo === 'ALIMENTACION') {
+            this.arrayCorrectivoRepuestosAlimentacion.push(productoRepuestoReporte);
+            this.visibleCorrectivosBtns[4] = true;
+        }
+    };
+    ReporteImpresorasPage.prototype.ngAfterViewChecked = function () {
+        this.cdRef.detectChanges();
+    };
+    ReporteImpresorasPage.prototype.prueba = function () {
+    };
+    ReporteImpresorasPage.prototype.ionViewDidLoad = function () {
+    };
+    ReporteImpresorasPage.prototype.openModalCliente = function () {
+        var _this = this;
+        var addModal = this.modalCtrl.create('ModalSearchClientePage');
+        addModal.onDidDismiss(function (item) {
+            if (item !== undefined) {
+                _this.cliente = item;
+                _this.clienteSucursalProvider.getByIdCliente(_this.cliente.id).subscribe(function (data) {
+                    _this.clienteSucursales = data;
+                });
+            }
+        });
+        addModal.present();
+    };
+    ReporteImpresorasPage.prototype.openModalProducto = function () {
+        var _this = this;
+        var addModal = this.modalCtrl.create('ModalSearchProductoPage');
+        addModal.onDidDismiss(function (item) {
+            if (item) {
+                _this.producto = item;
+                _this.marca = _this.producto.idModelo.idMarca;
+                _this.modelo = _this.producto.idModelo;
+            }
+        });
+        addModal.present();
+    };
+    ReporteImpresorasPage.prototype.openModalCorrectivos = function (cabecera) {
+        var _this = this;
+        this.showLoader();
+        var addModal = this.modalCtrl.create('ModalCorrectivosPage', { cabecera: cabecera, producto: this.producto });
+        addModal.onDidDismiss(function (item) {
+            if ((item) && item.productoRepuestoReporte !== undefined) {
+                _this.llenarRepuestos(item.cabecera, item.productoRepuestoReporte);
+            }
+        });
+        addModal.present();
+        this.loading.dismiss();
+    };
+    ReporteImpresorasPage.prototype.openModalCorrectivosSeleccionados = function (tipo) {
+        var _this = this;
+        this.showLoader();
+        var repuestos;
+        if (tipo === 'SUMINISTROS') {
+            repuestos = this.arrayCorrectivoRepuestosSuministros;
+        }
+        if (tipo === 'IMAGEN_CORRECTIVO') {
+            repuestos = this.arrayCorrectivoRepuestosImagen;
+        }
+        if (tipo === 'FIJACION_CORRECTIVO') {
+            repuestos = this.arrayCorrectivoRepuestosFijacion;
+        }
+        if (tipo === 'REVELADO') {
+            repuestos = this.arrayCorrectivoRepuestosRevelado;
+        }
+        if (tipo === 'ALIMENTACION') {
+            repuestos = this.arrayCorrectivoRepuestosAlimentacion;
+        }
+        var addModal = this.modalCtrl.create('ModalRepuestosSeleccionadosPage', { cabecera: tipo, arrayRepuestos: repuestos });
+        addModal.onDidDismiss(function (item) {
+            if (item.arrayRepuestos !== undefined) {
+                _this.actualizarRepuestos(item.cabecera, item.arrayRepuestos);
+            }
+        });
+        addModal.present();
+        this.loading.dismiss();
+    };
+    ReporteImpresorasPage.prototype.actualizarRepuestos = function (tipo, arrayCorrectivos) {
+        if (tipo === 'SUMINISTROS') {
+            this.arrayCorrectivoRepuestosSuministros = arrayCorrectivos;
+        }
+        if (tipo === 'IMAGEN_CORRECTIVO') {
+            this.arrayCorrectivoRepuestosImagen = arrayCorrectivos;
+        }
+        if (tipo === 'FIJACION_CORRECTIVO') {
+            this.arrayCorrectivoRepuestosFijacion = arrayCorrectivos;
+        }
+        if (tipo === 'REVELADO') {
+            this.arrayCorrectivoRepuestosRevelado = arrayCorrectivos;
+        }
+        if (tipo === 'ALIMENTACION') {
+            this.arrayCorrectivoRepuestosAlimentacion = arrayCorrectivos;
+        }
+    };
+    ReporteImpresorasPage.prototype.contador = function (valor) {
+        if (this.productoDetalleReporte.contadorColorAnterior == undefined || this.productoDetalleReporte.contadorColorAnterior === null) {
+            this.productoDetalleReporte.contadorColorAnterior = 0;
+        }
+        if (this.productoDetalleReporte.contadorBnAnterior == undefined || this.productoDetalleReporte.contadorBnAnterior === null) {
+            this.productoDetalleReporte.contadorBnAnterior = 0;
+        }
+        if (this.productoDetalleReporte.contadorColorActual == undefined || this.productoDetalleReporte.contadorColorActual === null) {
+            this.productoDetalleReporte.contadorColorActual = 0;
+        }
+        if (this.productoDetalleReporte.contadorBnActual == undefined || this.productoDetalleReporte.contadorBnActual === null) {
+            this.productoDetalleReporte.contadorBnActual = 0;
+        }
+        this.productoDetalleReporte.contadorTotalAnterior = parseFloat(this.productoDetalleReporte.contadorColorAnterior + '') +
+            parseFloat(this.productoDetalleReporte.contadorBnAnterior + '');
+        this.productoDetalleReporte.contadorTotalActual = parseFloat(this.productoDetalleReporte.contadorColorActual + '') +
+            parseFloat(this.productoDetalleReporte.contadorBnActual + '');
+        this.productoDetalleReporte.contadorTotalImpReal = parseFloat(this.productoDetalleReporte.contadorTotalAnterior + '') +
+            parseFloat(this.productoDetalleReporte.contadorTotalActual + '');
+        this.productoDetalleReporte.contadorColorImpReal = parseFloat(this.productoDetalleReporte.contadorColorAnterior + '') -
+            parseFloat(this.productoDetalleReporte.contadorColorActual + '');
+        this.productoDetalleReporte.contadorBnImpReal = parseFloat(this.productoDetalleReporte.contadorBnAnterior + '') -
+            parseFloat(this.productoDetalleReporte.contadorBnActual + '');
+    };
+    ReporteImpresorasPage.prototype.presentConfirm = function () {
+        var _this = this;
+        var alert = this.alertCtrl.create({
+            title: 'Confirmación',
+            message: 'Esta seguro de guardar este Reporte?',
+            buttons: [
+                {
+                    text: 'Cancelar',
+                    role: 'Cancelar',
+                    handler: function () {
+                        console.log('Cancel clicked');
+                    }
+                },
+                {
+                    text: 'Guardar',
+                    handler: function () {
+                        _this.guardar();
+                    }
+                }
+            ]
+        });
+        alert.present();
+    };
+    ReporteImpresorasPage.prototype.ngAfterViewInit = function () {
+        // this.signaturePad is now available
+        //  this.signaturePad.set('minWidth', 5); // set szimek/signature_pad options at runtime
+        //   this.signaturePad.clear(); // invoke functions from szimek/signature_pad API
+    };
+    ReporteImpresorasPage.prototype.clearSignature = function () {
+        this.signaturePad.clear();
+    };
+    ReporteImpresorasPage.prototype.llenarCatalogosPreventivos = function () {
+        var _this = this;
+        this.tipoVisitaProvider.getAllTipoVisitas().subscribe(function (data) {
+            _this.tiposVisitas = data;
+        });
+        //this.showLoader();
+        this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('PROCESAMIENTO').subscribe(function (data) {
+            _this.arrayPreventivoProcesamiento = data;
+            //   this.loading.dismiss();
+        });
+        this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('IMAGEN_PREVENTIVO').subscribe(function (data) {
+            _this.arrayPreventivoImagen = data;
+        });
+        this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('FIJACION_PREVENTIVO').subscribe(function (data) {
+            _this.arrayPreventivoFijacion = data;
+        });
+        this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('EXTERIORES').subscribe(function (data) {
+            _this.arrayPreventivoExteriores = data;
+        });
+    };
+    ReporteImpresorasPage.prototype.llenarCatalogosCorrectivos = function () {
+        var _this = this;
+        this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('SUMINISTROS').subscribe(function (data) {
+            _this.arrayCorrectivoSuministros = data;
+        });
+        this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('IMAGEN_CORRECTIVO').subscribe(function (data) {
+            _this.arrayCorrectivoImagen = data;
+        });
+        this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('FIJACION_CORRECTIVO').subscribe(function (data) {
+            _this.arrayCorrectivoFijacion = data;
+        });
+        this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('REVELADO').subscribe(function (data) {
+            _this.arrayCorrectivoRevelado = data;
+        });
+        this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('ALIMENTACION').subscribe(function (data) {
+            _this.arrayCorrectivoAlimentacion = data;
+        });
+    };
+    ReporteImpresorasPage.prototype.showLoader = function () {
+        this.loading = this.loadingCtrl.create({
+            content: 'Cargando...'
+        });
+        this.loading.present();
+    };
+    ReporteImpresorasPage.prototype.showLoaderSave = function () {
+        this.loading = this.loadingCtrl.create({
+            content: 'Procesando...'
+        });
+        this.loading.present();
+    };
+    ReporteImpresorasPage.prototype.createMyForm = function () {
+        return this.formBuilder.group({
+            reporteformu: [],
+            cliente: [''],
+            ruc: [''],
+            atencion: [this.productoClienteReporte.atencion, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].required],
+            ipEquipo: [this.productoClienteReporte.ipEquipo, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].required],
+            puertoUsb: [this.productoClienteReporte.puertoUsb],
+            direccion: [''],
+            ciudad: [''],
+            email: [''],
+            telefono: [''],
+            telefono2: [''],
+            idTipoVisita: [this.tipoVisita.id, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].required],
+            idClienteSucursal: [this.clienteSucursal.id, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].required],
+            facturaCtrl: [this.reporte.factura],
+            referenciaCtrl: [this.reporte.referencia, ''],
+            equipoProducto: [''],
+            marca: [''],
+            modelo: [''],
+            serie: [],
+            contadorTotalAnterior: [''],
+            contadorColorAnterior: [],
+            contadorBnAnterior: [],
+            contadorTotalActual: [],
+            contadorColorActual: [],
+            contadorBnActual: [],
+            contadorTotalImpReal: [],
+            contadorColorImpReal: [],
+            contadorBnImpReal: [],
+            mantenimiento: [],
+            otros: [],
+            servicioFacturar: [],
+            servicioFacturarEstado: [],
+            observacionesRecomendaciones: [],
+            notas: [],
+            sintomas: [],
+            nulo: [],
+            botonCliente: [],
+            sortButton: [],
+            busqueda: [],
+            signature: [this.reporte.firmaClienteBase64, ''],
+            lista1: [], lista2: [], lista3: [], lista4: [], lista5: [], lista6: [],
+            lista7: [], lista8: [], lista9: [], lista10: [], lista11: [], lista12: [],
+        });
+    };
+    ReporteImpresorasPage.prototype.msgToast = function (succes) {
+        var msg;
+        var css_Class;
+        if (succes) {
+            msg = "Reporte Guardado Correctamente";
+            css_Class = "toastSucces";
+        }
+        else {
+            msg = "Error al guardar el Reporte";
+            css_Class = "toastError";
+        }
+        var toast = this.toastCtrl.create({
+            message: msg,
+            duration: 3000,
+            position: 'top',
+            cssClass: css_Class
+        });
+        toast.onDidDismiss(function () {
+        });
+        toast.present();
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_5_angular2_signaturepad_signature_pad__["SignaturePad"]),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_5_angular2_signaturepad_signature_pad__["SignaturePad"])
+    ], ReporteImpresorasPage.prototype, "signaturePad", void 0);
+    ReporteImpresorasPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'page-reporte-impresoras',template:/*ion-inline-start:"D:\PROYECTOS\ANGULAR\reportes\src\pages\reporte-impresoras\reporte-impresoras.html"*/'<ion-header>\n    <ion-navbar>\n        <button ion-button menuToggle>\n            <ion-icon name="menu"></ion-icon>\n        </button>\n    </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n\n    <form [formGroup]="reporteForm">\n\n\n\n        <ion-row>\n            <ion-col text-center>\n                <ion-title>Reporte Técnico</ion-title>\n                <ion-title>N° {{ numeroReporteTecnico }}</ion-title>\n                <ion-title>{{ usuario.codigo }}</ion-title>\n            </ion-col>\n        </ion-row>\n\n\n\n        <div padding>\n            <ion-segment [(ngModel)]="reporteTab" name="reportename" formControlName="reporteformu" style="vertical-align: middle">\n                <ion-segment-button value="datos">\n                    <ion-icon name="person"></ion-icon>\n                </ion-segment-button>\n                <ion-segment-button value="equipo">\n                    <ion-icon name="print"></ion-icon>\n                </ion-segment-button>\n                <ion-segment-button value="preventivo">\n                    <ion-icon name="barcode"></ion-icon>\n                </ion-segment-button>\n                <ion-segment-button value="correctivo">\n                    <ion-icon name="barcode"></ion-icon>\n                </ion-segment-button>\n                <ion-segment-button value="observaciones">\n                    <ion-icon name="list-box"></ion-icon>\n                </ion-segment-button>\n                <ion-segment-button value="cliente">\n                    <ion-icon name="create"></ion-icon>\n                </ion-segment-button>\n\n            </ion-segment>\n        </div>\n\n\n        <div [ngSwitch]="reporteTab">\n            <ion-list *ngSwitchCase="\'datos\'">\n                <ion-item>\n                    <ion-thumbnail item-start>\n                        <ion-title>Datos generales</ion-title>\n                        <br/>\n\n                        <ion-list>\n\n\n\n                            <ion-item>\n\n                                <ion-grid>\n                                    <ion-row align-items-start>\n\n                                        <ion-col>\n                                            <button ion-button full (click)="openModalCliente()">\n                                                <ion-icon name="search"> Buscar Cliente </ion-icon>\n                                            </button>\n                                        </ion-col>\n\n\n                                    </ion-row>\n                                </ion-grid>\n                            </ion-item>\n\n\n                            <ion-item>\n                                <ion-label floating>Referencia</ion-label>\n                                <ion-input type="text" [(ngModel)]="reporte.referencia" formControlName="referenciaCtrl"></ion-input>\n                            </ion-item>\n\n                            <!-- <ion-item>\n                                <ion-label floating>Factura #</ion-label>\n                                <ion-input type="text" ([ngModel])="reporte.factura" formControlName="facturaCtrl"></ion-input>\n                            </ion-item>-->\n\n                            <ion-item>\n                                <ion-label floating>Factura #</ion-label>\n                                <ion-input type="text" [(ngModel)]="reporte.factura" formControlName="facturaCtrl"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Atención</ion-label>\n                                <ion-input type="text" [(ngModel)]="productoClienteReporte.atencion" formControlName="atencion"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Correo</ion-label>\n                                <ion-input type="text" [(ngModel)]="cliente.email" style="pointer-events: none" formControlName="email"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Empresa/Cliente</ion-label>\n                                <ion-input type="text" [(ngModel)]="cliente.cliente" style="pointer-events: none" formControlName="cliente"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>No. RUC</ion-label>\n                                <ion-input type="text" [(ngModel)]="cliente.ruc" style="pointer-events: none" formControlName="ruc"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Telefono</ion-label>\n                                <ion-input type="text" [(ngModel)]="cliente.telefono" style="pointer-events: none" formControlName="telefono"></ion-input>\n                            </ion-item>\n                            <ion-item>\n                                <ion-label floating>Telefono 2</ion-label>\n                                <ion-input type="text" [(ngModel)]="cliente.telefono2" style="pointer-events: none" formControlName="telefono2"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Dirección</ion-label>\n                                <ion-input type="text" [(ngModel)]="cliente.direccion" style="pointer-events: none" formControlName="direccion"></ion-input>\n                            </ion-item>\n\n\n                            <ion-item>\n                                <ion-label floating>Ciudad</ion-label>\n                                <ion-input type="text" [(ngModel)]="cliente.ciudad" style="pointer-events: none" formControlName="ciudad"></ion-input>\n                            </ion-item>\n\n\n\n                            <!--   <ion-item>\n                                <ion-label floating>Correo</ion-label>\n                                <ion-input type="text" ([ngModel])="cliente.email" style="pointer-events: none" formControlName="email"></ion-input>\n                            </ion-item>\n-->\n\n\n\n                            <ion-item>\n                                <ion-label floating>Tipo visita</ion-label>\n                                <ion-select ([ngModel])="tipoVisita.id" formControlName="idTipoVisita">\n                                    <ion-option *ngFor="let item of tiposVisitas" [value]="item.id" [selected]="tipoVisita == item">{{item.descripcion}}</ion-option>\n                                </ion-select>\n                            </ion-item>\n\n\n                        </ion-list>\n\n\n                    </ion-thumbnail>\n\n                </ion-item>\n            </ion-list>\n\n\n            <ion-list *ngSwitchCase="\'equipo\'">\n                <ion-item>\n                    <ion-thumbnail item-start>\n                        <ion-title>Datos de equipo / Tipo de servicio</ion-title>\n                        <br/>\n                        <ion-list>\n\n\n                            <ion-item>\n\n                                <ion-grid>\n                                    <ion-row align-items-start>\n\n                                        <ion-col>\n                                            <button ion-button full (click)="openModalProducto()">\n                                                <ion-icon name="search"> Buscar Equipo </ion-icon>\n                                            </button>\n                                        </ion-col>\n\n                                    </ion-row>\n                                </ion-grid>\n                            </ion-item>\n\n\n                            <ion-item>\n                                <ion-label floating>Sucursal</ion-label>\n                                <ion-select ([ngModel])="clienteSucursal.id" formControlName="idClienteSucursal">\n                                    <ion-option *ngFor="let item of clienteSucursales" [value]="item.id" [selected]="clienteSucursal == item">{{item.nombre}}</ion-option>\n                                </ion-select>\n                            </ion-item>\n\n\n\n                            <ion-item>\n                                <ion-label floating>Equipo</ion-label>\n                                <ion-input type="text" [(ngModel)]="producto.descripcionCompra" style="pointer-events: none" formControlName="equipoProducto"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Marca</ion-label>\n                                <ion-input type="text" [(ngModel)]="marca.marca" style="pointer-events: none" formControlName="marca"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Modelo</ion-label>\n                                <ion-input type="text" [(ngModel)]="modelo.modelo" style="pointer-events: none" formControlName="modelo"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Ip Equipo</ion-label>\n                                <ion-input type="text" [(ngModel)]="productoClienteReporte.ipEquipo" formControlName="ipEquipo"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Puerto USB</ion-label>\n                                <ion-input type="text" [(ngModel)]="productoClienteReporte.puertoUsb" formControlName="puertoUsb"></ion-input>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label floating>Serie</ion-label>\n                                <ion-input type="text" [(ngModel)]="detalleInventarioProducto.serial" formControlName="serie"></ion-input>\n                            </ion-item>\n\n\n\n\n                            <ion-item>\n\n\n                                <ion-grid item-content>\n                                    <ion-row col-12>\n                                        <ion-label floating>Contadores</ion-label>\n                                    </ion-row>\n                                    <ion-row col-12>\n                                        <br/>\n                                    </ion-row>\n                                    <ion-row>\n                                        <ion-col col-3>\n\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            Total\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            Color\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            B/N\n                                        </ion-col>\n                                    </ion-row>\n                                    <ion-row>\n                                        <ion-col col-3>\n                                            Anterior\n                                        </ion-col>\n                                        <ion-col col-3>\n\n                                            <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorTotalAnterior" formControlName="contadorTotalAnterior"></ion-input>\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorColorAnterior" formControlName="contadorColorAnterior"\n                                                (ionChange)="contador(\'contadorColorAnterior\')" placeholder="..."></ion-input>\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorBnAnterior" formControlName="contadorBnAnterior" (ionChange)="contador(\'contadorBnAnterior\')"\n                                                placeholder="..."></ion-input>\n                                        </ion-col>\n                                    </ion-row>\n\n                                    <ion-row>\n                                        <ion-col col-3>\n                                            Actual\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            <ion-input [(ngModel)]="productoDetalleReporte.contadorTotalActual" formControlName="contadorTotalActual"></ion-input>\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorColorActual" formControlName="contadorColorActual" (ionChange)="contador(\'contadorColorActual\')"\n                                                placeholder="..."></ion-input>\n\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorBnActual" formControlName="contadorBnActual" (ionChange)="contador(\'contadorBnActual\')"\n                                                placeholder="..."></ion-input>\n\n                                        </ion-col>\n                                    </ion-row>\n\n                                    <ion-row>\n                                        <ion-col col-3>\n                                            Imp. Real\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorTotalImpReal" formControlName="contadorTotalImpReal"></ion-input>\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorColorImpReal" formControlName="contadorColorImpReal"></ion-input>\n                                        </ion-col>\n                                        <ion-col col-3>\n                                            <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorBnImpReal" formControlName="contadorBnImpReal"></ion-input>\n                                        </ion-col>\n                                    </ion-row>\n\n\n\n                                    <ion-row>\n\n\n                                        <ion-col col-2>\n                                            <ion-input type="number" placeholder="Mantenimiento" [(ngModel)]="productoDetalleReporte.mantenimiento" formControlName="mantenimiento"></ion-input>\n\n                                        </ion-col>\n\n                                        <ion-col col-2>\n                                            <ion-input type="number" placeholder="Otros" [(ngModel)]="productoDetalleReporte.otros" formControlName="otros"></ion-input>\n\n                                        </ion-col>\n                                        <ion-col col-4>\n                                            <ion-label>Servicio a FACTURAR</ion-label>\n                                        </ion-col>\n\n                                        <ion-col col-1>\n                                            <ion-checkbox [(ngModel)]="productoDetalleReporte.servicioFacturarEstado" formControlName="servicioFacturarEstado"></ion-checkbox>\n                                        </ion-col>\n\n                                        <ion-col col-3>\n                                            <ion-input type="number" placeholder="US$" [(ngModel)]="productoDetalleReporte.servicioFacturar" formControlName="servicioFacturar"></ion-input>\n\n                                        </ion-col>\n\n                                    </ion-row>\n\n\n\n                                </ion-grid>\n\n                            </ion-item>\n\n\n                            <ion-item>\n                                <ion-label floating>Síntomas</ion-label>\n                                <ion-input type="text" [(ngModel)]="reporte.sintomasEquipo" formControlName="sintomas"></ion-input>\n                            </ion-item>\n\n\n\n                        </ion-list>\n\n\n                    </ion-thumbnail>\n\n                </ion-item>\n            </ion-list>\n\n\n\n            <ion-list *ngSwitchCase="\'preventivo\'">\n                <ion-item>\n                    <ion-thumbnail item-start>\n                        <ion-title>Mantenimiento Preventivo </ion-title>\n\n                        <br/>\n                        <ion-list>\n\n\n                            <ion-item>\n                                <ion-label>Sección de Procesamiento</ion-label>\n                                <ion-select *ngIf="arrayPreventivoProcesamiento" [(ngModel)]="arrayPreventivoProcesamientoIds" formControlName="lista1" multiple="true"\n                                    cancelText="cancel" okText="ok">\n                                    <ion-option *ngFor="let item of arrayPreventivoProcesamiento; let i = index" [value]="item.id" selected="false">{{item.descripcion}}</ion-option>\n                                </ion-select>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label>Sección de Imagen</ion-label>\n                                <ion-select *ngIf="arrayPreventivoImagen" [(ngModel)]="arrayPreventivoImagenIds" formControlName="lista2" multiple="true"\n                                    cancelText="cancel" okText="ok">\n                                    <ion-option *ngFor="let item of arrayPreventivoImagen; let i = index" [value]="item.id" selected="false">{{item.descripcion}}</ion-option>\n                                </ion-select>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label>Sección de Fijación</ion-label>\n                                <ion-select *ngIf="arrayPreventivoFijacion" [(ngModel)]="arrayPreventivoFijacionIds" formControlName="lista3" multiple="true"\n                                    cancelText="cancel" okText="ok">\n                                    <ion-option *ngFor="let item of arrayPreventivoFijacion; let i = index" [value]="item.id" selected="false">{{item.descripcion}}</ion-option>\n                                </ion-select>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-label>Sección de Exteriores</ion-label>\n                                <ion-select [(ngModel)]="arrayPreventivoExterioresIds" formControlName="lista4" multiple="true" cancelText="cancel" okText="ok">\n                                    <ion-option *ngFor="let item of arrayPreventivoExteriores; let i = index" [value]="item.id" selected="false">{{item.descripcion}}</ion-option>\n                                </ion-select>\n                            </ion-item>\n\n\n\n                        </ion-list>\n\n                    </ion-thumbnail>\n\n\n\n\n\n\n\n\n                </ion-item>\n            </ion-list>\n\n            <ion-list *ngSwitchCase="\'correctivo\'">\n                <ion-item>\n                    <ion-thumbnail item-start>\n                        <ion-title>Mantenimiento Correctivo</ion-title>\n                        <br/>\n                        <ion-list>\n\n                            <ion-item>\n                                <ion-grid>\n                                    <ion-row>\n                                        <ion-col text-left>\n                                            <button *ngIf=\'visibleCorrectivosBtns[0]\' ion-button icon-only (click)="openModalCorrectivosSeleccionados(\'SUMINISTROS\')">\n                                                <ion-icon name="eye"></ion-icon>\n                                            </button>\n\n\n                                            <button ion-button (click)="openModalCorrectivos(\'SUMINISTROS\')">\n                                                <ion-icon name="search"> {{nombreListaCorrectivo[0]}} </ion-icon>\n                                            </button>\n                                        </ion-col>\n                                    </ion-row>\n                                </ion-grid>\n                            </ion-item>\n\n\n\n                            <ion-item>\n                                <ion-grid>\n                                    <ion-row>\n                                        <ion-col text-left>\n                                            <button *ngIf=\'visibleCorrectivosBtns[1]\' ion-button icon-only (click)="openModalCorrectivosSeleccionados(\'IMAGEN_CORRECTIVO\')">\n                                                <ion-icon name="eye"></ion-icon>\n                                            </button>\n                                            <button ion-button (click)="openModalCorrectivos(\'IMAGEN_CORRECTIVO\')">\n                                                <ion-icon name="search"> {{nombreListaCorrectivo[1]}} </ion-icon>\n                                            </button>\n                                        </ion-col>\n                                    </ion-row>\n                                </ion-grid>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-grid>\n                                    <ion-row>\n                                        <ion-col text-left>\n                                            <button *ngIf=\'visibleCorrectivosBtns[2]\' ion-button icon-only (click)="openModalCorrectivosSeleccionados(\'FIJACION_CORRECTIVO\')">\n                                                <ion-icon name="eye"></ion-icon>\n                                            </button>\n                                            <button ion-button (click)="openModalCorrectivos(\'FIJACION_CORRECTIVO\')">\n                                                <ion-icon name="search"> {{nombreListaCorrectivo[2]}} </ion-icon>\n                                            </button>\n                                        </ion-col>\n                                    </ion-row>\n                                </ion-grid>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-grid>\n                                    <ion-row>\n                                        <ion-col text-left>\n                                            <button *ngIf=\'visibleCorrectivosBtns[3]\' ion-button icon-only (click)="openModalCorrectivosSeleccionados(\'REVELADO\')">\n                                                <ion-icon name="eye"></ion-icon>\n                                            </button>\n                                            <button ion-button (click)="openModalCorrectivos(\'REVELADO\')">\n                                                <ion-icon name="search"> {{nombreListaCorrectivo[3]}} </ion-icon>\n                                            </button>\n                                        </ion-col>\n                                    </ion-row>\n                                </ion-grid>\n                            </ion-item>\n\n                            <ion-item>\n                                <ion-grid>\n                                    <ion-row>\n                                        <ion-col text-left>\n                                            <button *ngIf=\'visibleCorrectivosBtns[4]\' ion-button icon-only (click)="openModalCorrectivosSeleccionados(\'ALIMENTACION\')">\n                                                <ion-icon name="eye"></ion-icon>\n                                            </button>\n                                            <button ion-button (click)="openModalCorrectivos(\'ALIMENTACION\')">\n                                                <ion-icon name="search"> {{nombreListaCorrectivo[4]}} </ion-icon>\n                                            </button>\n                                        </ion-col>\n                                    </ion-row>\n                                </ion-grid>\n                            </ion-item>\n                            <ion-item>\n                                <ion-grid>\n                                    <ion-row>\n                                        <ion-col text-left>\n                                            <button *ngIf=\'visibleCorrectivosBtns[5]\' ion-button icon-only (click)="openModalCorrectivosSeleccionados(\'OTROS\')">\n                                                <ion-icon name="eye"></ion-icon>\n                                            </button>\n                                            <button ion-button (click)="openModalCorrectivos(\'OTROS\')">\n                                                <ion-icon name="search"> {{nombreListaCorrectivo[5]}}</ion-icon>\n                                            </button>\n                                        </ion-col>\n                                    </ion-row>\n                                </ion-grid>\n                            </ion-item>\n\n\n                        </ion-list>\n\n                    </ion-thumbnail>\n\n                </ion-item>\n            </ion-list>\n\n\n\n            <ion-list *ngSwitchCase="\'observaciones\'">\n                <ion-item>\n                    <ion-thumbnail item-start>\n                        <ion-title>Observaciones / Recomendaciones</ion-title>\n                        <br/>\n                        <ion-list>\n                            <ion-item>\n\n                                <ion-label floating>Observaciones / Recomendaciones</ion-label>\n                                <ion-input type="text" [(ngModel)]="reporte.observacionesRecomendaciones" formControlName="observacionesRecomendaciones"></ion-input>\n\n                            </ion-item>\n\n                            <ion-item>\n\n                                <ion-label floating>Notas de Técnico</ion-label>\n                                <ion-input type="text" [(ngModel)]="reporte.notas" formControlName="notas"></ion-input>\n\n                            </ion-item>\n\n\n                        </ion-list>\n                    </ion-thumbnail>\n\n                </ion-item>\n            </ion-list>\n\n\n            <ion-list *ngSwitchCase="\'cliente\'">\n                <ion-item>\n                    <ion-thumbnail item-start>\n                        <ion-title>Exclusivo para el cliente</ion-title>\n                        <br/>\n\n                        <ion-list>\n\n\n                            <ion-item>\n\n                                <ion-grid>\n                                    <ion-row>\n\n                                        <ion-col col-4>\n                                            <button ion-button full color="light" (click)="clearSignature()">Limpiar</button>\n                                        </ion-col>\n                                        <ion-col col-4>\n\n                                        </ion-col>\n                                        <ion-col col-4>\n\n                                        </ion-col>\n                                    </ion-row>\n                                </ion-grid>\n                                <signature-pad [options]="signaturePadOptions" id="signatureCanvas"></signature-pad>\n                                <br/>\n                                <div>\n                                    <img [src]=\'reporte.firmaClienteBase64\' *ngIf="reporte.firmaClienteBase64" />\n                                </div>\n                                <ion-grid>\n                                    <ion-row>\n\n                                        <ion-col col-2>\n\n                                        </ion-col>\n                                        <ion-col col-6>\n                                            {{cliente.cliente}}\n                                        </ion-col>\n                                        <ion-col col-4>\n\n                                        </ion-col>\n                                    </ion-row>\n                                </ion-grid>\n\n                            </ion-item>\n\n                            <ion-item>\n\n                                <ion-label fixed>Responsable</ion-label>\n                                <ion-label>{{usuario.nombreCompleto}}</ion-label>\n\n                            </ion-item>\n\n\n                        </ion-list>\n\n\n                    </ion-thumbnail>\n\n                </ion-item>\n\n\n                <ion-item>\n\n                    <ion-grid>\n                        <ion-row align-items-start>\n\n                            <ion-col>\n                                <button ion-button full (click)="presentConfirm()" ion-button full>\n                                    Guardar\n                                </button>\n                                <!--  <button type="submit" ion-button full [disabled]="!reporteForm.valid">Guardar</button>-->\n\n\n                            </ion-col>\n\n                        </ion-row>\n                    </ion-grid>\n                </ion-item>\n\n            </ion-list>\n\n\n        </div>\n\n    </form>\n\n</ion-content>'/*ion-inline-end:"D:\PROYECTOS\ANGULAR\reportes\src\pages\reporte-impresoras\reporte-impresoras.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
+            __WEBPACK_IMPORTED_MODULE_4__providers_providers__["d" /* DetalleCatalogoReporteProvider */], __WEBPACK_IMPORTED_MODULE_4__providers_providers__["b" /* ClienteProvider */],
+            __WEBPACK_IMPORTED_MODULE_4__providers_providers__["i" /* TipoVisitaProvider */], __WEBPACK_IMPORTED_MODULE_4__providers_providers__["g" /* ReporteProvider */],
+            __WEBPACK_IMPORTED_MODULE_4__providers_providers__["c" /* ClienteSucursalProvider */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectorRef"],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]])
+    ], ReporteImpresorasPage);
+    return ReporteImpresorasPage;
+}());
+
+//# sourceMappingURL=reporte-impresoras.js.map
+
 /***/ })
 
-},[288]);
+},[291]);
 //# sourceMappingURL=main.js.map

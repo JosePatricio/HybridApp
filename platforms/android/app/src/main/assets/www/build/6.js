@@ -1,6 +1,6 @@
 webpackJsonp([6],{
 
-/***/ 490:
+/***/ 493:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,8 +8,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalSearchProductoPageModule", function() { return ModalSearchProductoPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_search_producto__ = __webpack_require__(510);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pipes_pipes_module__ = __webpack_require__(285);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_search_producto__ = __webpack_require__(513);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pipes_pipes_module__ = __webpack_require__(288);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -40,14 +40,14 @@ var ModalSearchProductoPageModule = (function () {
 
 /***/ }),
 
-/***/ 510:
+/***/ 513:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModalSearchProductoPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_producto__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_producto__ = __webpack_require__(141);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_providers__ = __webpack_require__(49);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -75,8 +75,7 @@ var ModalSearchProductoPage = (function () {
         this.viewCtrl = viewCtrl;
         this.clienteProvider = clienteProvider;
         this.loadingCtrl = loadingCtrl;
-        this.descending = false;
-        this.column = 'descripcionCompra';
+        this.column = 'codigoFabricante';
         this.producto = new __WEBPACK_IMPORTED_MODULE_2__models_producto__["a" /* Producto */]();
     }
     ModalSearchProductoPage.prototype.cancel = function () {
@@ -103,10 +102,6 @@ var ModalSearchProductoPage = (function () {
             });
         }, function (error) { return _this.errorMessage = error; });
     };
-    ModalSearchProductoPage.prototype.sort = function () {
-        this.descending = !this.descending;
-        this.order = this.descending ? 1 : -1;
-    };
     ModalSearchProductoPage.prototype.openItem = function (productoSelected) {
         this.viewCtrl.dismiss(productoSelected);
         /* localStorage.setItem('productoSelected', JSON.stringify(productoSelected));
@@ -120,7 +115,7 @@ var ModalSearchProductoPage = (function () {
     };
     ModalSearchProductoPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-modal-search-producto',template:/*ion-inline-start:"D:\PROYECTOS\ANGULAR\reportes\src\pages\modal-search-producto\modal-search-producto.html"*/'<!--\n  Generated template for the ModalSearchProductoPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>Productos</ion-title>\n    <ion-buttons start>\n      <button ion-button (click)="cancel()">\n        <span color="primary" showWhen="ios">\n          Cancelar\n        </span>\n        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>\n      </button>\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <ion-searchbar [(ngModel)]="terms"></ion-searchbar>\n  <button ion-button type="button" (click)="sort()">Sort</button>\n  <ion-list>\n\n    <ion-item *ngFor="let c of productos | searchProducto : terms ">\n      <button ion-item (click)="openItem(c)">\n\n        <p>{{c.descripcionCompra}}</p>\n        <h2>Cod Fab: {{c.codigoFabricante}}</h2>\n        <h2>Modelo: {{c.idModelo.modelo}}</h2>\n        <h2>Marca: {{c.idModelo.idMarca.marca}}</h2>\n        <h2>Desc Venta: {{c.descripcionVenta}}</h2>\n      </button>\n\n      <ion-item-options>\n        <button ion-button color="blue" (click)="openItem(c)">\n          Seleccionar\n        </button>\n      </ion-item-options>\n\n\n\n    </ion-item>\n  </ion-list>\n</ion-content>'/*ion-inline-end:"D:\PROYECTOS\ANGULAR\reportes\src\pages\modal-search-producto\modal-search-producto.html"*/,
+            selector: 'page-modal-search-producto',template:/*ion-inline-start:"D:\PROYECTOS\ANGULAR\reportes\src\pages\modal-search-producto\modal-search-producto.html"*/'<!--\n  Generated template for the ModalSearchProductoPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>Productos</ion-title>\n    <ion-buttons start>\n      <button ion-button (click)="cancel()">\n        <span color="primary" showWhen="ios">\n          Cancelar\n        </span>\n        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>\n      </button>\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <ion-searchbar [(ngModel)]="terms"></ion-searchbar>\n  <ion-list>\n\n    <ion-item *ngFor="let c of productos | searchProducto : terms ">\n      <button ion-item (click)="openItem(c)">\n\n        <p>{{c.descripcionCompra}}</p>\n        <h2>Cod Fab: {{c.codigoFabricante}}</h2>\n        <h2>Cat: {{c.idCategoria.nombre}}</h2>\n        <h2>Modelo: {{c.idModelo.modelo}}</h2>\n        <h2>Marca: {{c.idModelo.idMarca.marca}}</h2>\n        <h2>Desc Venta: {{c.descripcionVenta}}</h2>\n      </button>\n\n      <ion-item-options>\n        <button ion-button color="blue" (click)="openItem(c)">\n          Seleccionar\n        </button>\n      </ion-item-options>\n\n\n\n    </ion-item>\n  </ion-list>\n</ion-content>'/*ion-inline-end:"D:\PROYECTOS\ANGULAR\reportes\src\pages\modal-search-producto\modal-search-producto.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */], __WEBPACK_IMPORTED_MODULE_3__providers_providers__["e" /* ProductoProvider */],
