@@ -10,12 +10,14 @@ import { Settings } from '../providers/providers';
 
 import { ReporteImpresorasPage } from '../pages/reporte-impresoras/reporte-impresoras';
 import { AdministracionReportesPage } from '../pages/administracion-reportes/administracion-reportes';
+import { LogOutPage } from '../pages/log-out/log-out';
 
 
 import { SideMenuContentComponent } from './../shared/side-menu-content/side-menu-content.component';
 import { SideMenuSettings } from './../shared/side-menu-content/models/side-menu-settings';
 import { MenuOptionModel } from './../shared/side-menu-content/models/menu-option-model';
 import { timer } from 'rxjs/observable/timer';
+
 
 
 @Component({
@@ -63,9 +65,6 @@ export class MyApp {
       // This option is already selected
       selected: true
     });
-
-
-
 
 
 
@@ -118,44 +117,20 @@ export class MyApp {
     });
 
 
-    this.options.push({
-      iconName: 'user',
-      displayName: 'Clientes',
 
+
+    this.options.push({
+      iconName: 'log-out',
+      displayName: 'Salir',
+      component: LogOutPage,
 
     });
 
 
-
     // Load special options
     // -----------------------------------------------
-		/*this.options.push({
-			displayName: 'Special options',
-			subItems: [
-				{
-					iconName: 'log-in',
-					displayName: 'Login',
-					custom: {
-						isLogin: true
-					}
-				},
-				{
-					iconName: 'log-out',
-					displayName: 'Logout',
-					custom: {
-						isLogout: true
-					}
-				},
-				{
-					iconName: 'globe',
-					displayName: 'Open Google',
-					custom: {
-						isExternalLink: true,
-						externalUrl: 'http://www.google.com'
-					}
-				}
-			]
-		});*/
+
+
   }
 
 
@@ -230,7 +205,7 @@ export class MyApp {
 
   initTranslate() {
     // Set the default language for translation strings, and the current language.
-    this.translate.setDefaultLang('en');
+    this.translate.setDefaultLang('es');
     const browserLang = this.translate.getBrowserLang();
 
     if (browserLang) {
@@ -246,7 +221,7 @@ export class MyApp {
         this.translate.use(this.translate.getBrowserLang());
       }
     } else {
-      this.translate.use('en'); // Set your language here
+      this.translate.use('es'); // Set your language here
     }
 
     this.translate.get(['BACK_BUTTON_TEXT']).subscribe(values => {

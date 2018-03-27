@@ -941,7 +941,7 @@ export class ReporteImpresorasPage {
 
   private createMyForm() {
     return this.formBuilder.group({
-      reporteformu: [],
+      reporteSegment: [],
       cliente: [''],
       ruc: [''],
 

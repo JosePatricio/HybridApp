@@ -1,6 +1,8 @@
 {
   "NAME": "Nombre",
+  "USERNAME": "Usuario",
   "PASSWORD": "Contraseña",
+  "HOME_TITLE":"HOME",
   "EMAIL": "Email",
   "LOGIN": "Iniciar sesión",
   "SIGNUP": "Registrarse",

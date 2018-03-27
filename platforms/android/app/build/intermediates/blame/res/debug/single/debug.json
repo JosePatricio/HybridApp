@@ -12,12 +12,12 @@
         "source": "C:\\Users\\pisama\\.gradle\\caches\\transforms-1\\files-1.1\\support-media-compat-27.1.0.aar\\cb6030b20d893aba3de911ef78b35f55\\res\\layout\\notification_template_big_media_custom.xml"
     },
     {
-        "merged": "D:\\PROYECTOS\\ANGULAR\\reportes\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-land-ldpi_screen.png.flat",
-        "source": "D:\\PROYECTOS\\ANGULAR\\reportes\\platforms\\android\\app\\src\\main\\res\\drawable-land-ldpi\\screen.png"
-    },
-    {
         "merged": "D:\\PROYECTOS\\ANGULAR\\reportes\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_notify_panel_notification_icon_bg.png.flat",
         "source": "C:\\Users\\pisama\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.0.aar\\58e456c4d33da49ece9f3ded9d4f8c95\\res\\drawable-mdpi-v4\\notify_panel_notification_icon_bg.png"
+    },
+    {
+        "merged": "D:\\PROYECTOS\\ANGULAR\\reportes\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-land-ldpi_screen.png.flat",
+        "source": "D:\\PROYECTOS\\ANGULAR\\reportes\\platforms\\android\\app\\src\\main\\res\\drawable-land-ldpi\\screen.png"
     },
     {
         "merged": "D:\\PROYECTOS\\ANGULAR\\reportes\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\layout-v21_notification_action_tombstone.xml.flat",

@@ -45,11 +45,11 @@ export class LoginPage {
   }
 
   ionViewDidEnter() {
-  //  this.menu.swipeEnable(false);
+    this.menu.swipeEnable(false);
   }
 
   ionViewWillLeave() {
-   // this.menu.swipeEnable(true);
+    this.menu.swipeEnable(true);
 
   }
 
@@ -85,7 +85,7 @@ export class LoginPage {
 
     this.loading.dismiss();
 
-    
+
 
   }
 

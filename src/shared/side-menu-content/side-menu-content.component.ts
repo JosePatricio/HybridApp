@@ -326,15 +326,7 @@ export class SideMenuContentComponent {
 		return this.isDefined(property) && !isNaN(property) && property > 0;
 	}
 
-
-	public toast(msj: any): void {
-		let toast = this.toastCtrl.create({
-			message: '!*****  ' + msj + '  **********',
-			duration: 9000,
-			position: 'top'
-		});
-		toast.present();
-	}
+	
 
 
 }

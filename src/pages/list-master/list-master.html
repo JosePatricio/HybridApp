@@ -1,10 +1,17 @@
 <ion-header>
 
   <ion-navbar>
-    <button ion-button menuToggle>
+    <button ion-button menuToggle color="light">
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{ 'LIST_HOME_MASTER_TITLE' | translate }}</ion-title>
+    <ion-title>{{ 'HOME_TITLE' | translate }}</ion-title>
+
+    <ion-buttons end>
+      <button ion-button tappable (click)="presentNotifications($event)" color="light">
+        <ion-icon name="notifications"></ion-icon>
+      </button>
+
+    </ion-buttons>
 
   </ion-navbar>
 
@@ -12,8 +19,13 @@
 
 <ion-content>
 
-  
 
-  
+  <ion-content padding>
+
+
+
+
+  </ion-content>
+
 
 </ion-content>

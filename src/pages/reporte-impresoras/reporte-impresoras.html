@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <button ion-button menuToggle>
+        <button ion-button menuToggle color="light">
             <ion-icon name="menu"></ion-icon>
         </button>
     </ion-navbar>
@@ -12,19 +12,18 @@
     <form [formGroup]="reporteForm">
 
 
-
-        <ion-row>
-            <ion-col text-center>
-                <ion-title>Reporte Técnico</ion-title>
-                <ion-title>N° {{ numeroReporteTecnico }}</ion-title>
-                <ion-title>{{ usuario.codigo }}</ion-title>
-            </ion-col>
-        </ion-row>
-
+        <div padding-horizontal text-center class="animated fadeInDown">
+            <div class="logo"></div>
+            <h2 ion-text color="primary">
+                <strong>Reporte Técnico</strong><br/>
+                <strong>N° {{ numeroReporteTecnico }}</strong>
+                <strong>{{ usuario.codigo }}</strong>
+            </h2>
+        </div>
 
 
         <div padding>
-            <ion-segment [(ngModel)]="reporteTab" name="reportename" formControlName="reporteformu" style="vertical-align: middle">
+            <ion-segment [(ngModel)]="reporteTab" name="reportename" formControlName="reporteSegment" style="vertical-align: middle">
                 <ion-segment-button value="datos">
                     <ion-icon name="person"></ion-icon>
                 </ion-segment-button>

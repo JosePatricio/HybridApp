@@ -120,14 +120,6 @@ export class Api {
 
 
 
-  /*  
-  
-    private extractData(res: Response) {
-      let body = res;
-      return body || {};
-    }*/
-
-
   private handleError(error: Response | any) {
     let errMsg: string;
     if (error instanceof Response) {
@@ -226,26 +218,7 @@ export class Api {
 
 
 
-
-  private extractData(res: Response) {
-    return res.text() ? res.json() : {};;
-  }
-
-
-  /*
-   
-   post_type<T>(item: any) {
-    return this.http.post<T>(`http://replace.with.api/anything`, item);
-  }
-    put<T>(id: number, item: any) {
-      return this.httpClient.put<T>(`http://replace.with.api/anything/${id}`, item);
-    }
   
-    delete(id: number) {
-      return this.httpClient.delete(`http://replace.with.api/anything/${id}`);
-    }
-  */
-
 
   post(endpoint: string, body: any, reqOpts?: any) {
     return this.httpClient.post(this.url + '/' + endpoint, body, reqOpts);

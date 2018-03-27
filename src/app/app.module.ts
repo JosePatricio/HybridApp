@@ -30,6 +30,8 @@ import { ConsultasProvider } from '../providers/consultas/consultas';
 
 import { ReporteImpresorasPage } from '../pages/reporte-impresoras/reporte-impresoras';
 import { AdministracionReportesPage } from '../pages/administracion-reportes/administracion-reportes';
+import { LogOutPage } from '../pages/log-out/log-out';
+import { NotificationsPage } from '../pages/notifications/notifications';
 
 
 import { PipesModule } from '../pipes/pipes.module';
@@ -42,6 +44,7 @@ import { FileOpener } from '@ionic-native/file-opener';
 import { File } from '@ionic-native/file'
 
 import { SignaturePadModule } from 'angular2-signaturepad'
+import { NativePageTransitions } from '@ionic-native/native-page-transitions';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -68,7 +71,7 @@ export function provideSettings(storage: Storage) {
 
 @NgModule({
   declarations: [
-    MyApp, ReporteImpresorasPage, AdministracionReportesPage,
+    MyApp, ReporteImpresorasPage, AdministracionReportesPage, LogOutPage,NotificationsPage,
     SideMenuContentComponent,
 
   ],
@@ -92,7 +95,7 @@ export function provideSettings(storage: Storage) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp, ReporteImpresorasPage, AdministracionReportesPage
+    MyApp, ReporteImpresorasPage, AdministracionReportesPage, LogOutPage,NotificationsPage
   ],
   providers: [
     FileOpener, File,
@@ -113,7 +116,8 @@ export function provideSettings(storage: Storage) {
     ParametrosProvider,
     ClienteSucursalProvider,
     ConsultasProvider,
-    ProductoRepuestoReporteProvider
+    ProductoRepuestoReporteProvider,
+    NativePageTransitions
 
   ]
 })

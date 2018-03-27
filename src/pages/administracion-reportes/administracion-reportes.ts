@@ -8,6 +8,7 @@ import { ReporteProvider, Api } from '../../providers/providers';
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 import { ReporteImpresorasPage } from '../reporte-impresoras/reporte-impresoras';
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
 
 
 /**
@@ -37,7 +38,7 @@ export class AdministracionReportesPage {
   constructor(public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams
     , public reporteProvider: ReporteProvider, public api: Api,
     private file: File, public loadingCtrl: LoadingController,
-    private fileOpener: FileOpener, public toastCtrl: ToastController
+    private fileOpener: FileOpener, public toastCtrl: ToastController, private nativePageTransitions: NativePageTransitions
   ) {
 
 
@@ -98,7 +99,21 @@ export class AdministracionReportesPage {
   edit(item: any) {
 
     let reporteDto = item;
-    this.navCtrl.push(ReporteImpresorasPage, { reporteDto: reporteDto, isEdit: true });
+
+    /*  this.navCtrl.push(ReporteImpresorasPage, { reporteDto: reporteDto, isEdit: true });
+      this.nativePageTransitions.fade(null);
+      this.navCtrl.setRoot(ReporteImpresorasPage);
+  */
+
+
+    let options: NativeTransitionOptions = {
+      direction: 'up',
+      duration: 600
+    };
+
+    this.nativePageTransitions.flip(options);
+    this.navCtrl.push(ReporteImpresorasPage, { reporteDto: reporteDto, isEdit: true })
+
 
   }
 
@@ -106,21 +121,6 @@ export class AdministracionReportesPage {
 
   openItem(item: any) {
 
-
-    /*  let target = "_system";
-      this.inAppBrowser.create(this.api.urlServices() + '/reporteService/jasper/5', target, this.optiones);
-  */
-
-
-
-
-    //this.openPdf();
-
-
-    /* this.reporteProvider.reportePdfImpresora(5).subscribe(res => {
-       var fileURL = URL.createObjectURL(res);
-       window.open(fileURL);
-     });*/
 
 
   }
