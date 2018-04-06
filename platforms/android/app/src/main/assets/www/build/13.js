@@ -1,6 +1,6 @@
 webpackJsonp([13],{
 
-/***/ 490:
+/***/ 494:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,8 +8,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginPageModule", function() { return LoginPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__ = __webpack_require__(140);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login__ = __webpack_require__(511);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login__ = __webpack_require__(515);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -20,7 +20,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var LoginPageModule = (function () {
+var LoginPageModule = /** @class */ (function () {
     function LoginPageModule() {
     }
     LoginPageModule = __decorate([
@@ -44,16 +44,16 @@ var LoginPageModule = (function () {
 
 /***/ }),
 
-/***/ 511:
+/***/ 515:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__ = __webpack_require__(140);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_providers__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages__ = __webpack_require__(289);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages__ = __webpack_require__(295);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -68,7 +68,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var LoginPage = (function () {
+var LoginPage = /** @class */ (function () {
     //private isLogged: boolean = false;
     function LoginPage(navCtrl, usuarioProvider, toastCtrl, menu, translateService, loadingCtrl) {
         var _this = this;
@@ -107,6 +107,7 @@ var LoginPage = (function () {
         this.usuarioProvider.login(this.account.username, this.account.password).subscribe(function (data) {
             localStorage.setItem('AUTENTHICATION', JSON.stringify(data));
             _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__pages__["b" /* MainPage */]);
+            _this.loading.dismiss();
         }, function (err) {
             localStorage.setItem('AUTENTHICATION', null);
             var toast = _this.toastCtrl.create({
@@ -116,7 +117,6 @@ var LoginPage = (function () {
             });
             toast.present();
         });
-        this.loading.dismiss();
     };
     LoginPage.prototype.showLoader = function () {
         this.loading = this.loadingCtrl.create({
@@ -126,10 +126,10 @@ var LoginPage = (function () {
     };
     LoginPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-login',template:/*ion-inline-start:"D:\PROYECTOS\ANGULAR\reportes\src\pages\login\login.html"*/'<!-- -->\n<ion-content padding class="animated fadeIn login auth-page">\n  <div class="login-content">\n\n    <!-- Logo -->\n    <div padding-horizontal text-center class="animated fadeInDown">\n      <div class="logo"></div>\n      <h2 ion-text color="light">\n        <strong>Innovaciones Tecnológicas</strong> \n      </h2>\n    </div>\n\n    <!-- Login form -->\n    <form class="list-form" (submit)="doLogin()">\n      <ion-item>\n        <ion-label floating >\n          <ion-icon name="person" item-start color="light"></ion-icon>\n          {{ \'USERNAME\' | translate }}\n        </ion-label>\n        <ion-input type="text" [(ngModel)]="account.username"  name="username" placeholder="{{ \'USERNAME\' | translate }}"></ion-input>\n      </ion-item>\n\n      <ion-item>\n        <ion-label floating>\n          <ion-icon name="lock" item-start color="light"></ion-icon>\n          {{ \'PASSWORD\' | translate }}\n        </ion-label>\n        <ion-input type="password" [(ngModel)]="account.password" name="{{ \'PASSWORD\' | translate }}"></ion-input>\n      </ion-item>\n      <button ion-button icon-start block color="primary" tappable >\n        <ion-icon name="log-in"></ion-icon>\n        {{ \'LOGIN_BUTTON\' | translate }}\n      </button>\n    </form>\n\n    <div>\n     \n    </div>\n\n    \n  </div>\n</ion-content>\n'/*ion-inline-end:"D:\PROYECTOS\ANGULAR\reportes\src\pages\login\login.html"*/
+            selector: 'page-login',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\login\login.html"*/'<!-- -->\n\n<ion-content padding class="animated fadeIn login auth-page">\n\n  <div class="login-content">\n\n\n\n    <!-- Logo -->\n\n    <div padding-horizontal text-center class="animated fadeInDown">\n\n      <div class="logo"></div>\n\n      <h2 ion-text color="light">\n\n        <strong>Innovaciones Tecnológicas</strong> \n\n      </h2>\n\n    </div>\n\n\n\n    <!-- Login form -->\n\n    <form class="list-form" (submit)="doLogin()">\n\n      <ion-item>\n\n        <ion-label floating >\n\n          <ion-icon name="person" item-start color="light"></ion-icon>\n\n          {{ \'USERNAME\' | translate }}\n\n        </ion-label>\n\n        <ion-input type="text" [(ngModel)]="account.username"  name="username" placeholder="{{ \'USERNAME\' | translate }}"></ion-input>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n        <ion-label floating>\n\n          <ion-icon name="lock" item-start color="light"></ion-icon>\n\n          {{ \'PASSWORD\' | translate }}\n\n        </ion-label>\n\n        <ion-input type="password" [(ngModel)]="account.password" name="{{ \'PASSWORD\' | translate }}"></ion-input>\n\n      </ion-item>\n\n      <button ion-button icon-start block color="primary" tappable >\n\n        <ion-icon name="log-in"></ion-icon>\n\n        {{ \'LOGIN_BUTTON\' | translate }}\n\n      </button>\n\n    </form>\n\n\n\n    <div>\n\n     \n\n    </div>\n\n\n\n    \n\n  </div>\n\n</ion-content>\n\n'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\login\login.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["l" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_providers__["j" /* UsuarioProvider */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_providers__["k" /* UsuarioProvider */],
             __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["p" /* ToastController */], __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["i" /* MenuController */],
             __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__["c" /* TranslateService */], __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["h" /* LoadingController */]])
     ], LoginPage);

@@ -11,12 +11,12 @@
     <ion-buttons start>
       <button ion-button (click)="cancel()">
         <span color="primary" showWhen="ios">
-        Cancelar
+          Cancelar
         </span>
         <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
       </button>
     </ion-buttons>
- 
+
   </ion-navbar>
 
 </ion-header>
@@ -26,13 +26,13 @@
 
 <ion-content padding>
   <ion-searchbar [(ngModel)]="terms"></ion-searchbar>
-  <button ion-button type="button" (click)="sort()">Sort</button>
+  <button ion-button type="button" (click)="sort()">Ordenar</button>
   <ion-list>
-    
+
     <ion-item *ngFor="let c of clientes | searchCliente : terms | sortCliente: {property: column, order: order}">
       <button ion-item (click)="openItem(c)">
-   
-        
+
+
         <h2>{{c.cliente}}</h2>
         <p>Ruc: {{c.ruc}}</p>
         <p>Dirección: {{c.direccion}}</p>

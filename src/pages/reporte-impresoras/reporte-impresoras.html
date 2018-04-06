@@ -15,7 +15,8 @@
         <div padding-horizontal text-center class="animated fadeInDown">
             <div class="logo"></div>
             <h2 ion-text color="primary">
-                <strong>Reporte Técnico</strong><br/>
+                <strong>Reporte Técnico</strong>
+                <br/>
                 <strong>N° {{ numeroReporteTecnico }}</strong>
                 <strong>{{ usuario.codigo }}</strong>
             </h2>
@@ -51,13 +52,14 @@
             <ion-list *ngSwitchCase="'datos'">
                 <ion-item>
                     <ion-thumbnail item-start>
-                        <ion-title>Datos generales</ion-title>
-                        <br/>
+
+
+                        <h2 ion-text color="primary">
+                            <strong>Datos generales</strong>
+                            <br/>
+                        </h2>
 
                         <ion-list>
-
-
-
                             <ion-item>
 
                                 <ion-grid>
@@ -160,8 +162,13 @@
             <ion-list *ngSwitchCase="'equipo'">
                 <ion-item>
                     <ion-thumbnail item-start>
-                        <ion-title>Datos de equipo / Tipo de servicio</ion-title>
-                        <br/>
+
+                        <h2 ion-text color="primary">
+                            <strong>Datos de equipo / Tipo de servicio</strong>
+                            <br/>
+                        </h2>
+
+
                         <ion-list>
 
 
@@ -355,9 +362,13 @@
             <ion-list *ngSwitchCase="'preventivo'">
                 <ion-item>
                     <ion-thumbnail item-start>
-                        <ion-title>Mantenimiento Preventivo </ion-title>
 
-                        <br/>
+                        <h2 ion-text color="primary">
+                            <strong>Mantenimiento Preventivo </strong>
+                            <br/>
+                        </h2>
+
+
                         <ion-list>
 
 
@@ -411,8 +422,12 @@
             <ion-list *ngSwitchCase="'correctivo'">
                 <ion-item>
                     <ion-thumbnail item-start>
-                        <ion-title>Mantenimiento Correctivo</ion-title>
-                        <br/>
+
+                        <h2 ion-text color="primary">
+                            <strong>Mantenimiento Correctivo </strong>
+                            <br/>
+                        </h2>
+
                         <ion-list>
 
                             <ion-item>
@@ -521,8 +536,16 @@
             <ion-list *ngSwitchCase="'observaciones'">
                 <ion-item>
                     <ion-thumbnail item-start>
-                        <ion-title>Observaciones / Recomendaciones</ion-title>
-                        <br/>
+                        <h2 ion-text color="primary">
+                          
+                            <h2 ion-text color="primary">
+                                    <strong>Observaciones / Recomendaciones </strong>
+                                    <br/>
+                                </h2>
+
+
+                        </h2>
+
                         <ion-list>
                             <ion-item>
 
@@ -549,9 +572,10 @@
             <ion-list *ngSwitchCase="'cliente'">
                 <ion-item>
                     <ion-thumbnail item-start>
-                        <ion-title>Exclusivo para el cliente</ion-title>
-                        <br/>
-
+                        <h2 ion-text color="primary">
+                                <strong>Exclusivo para el cliente</strong>
+                                <br/>
+                            </h2>
                         <ion-list>
 
 

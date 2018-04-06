@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">683554673836-qgo6sgp6ubq17pchj813gl75egf2mfkq.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://ionic-notification-c8473.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">683554673836</string>
+    <string name="google_api_key" translatable="false">AIzaSyD2RTmCjzlYNaeg_ldG3CYaXXzaWbJtp1o</string>
+    <string name="google_app_id" translatable="false">1:683554673836:android:ab579fa07a4bf106</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyD2RTmCjzlYNaeg_ldG3CYaXXzaWbJtp1o</string>
+    <string name="google_storage_bucket" translatable="false">ionic-notification-c8473.appspot.com</string>
+</resources>

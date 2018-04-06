@@ -8,7 +8,8 @@
 
     <ion-buttons end>
       <button ion-button tappable (click)="presentNotifications($event)" color="light">
-        <ion-icon name="notifications"></ion-icon>
+        {{notificationes}}
+        <ion-icon name="notifications" color="{{colorNotification}}"></ion-icon>
       </button>
 
     </ion-buttons>

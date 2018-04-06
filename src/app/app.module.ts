@@ -45,6 +45,12 @@ import { File } from '@ionic-native/file'
 
 import { SignaturePadModule } from 'angular2-signaturepad'
 import { NativePageTransitions } from '@ionic-native/native-page-transitions';
+import { NotificacionProvider } from '../providers/notificacion/notificacion';
+
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import {FCM} from "@ionic-native/fcm";
+import { Vibration } from '@ionic-native/vibration';
+import { BackgroundMode } from '@ionic-native/background-mode';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -98,6 +104,10 @@ export function provideSettings(storage: Storage) {
     MyApp, ReporteImpresorasPage, AdministracionReportesPage, LogOutPage,NotificationsPage
   ],
   providers: [
+    BackgroundMode,
+    Vibration,
+    FCM,
+    LocalNotifications,
     FileOpener, File,
     InAppBrowser,
     Api,
@@ -117,7 +127,8 @@ export function provideSettings(storage: Storage) {
     ClienteSucursalProvider,
     ConsultasProvider,
     ProductoRepuestoReporteProvider,
-    NativePageTransitions
+    NativePageTransitions,
+    NotificacionProvider
 
   ]
 })

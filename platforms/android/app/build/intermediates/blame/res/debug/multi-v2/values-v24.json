@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\PROYECTOS\\ANGULAR\\reportes\\platforms\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
+            "outputFile": "C:\\PROYECTOS\\HybridApp\\platforms\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\pisama\\.gradle\\caches\\transforms-1\\files-1.1\\support-media-compat-27.1.0.aar\\cb6030b20d893aba3de911ef78b35f55\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\pato\\.gradle\\caches\\transforms-1\\files-1.1\\support-media-compat-27.1.0.aar\\a702be4d650908306af9a6d1a5620b38\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

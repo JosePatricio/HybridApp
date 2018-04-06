@@ -41,15 +41,15 @@ export class ModalSearchClientePage {
     this.viewCtrl.dismiss();
   }
 
- 
-  
+
+
 
   ionViewDidLoad() {
-    this.showLoader();
+
 
     this.getClientes();
 
-    this.loading.dismiss();
+
   }
 
 
@@ -63,10 +63,11 @@ export class ModalSearchClientePage {
 
 
   getClientes() {
+    this.showLoader();
     this.clienteProvider.getCliente_pipe()
       .subscribe(
-        clientes => this.clientes = clientes,
-      error => this.errorMessage = <any>error);
+        clientes => { this.clientes = clientes; this.loading.dismiss(); },
+        error => this.errorMessage = <any>error);
   }
 
   sort() {
@@ -80,13 +81,13 @@ export class ModalSearchClientePage {
 
     this.viewCtrl.dismiss(clienteSelected);
 
-  // localStorage.setItem('clienteSelected', JSON.stringify(clienteSelected));
+    // localStorage.setItem('clienteSelected', JSON.stringify(clienteSelected));
 
-  /*  this.navCtrl.push(AdministracionReportesPage, {
-      clienteSelected: clienteSelected,
-      tabReporte:'datos'
-    });
-*/
+    /*  this.navCtrl.push(AdministracionReportesPage, {
+        clienteSelected: clienteSelected,
+        tabReporte:'datos'
+      });
+  */
 
 
   }

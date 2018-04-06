@@ -4,9 +4,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   Cliente, Producto, Modelo, Marca, ProductoDetalleReporte, TipoVisitas, DetalleCatalogoReporte, Reporte, ProductoRepuestoReporte, Usuario,
   DetalleInventarioProducto, ClienteSucursal, ProductoClienteReporte, Proyectos,
-  DatosReporteDTO
+  DatosReporteDTO,
+  AsignacionReparaciones
 } from '../../models/models';
-import { DetalleCatalogoReporteProvider, TipoVisitaProvider, ClienteProvider, ReporteProvider, ClienteSucursalProvider } from '../../providers/providers';
+import { DetalleCatalogoReporteProvider, TipoVisitaProvider, ClienteProvider, ReporteProvider, ClienteSucursalProvider, Api } from '../../providers/providers';
 
 import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 import { ReporteMantenimiento } from '../../models/reporteMantenimiento';
@@ -85,7 +86,7 @@ export class ReporteImpresorasPage {
   clienteSucursal: ClienteSucursal = new ClienteSucursal;
   productoClienteReporte: ProductoClienteReporte = new ProductoClienteReporte;
   proyecto: Proyectos = new Proyectos;
-
+  asignacionReparaciones: AsignacionReparaciones;
 
   private isEdit: boolean;
   public someData: any;
@@ -96,16 +97,17 @@ export class ReporteImpresorasPage {
   reporteForm: FormGroup;
   reporteTab: any;
   loading: any;
+  colorNotification: string;
 
   visibleCorrectivosBtns: Array<Boolean> = [false, false, false, false, false, false];
   nombreListaCorrectivo: Array<string> = [];
 
-  public signatureImage: string;
+  public signatureImage: string = 'light';
 
   @ViewChild(SignaturePad) public signaturePad: SignaturePad;
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public modalCtrl: ModalController,
     public loadingCtrl: LoadingController,
-    public detalleCatalogoReporteProvider: DetalleCatalogoReporteProvider, public clienteProvider: ClienteProvider,
+    public detalleCatalogoReporteProvider: DetalleCatalogoReporteProvider, public clienteProvider: ClienteProvider, public api: Api,
     public tipoVisitaProvider: TipoVisitaProvider, public reporteProvider: ReporteProvider
     , public clienteSucursalProvider: ClienteSucursalProvider, private cdRef: ChangeDetectorRef,
     private toastCtrl: ToastController, private alertCtrl: AlertController
@@ -122,12 +124,22 @@ export class ReporteImpresorasPage {
 
     this.reporteForm = this.createMyForm();
 
-    let user = JSON.parse(localStorage.getItem("AUTENTHICATION"));
+    let user: Usuario = JSON.parse(localStorage.getItem("AUTENTHICATION"));
+
+
+
 
     this.usuario.id = user.id;
     this.usuario.usuario = user.usuario;
     this.usuario.codigo = user.codigo;
     this.usuario.nombreCompleto = user.nombreCompleto;
+
+
+    if (this.navParams.get('notification') !== undefined) {
+      //this.asignacionReparaciones
+      this.msgToast('SI HAY NOTIFICACION  ' + JSON.stringify(this.navParams.get('notification')));
+      this.api.consola('EL NOTIFICACION ' + JSON.stringify(this.navParams.get('notification'))).subscribe(x => { });
+    }
 
 
     this.isEdit = (this.navParams.get('isEdit') === true);
@@ -372,7 +384,7 @@ export class ReporteImpresorasPage {
       this.datosReporteDTO.lista7 = this.listCorrEdition(this.arrayCorrectivoRepuestosFijacion, this.reporteMantenimientoListTemp, this.arrayCorrectivoFijacion);
       this.datosReporteDTO.lista8 = this.listCorrEdition(this.arrayCorrectivoRepuestosRevelado, this.reporteMantenimientoListTemp, this.arrayCorrectivoRevelado);
 
-  
+
 
       this.showLoaderSave();
 
@@ -380,10 +392,10 @@ export class ReporteImpresorasPage {
         response => {
           this.navCtrl.push(AdministracionReportesPage);
           this.loading.dismiss();
-          this.msgToast(true);
+          this.msgSaveToast(true);
         }
       ).catch((error: any) => {
-        this.msgToast(false);
+        this.msgSaveToast(false);
         this.loading.dismiss();
       });
 
@@ -447,10 +459,10 @@ export class ReporteImpresorasPage {
         response => {
           this.navCtrl.push(AdministracionReportesPage);
           this.loading.dismiss();
-          this.msgToast(true);
+          this.msgSaveToast(true);
         }
       ).catch((error: any) => {
-        this.msgToast(false);
+        this.msgSaveToast(false);
         this.loading.dismiss();
       })
 
@@ -710,7 +722,6 @@ export class ReporteImpresorasPage {
   }
 
   public openModalCliente() {
-
     let addModal = this.modalCtrl.create('ModalSearchClientePage');
     addModal.onDidDismiss(item => {
       if (item !== undefined) {
@@ -996,7 +1007,7 @@ export class ReporteImpresorasPage {
     });
   }
 
-  msgToast(succes: boolean) {
+  msgSaveToast(succes: boolean) {
     let msg: string;
     let css_Class: string;
 
@@ -1016,10 +1027,24 @@ export class ReporteImpresorasPage {
     });
 
     toast.onDidDismiss(() => {
-     
+
     });
 
     toast.present();
   }
+
+
+  msgToast(msg: string) {
+
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      position: 'top',
+    });
+    toast.onDidDismiss(() => {
+    });
+    toast.present();
+  }
+
 
 }

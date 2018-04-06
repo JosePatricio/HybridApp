@@ -1,3 +1,5 @@
+import { Usuario, ClienteSucursal, TipoVisitas, Producto } from "./models";
+
 export class AsignacionReparaciones {
     id: number;
 
@@ -12,16 +14,40 @@ export class AsignacionReparaciones {
     fechaRegistro: Date;
 
     idUsuarioRegistro: number;
-    nombreUsuarioRegistro: String;
+    nombreUsuarioRegistro: string;
 
     prioridad: number;
 
-    observacion: String;
+    observacion: string;
 
-    tipoReporte: String;
-    tipoNotificacion: String;
+    tipoReporte: string;
+    tipoNotificacion: string;
 
-    tipoEquipo: String;
-    estado: String;
+    tipoEquipo: string;
+    estado: string;
+
+
+    idReporte: number;
+
+    codigo: string;
+
+    contactoRequerimiento: string;
+
+    telefonoRequerimiento: string;
+
+    preasignacion: boolean;
+
+    idUsuarioAtencion: Usuario = new Usuario;
+
+    idClienteSucursal: ClienteSucursal = new ClienteSucursal();
+
+    idTipoVisita: TipoVisitas = new TipoVisitas();
+
+    producto: Producto = new Producto();
+
+    serial: string;
+
+
+
 }
 

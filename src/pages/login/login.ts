@@ -57,18 +57,13 @@ export class LoginPage {
   // Attempt to login in through our User service
   doLogin() {
 
-
     this.showLoader();
 
     this.usuarioProvider.login(this.account.username, this.account.password).subscribe(
       data => {
-
         localStorage.setItem('AUTENTHICATION', JSON.stringify(data));
-
-
         this.navCtrl.push(MainPage);
-
-
+        this.loading.dismiss();
       },
       err => {
 
@@ -82,10 +77,6 @@ export class LoginPage {
 
       }
     );
-
-    this.loading.dismiss();
-
-
 
   }
 

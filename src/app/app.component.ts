@@ -6,7 +6,7 @@ import { Config, Nav, Platform, MenuController, AlertController } from 'ionic-an
 
 import { FirstRunPage, MainPage } from '../pages/pages';
 
-import { Settings } from '../providers/providers';
+import { Api, NotificacionProvider } from '../providers/providers';
 
 import { ReporteImpresorasPage } from '../pages/reporte-impresoras/reporte-impresoras';
 import { AdministracionReportesPage } from '../pages/administracion-reportes/administracion-reportes';
@@ -17,8 +17,12 @@ import { SideMenuContentComponent } from './../shared/side-menu-content/side-men
 import { SideMenuSettings } from './../shared/side-menu-content/models/side-menu-settings';
 import { MenuOptionModel } from './../shared/side-menu-content/models/menu-option-model';
 import { timer } from 'rxjs/observable/timer';
-
-
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { FCM, NotificationData } from "@ionic-native/fcm";
+import { AsignacionReparaciones, Usuario } from '../models/models';
+import { BackgroundMode } from '@ionic-native/background-mode';
+import { Vibration } from '@ionic-native/vibration';
+import { LoginPage } from '../pages/login/login';
 
 @Component({
 
@@ -28,11 +32,129 @@ import { timer } from 'rxjs/observable/timer';
 
 
 export class MyApp {
-  rootPage = FirstRunPage;
+  rootPage: any;
 
   @ViewChild(Nav) nav: Nav;
 
   @ViewChild(SideMenuContentComponent) sideMenu: SideMenuContentComponent;
+
+  asignacionReparaciones: AsignacionReparaciones;
+  usuario: Usuario;
+
+
+
+
+
+
+  constructor(private alertCtrl: AlertController, private menuCtrl: MenuController, private translate: TranslateService,
+    private platform: Platform, private config: Config, private statusBar: StatusBar, public api: Api, public notificacionProvider: NotificacionProvider,
+    private splashScreen: SplashScreen, private fcm: FCM, private backgroundMode: BackgroundMode, private vibration: Vibration, private localNotifications: LocalNotifications) {
+
+    this.usuario = JSON.parse(localStorage.getItem("AUTENTHICATION"));
+    this.api.consola('EL USUARIO ES ' + JSON.stringify(this.usuario) + ' , VALICADION  ' + (this.usuario === null)).subscribe(x => { });
+
+    this.rootPage = (this.usuario === null) ? FirstRunPage : MainPage;
+
+
+    platform.ready().then(() => {
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
+
+      if (this.platform.is('android')) {
+        this.getIdDeviceoken();
+        this.onNotification();
+        this.giveAlert();
+
+        this.backgroundMode.setDefaults({ title: 'App to Run in BackGround', text: 'App Running in Background', resume: true, hidden: true, silent: true });
+        this.backgroundMode.setDefaults({ silent: true });
+
+        this.backgroundMode.enable();
+        this.backgroundMode.on("activate").subscribe(() => {
+          this.onNotification();
+        });
+
+      }
+
+
+    });
+
+    this.initTranslate();
+    this.initializeApp();
+
+  }
+
+
+  giveAlert() {
+    // Give the alert once the notification is clicked/scheduled
+    this.localNotifications.on("click", (notification, state) => {
+
+      this.nav.push(ReporteImpresorasPage, { notification: notification });
+
+    });
+
+  }
+
+
+  private getIdDeviceoken(): void {
+    this.fcm.getToken()
+      .then((token: string) => {
+        //aquí se debe enviar el token al back-end para tenerlo registrado y de esta forma poder enviar mensajes
+        // a esta  aplicación
+        //o también copiar el token para usarlo con Postman :D
+        this.api.consola('The used TOKENis ' + token).subscribe(gr => { });
+
+        this.notificacionProvider.updateIdDeviceCode(token).then(r => { });
+
+      })
+      .catch(error => {
+        //ocurrió un error al procesar el token
+        console.error(error);
+      });
+
+    /**
+     * No suscribimos para obtener el nuevo token cuando se realice un refresh y poder seguir procesando las notificaciones
+     * */
+    this.fcm.onTokenRefresh().subscribe(
+      (token: string) => console.log("Nuevo token", token),
+      error => console.error(error)
+    );
+
+  }
+
+  private onNotification(): void {
+
+    this.fcm.onNotification().subscribe(
+      (data: NotificationData) => {
+        this.asignacionReparaciones = JSON.parse(data.jsonNotification);
+
+        if (data.wasTapped) {
+          //ocurre cuando nuestra app está en segundo plano y hacemos tap en la notificación que se muestra en el dispositivo
+          console.log("Received in background", JSON.stringify(data))
+        } else {
+          //ocurre cuando nuestra aplicación se encuentra en primer plano,
+          //puedes mostrar una alerta o un modal con los datos del mensaje
+          this.api.consola('  NOTIFICACION ENTRADA      ' + JSON.stringify(this.asignacionReparaciones)).subscribe(x => { });
+
+          this.vibration.vibrate(500);
+
+          this.localNotifications.schedule({
+            id: this.asignacionReparaciones.id,
+            title: 'Notificación',
+            text: this.asignacionReparaciones.observacion,
+            data: { data: data.jsonNotification }
+          });
+
+
+        }
+      }, error => {
+        console.error("Error in notification", error)
+      }
+    );
+
+  }
+
+
+
 
   // Options to show in the SideMenuComponent
   public options: Array<MenuOptionModel>;
@@ -50,7 +172,9 @@ export class MyApp {
 
 
 
-  pages: Array<{ title: string, component: any }>;
+
+
+
 
   private initializeOptions(): void {
     this.options = new Array<MenuOptionModel>();
@@ -170,25 +294,7 @@ export class MyApp {
 
   showSplash = true;
 
-  constructor(private alertCtrl: AlertController, private menuCtrl: MenuController, private translate: TranslateService,
-    /* platform: Platform*/private platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
-    platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-    });
 
-    this.pages = [
-      { title: 'Home', component: AdministracionReportesPage },
-      { title: 'List', component: AdministracionReportesPage }
-    ];
-
-
-    this.initTranslate();
-    this.initializeApp();
-
-  }
 
 
   initializeApp() {

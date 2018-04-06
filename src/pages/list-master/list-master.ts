@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, ModalController, NavController,PopoverController } from 'ionic-angular';
+import { IonicPage, ModalController, NavController, PopoverController } from 'ionic-angular';
 
 import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
 import { ReporteImpresorasPage } from '../reporte-impresoras/reporte-impresoras';
 import { NotificationsPage } from '../notifications/notifications';
+import { NotificacionProvider } from '../../providers/providers';
 
 
 @IonicPage()
@@ -13,10 +14,16 @@ import { NotificationsPage } from '../notifications/notifications';
 })
 export class ListMasterPage {
 
+  public notificationes: number;
+  public colorNotification: string = 'light';
 
-
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, private nativePageTransitions: NativePageTransitions,public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, private nativePageTransitions: NativePageTransitions,
+    public popoverCtrl: PopoverController, public notificacionProvider: NotificacionProvider) {
     //this.currentItems = this.items.query();
+
+    this.notificationes = this.notificacionProvider.getnumeroNotificacion();
+    //this.colorNotification='danger';
+
   }
 
   slidePage() {

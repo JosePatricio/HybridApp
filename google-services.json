@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "683554673836",
+    "firebase_url": "https://ionic-notification-c8473.firebaseio.com",
+    "project_id": "ionic-notification-c8473",
+    "storage_bucket": "ionic-notification-c8473.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:683554673836:android:ab579fa07a4bf106",
+        "android_client_info": {
+          "package_name": "com.app.ionic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "683554673836-qgo6sgp6ubq17pchj813gl75egf2mfkq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2RTmCjzlYNaeg_ldG3CYaXXzaWbJtp1o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

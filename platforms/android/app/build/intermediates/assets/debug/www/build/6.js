@@ -1,15 +1,15 @@
 webpackJsonp([6],{
 
-/***/ 505:
+/***/ 501:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalSearchProductoPageModule", function() { return ModalSearchProductoPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_search_producto__ = __webpack_require__(524);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pipes_pipes_module__ = __webpack_require__(290);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_search_producto__ = __webpack_require__(522);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pipes_pipes_module__ = __webpack_require__(296);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -20,7 +20,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var ModalSearchProductoPageModule = (function () {
+var ModalSearchProductoPageModule = /** @class */ (function () {
     function ModalSearchProductoPageModule() {
     }
     ModalSearchProductoPageModule = __decorate([
@@ -40,13 +40,13 @@ var ModalSearchProductoPageModule = (function () {
 
 /***/ }),
 
-/***/ 524:
+/***/ 522:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModalSearchProductoPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_producto__ = __webpack_require__(141);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_providers__ = __webpack_require__(49);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -68,7 +68,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-var ModalSearchProductoPage = (function () {
+var ModalSearchProductoPage = /** @class */ (function () {
     function ModalSearchProductoPage(navCtrl, navParams, viewCtrl, clienteProvider, loadingCtrl) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
@@ -115,10 +115,10 @@ var ModalSearchProductoPage = (function () {
     };
     ModalSearchProductoPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-modal-search-producto',template:/*ion-inline-start:"D:\PROYECTOS\ANGULAR\reportes\src\pages\modal-search-producto\modal-search-producto.html"*/'<!--\n  Generated template for the ModalSearchProductoPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>Productos</ion-title>\n    <ion-buttons start>\n      <button ion-button (click)="cancel()">\n        <span color="primary" showWhen="ios">\n          Cancelar\n        </span>\n        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>\n      </button>\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <ion-searchbar [(ngModel)]="terms"></ion-searchbar>\n  <ion-list>\n\n    <ion-item *ngFor="let c of productos | searchProducto : terms ">\n      <button ion-item (click)="openItem(c)">\n\n        <p>{{c.descripcionCompra}}</p>\n        <h2>Cod Fab: {{c.codigoFabricante}}</h2>\n        <h2>Cat: {{c.idCategoria.nombre}}</h2>\n        <h2>Modelo: {{c.idModelo.modelo}}</h2>\n        <h2>Marca: {{c.idModelo.idMarca.marca}}</h2>\n        <h2>Desc Venta: {{c.descripcionVenta}}</h2>\n      </button>\n\n      <ion-item-options>\n        <button ion-button color="blue" (click)="openItem(c)">\n          Seleccionar\n        </button>\n      </ion-item-options>\n\n\n\n    </ion-item>\n  </ion-list>\n</ion-content>'/*ion-inline-end:"D:\PROYECTOS\ANGULAR\reportes\src\pages\modal-search-producto\modal-search-producto.html"*/,
+            selector: 'page-modal-search-producto',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\modal-search-producto\modal-search-producto.html"*/'<!--\n\n  Generated template for the ModalSearchProductoPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n  <ion-navbar>\n\n    <ion-title>Productos</ion-title>\n\n    <ion-buttons start>\n\n      <button ion-button (click)="cancel()">\n\n        <span color="primary" showWhen="ios">\n\n          Cancelar\n\n        </span>\n\n        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n  <ion-searchbar [(ngModel)]="terms"></ion-searchbar>\n\n  <ion-list>\n\n\n\n    <ion-item *ngFor="let c of productos | searchProducto : terms ">\n\n      <button ion-item (click)="openItem(c)">\n\n\n\n        <p>{{c.descripcionCompra}}</p>\n\n        <h2>Cod Fab: {{c.codigoFabricante}}</h2>\n\n        <h2>Cat: {{c.idCategoria.nombre}}</h2>\n\n        <h2>Modelo: {{c.idModelo.modelo}}</h2>\n\n        <h2>Marca: {{c.idModelo.idMarca.marca}}</h2>\n\n        <h2>Desc Venta: {{c.descripcionVenta}}</h2>\n\n      </button>\n\n\n\n      <ion-item-options>\n\n        <button ion-button color="blue" (click)="openItem(c)">\n\n          Seleccionar\n\n        </button>\n\n      </ion-item-options>\n\n\n\n\n\n\n\n    </ion-item>\n\n  </ion-list>\n\n</ion-content>'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\modal-search-producto\modal-search-producto.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* ViewController */], __WEBPACK_IMPORTED_MODULE_3__providers_providers__["e" /* ProductoProvider */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* ViewController */], __WEBPACK_IMPORTED_MODULE_3__providers_providers__["f" /* ProductoProvider */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */]])
     ], ModalSearchProductoPage);
     return ModalSearchProductoPage;
