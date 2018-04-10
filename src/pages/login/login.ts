@@ -74,7 +74,7 @@ export class LoginPage {
           position: 'top'
         });
         toast.present();
-
+        this.loading.dismiss();
       }
     );
 

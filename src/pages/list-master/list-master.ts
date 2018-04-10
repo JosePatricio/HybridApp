@@ -5,6 +5,7 @@ import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/na
 import { ReporteImpresorasPage } from '../reporte-impresoras/reporte-impresoras';
 import { NotificationsPage } from '../notifications/notifications';
 import { NotificacionProvider } from '../../providers/providers';
+import { ClienteSucursal } from '../../models/models';
 
 
 @IonicPage()
@@ -23,6 +24,9 @@ export class ListMasterPage {
 
     this.notificationes = this.notificacionProvider.getnumeroNotificacion();
     //this.colorNotification='danger';
+
+  
+    
 
   }
 

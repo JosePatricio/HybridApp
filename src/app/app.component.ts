@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { Config, Nav, Platform, MenuController, AlertController } from 'ionic-angular';
+import { Config, Nav, Platform, MenuController, AlertController, ToastController } from 'ionic-angular';
 
 import { FirstRunPage, MainPage } from '../pages/pages';
 
@@ -48,10 +48,10 @@ export class MyApp {
 
   constructor(private alertCtrl: AlertController, private menuCtrl: MenuController, private translate: TranslateService,
     private platform: Platform, private config: Config, private statusBar: StatusBar, public api: Api, public notificacionProvider: NotificacionProvider,
-    private splashScreen: SplashScreen, private fcm: FCM, private backgroundMode: BackgroundMode, private vibration: Vibration, private localNotifications: LocalNotifications) {
+    private splashScreen: SplashScreen, private fcm: FCM, private backgroundMode: BackgroundMode, private vibration: Vibration,
+    private localNotifications: LocalNotifications, private toastCtrl: ToastController) {
 
     this.usuario = JSON.parse(localStorage.getItem("AUTENTHICATION"));
-    this.api.consola('EL USUARIO ES ' + JSON.stringify(this.usuario) + ' , VALICADION  ' + (this.usuario === null)).subscribe(x => { });
 
     this.rootPage = (this.usuario === null) ? FirstRunPage : MainPage;
 
@@ -84,11 +84,12 @@ export class MyApp {
   }
 
 
+
   giveAlert() {
     // Give the alert once the notification is clicked/scheduled
     this.localNotifications.on("click", (notification, state) => {
 
-      this.nav.push(ReporteImpresorasPage, { notification: notification });
+      this.nav.push(ReporteImpresorasPage, { notification: JSON.stringify(notification.data.data) });
 
     });
 
@@ -101,7 +102,6 @@ export class MyApp {
         //aquí se debe enviar el token al back-end para tenerlo registrado y de esta forma poder enviar mensajes
         // a esta  aplicación
         //o también copiar el token para usarlo con Postman :D
-        this.api.consola('The used TOKENis ' + token).subscribe(gr => { });
 
         this.notificacionProvider.updateIdDeviceCode(token).then(r => { });
 
@@ -125,23 +125,20 @@ export class MyApp {
 
     this.fcm.onNotification().subscribe(
       (data: NotificationData) => {
+
         this.asignacionReparaciones = JSON.parse(data.jsonNotification);
 
         if (data.wasTapped) {
           //ocurre cuando nuestra app está en segundo plano y hacemos tap en la notificación que se muestra en el dispositivo
           console.log("Received in background", JSON.stringify(data))
         } else {
-          //ocurre cuando nuestra aplicación se encuentra en primer plano,
-          //puedes mostrar una alerta o un modal con los datos del mensaje
-          this.api.consola('  NOTIFICACION ENTRADA      ' + JSON.stringify(this.asignacionReparaciones)).subscribe(x => { });
 
           this.vibration.vibrate(500);
-
           this.localNotifications.schedule({
             id: this.asignacionReparaciones.id,
             title: 'Notificación',
-            text: this.asignacionReparaciones.observacion,
-            data: { data: data.jsonNotification }
+            text: this.asignacionReparaciones.tipoNotificacion + '-' + this.asignacionReparaciones.tipoReporte + '-' + this.asignacionReparaciones.estado,
+            data: { data: this.asignacionReparaciones }
           });
 
 
@@ -172,6 +169,18 @@ export class MyApp {
 
 
 
+  msgToast(msg: string) {
+
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 9000,
+      position: 'top',
+      showCloseButton: true
+    });
+    toast.onDidDismiss(() => {
+    });
+    toast.present();
+  }
 
 
 

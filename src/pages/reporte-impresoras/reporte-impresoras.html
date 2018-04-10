@@ -20,11 +20,22 @@
                 <strong>N° {{ numeroReporteTecnico }}</strong>
                 <strong>{{ usuario.codigo }}</strong>
             </h2>
+            <ion-item>
+                <ion-label floating>Tipo</ion-label>
+                <ion-select #C (ionChange)="onChange(C.value)" ([ngModel])="tipoReporte" formControlName="tipoReporte">
+                    <ion-option value="DIAGNOSTICO">DIAGNOSTICO</ion-option>
+                    <ion-option value="REPARACION">REPARACION</ion-option>
+                    <ion-option value="CONTADOR">CONTADOR</ion-option>
+                </ion-select>
+            </ion-item>
+
+
         </div>
 
 
         <div padding>
-            <ion-segment [(ngModel)]="reporteTab" name="reportename" formControlName="reporteSegment" style="vertical-align: middle">
+            <ion-segment [(ngModel)]="reporteTab" name="reportename" formControlName="reporteSegment" style="vertical-align: middle"
+                (ionChange)="segmentChanged($event)">
                 <ion-segment-button value="datos">
                     <ion-icon name="person"></ion-icon>
                 </ion-segment-button>
@@ -537,11 +548,11 @@
                 <ion-item>
                     <ion-thumbnail item-start>
                         <h2 ion-text color="primary">
-                          
+
                             <h2 ion-text color="primary">
-                                    <strong>Observaciones / Recomendaciones </strong>
-                                    <br/>
-                                </h2>
+                                <strong>Observaciones / Recomendaciones </strong>
+                                <br/>
+                            </h2>
 
 
                         </h2>
@@ -573,12 +584,23 @@
                 <ion-item>
                     <ion-thumbnail item-start>
                         <h2 ion-text color="primary">
-                                <strong>Exclusivo para el cliente</strong>
-                                <br/>
-                            </h2>
+                            <strong>Exclusivo para el cliente</strong>
+                            <br/>
+                        </h2>
                         <ion-list>
 
+                            <ion-item>
+                                <ion-label floating>Hora Inicio</ion-label>
+                                <ion-datetime displayFormat="HH:mm" [(ngModel)]="reporte.horaInicio" formControlName="horaInicio"></ion-datetime>
+                            </ion-item>
 
+                            <ion-item>
+                                <ion-label floating>Hora Fin</ion-label>
+                                <ion-datetime displayFormat="HH:mm" [(ngModel)]="reporte.horaFin" formControlName="horaFin"></ion-datetime>
+                            </ion-item>
+                        </ion-list>
+
+                        <ion-list>
                             <ion-item>
 
                                 <ion-grid>

@@ -11,7 +11,7 @@ import { Api } from '../api/api';
 export class NotificacionProvider {
 
   private numeroNotificacion: number;
-  
+
   constructor(public api: Api) {
     this.numeroNotificacion = 0;
   }
@@ -21,6 +21,10 @@ export class NotificacionProvider {
     return this.api.putHttp('parametrosService/updateIdDeviceCode/' + codigo, null);
   }
 
+
+  public getNotificacionesByEstadoReporteByIdUsuario(id: number) {
+    return this.api.get('asignacionReparacionService/getNotificacionesByEstadoReporteByIdUsuario/' + id);
+  }
 
 
   public setnumeroNotificacion(numero: number) {

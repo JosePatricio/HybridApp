@@ -1,6 +1,9 @@
+import { Cliente } from "./models";
+
 export class ClienteSucursal {
 
-
+    idCliente: Cliente = new Cliente;
+    campoNuevo:string;
     id: number;
     nombre: String;
     direccion: String;
@@ -14,7 +17,8 @@ export class ClienteSucursal {
     latitud: number;
     longitud: number;
     ciudad: String;
-
+    
+    
 
 
 }

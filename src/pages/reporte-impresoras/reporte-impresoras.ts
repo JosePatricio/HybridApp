@@ -1,4 +1,4 @@
-import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef, NgZone } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, LoadingController, ToastController, AlertController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -7,7 +7,7 @@ import {
   DatosReporteDTO,
   AsignacionReparaciones
 } from '../../models/models';
-import { DetalleCatalogoReporteProvider, TipoVisitaProvider, ClienteProvider, ReporteProvider, ClienteSucursalProvider, Api } from '../../providers/providers';
+import { DetalleCatalogoReporteProvider, TipoVisitaProvider, ClienteProvider, ReporteProvider, ClienteSucursalProvider, Api, NotificacionProvider } from '../../providers/providers';
 
 import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 import { ReporteMantenimiento } from '../../models/reporteMantenimiento';
@@ -90,6 +90,7 @@ export class ReporteImpresorasPage {
 
   private isEdit: boolean;
   public someData: any;
+  public tipoReporte: string;
 
   numeroReporteTecnico: String;
   numeroReporte: number;
@@ -108,26 +109,30 @@ export class ReporteImpresorasPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public modalCtrl: ModalController,
     public loadingCtrl: LoadingController,
     public detalleCatalogoReporteProvider: DetalleCatalogoReporteProvider, public clienteProvider: ClienteProvider, public api: Api,
-    public tipoVisitaProvider: TipoVisitaProvider, public reporteProvider: ReporteProvider
+    public tipoVisitaProvider: TipoVisitaProvider, public reporteProvider: ReporteProvider, public notificacionProvider: NotificacionProvider
     , public clienteSucursalProvider: ClienteSucursalProvider, private cdRef: ChangeDetectorRef,
-    private toastCtrl: ToastController, private alertCtrl: AlertController
+    private toastCtrl: ToastController, private alertCtrl: AlertController, private zone: NgZone
   ) {
 
 
 
   }
 
-
-
-
+  public jsonstring: string;
   ngOnInit() {
+
+    this.initForm();
+
+
+  }
+
+
+
+  initForm(): void {
 
     this.reporteForm = this.createMyForm();
 
     let user: Usuario = JSON.parse(localStorage.getItem("AUTENTHICATION"));
-
-
-
 
     this.usuario.id = user.id;
     this.usuario.usuario = user.usuario;
@@ -135,22 +140,8 @@ export class ReporteImpresorasPage {
     this.usuario.nombreCompleto = user.nombreCompleto;
 
 
-    if (this.navParams.get('notification') !== undefined) {
-      //this.asignacionReparaciones
-      this.msgToast('SI HAY NOTIFICACION  ' + JSON.stringify(this.navParams.get('notification')));
-      this.api.consola('EL NOTIFICACION ' + JSON.stringify(this.navParams.get('notification'))).subscribe(x => { });
-    }
 
-
-    this.isEdit = (this.navParams.get('isEdit') === true);
-
-    if (this.navParams.get('tabReporte') === undefined) {
-      this.reporteTab = 'datos';
-    }
-    else {
-      this.reporteTab = this.navParams.get('tabReporte');
-    }
-
+    /*   NOMBRE BOTNONES CORRECITOVS  */
     this.detalleCatalogoReporteProvider.getCabeceraCatalogoReportesByTipo('CORRECTIVO').
       subscribe(data => {
         let c: number = 0;
@@ -160,45 +151,151 @@ export class ReporteImpresorasPage {
         });
 
       });
+    /*                                */
 
 
-    if (this.navParams.get('reporteDto') !== undefined) {
-      let idReporte: number = this.navParams.get('reporteDto')['id'];
-      this.llenarReportePorId(idReporte);
+    if (this.navParams.get('notification') !== undefined) {
+      //REPORTE DESDE NOTIFICACION
+      this.reporteTab = 'datos';
+
+      let notificacionReporte: AsignacionReparaciones;
+      notificacionReporte = JSON.parse(this.navParams.get('notification'));
+
+      this.llenarReportePorNotificacion(notificacionReporte);
 
 
     }
-
     else {
+      //EDICION REPORTE
+      this.isEdit = (this.navParams.get('isEdit') === true);
 
-      this.llenarCatalogosPreventivos();
-      this.reporteProvider.numeroReporteFormateado(this.usuario.id, 'REPORTE', 'DIAGNOSTICO').subscribe(
-        data => {
-          this.numeroReporteTecnico = data['valor'];
-        }
-      );
-
-      this.reporteProvider.numeroReporte(this.usuario.id, 'REPORTE', 'DIAGNOSTICO').subscribe(
-        data => {
-          this.numeroReporte = data['valor'];
-        }
-      );
+      if (this.navParams.get('tabReporte') === undefined) {
+        this.reporteTab = 'datos';
+      }
+      else {
+        this.reporteTab = this.navParams.get('tabReporte');
+      }
 
 
-      this.reporte.numerofactura = this.numeroReporte;
 
-      this.reporte.tipo = 'REPORTE';
-      this.reporte.subtipo = 'IMPRESORAS';
-      this.reporte.idUsuario = this.usuario;
-      this.reporte.estado = 'PROCESANDO';
 
+      if (this.navParams.get('reporteDto') !== undefined) {
+        let idReporte: number = this.navParams.get('reporteDto')['id'];
+        this.llenarReportePorId(idReporte);
+
+
+      }
+
+      else {
+        //NUEVO REPORTE
+        this.llenarCatalogosPreventivos();
+
+        this.reporte.numerofactura = this.numeroReporte;
+
+        this.reporte.tipo = 'REPORTE';
+        this.reporte.idUsuario = this.usuario;
+        this.reporte.estado = 'PROCESANDO';
+
+      }
     }
+  }
+
+  public segmentChanged(event) {
+    this.zone.run(() => {
+      this.reporteTab = event.value;
+    });
+  }
+
+
+  public onChange(subtipo) {
+    this.reporte.subtipo = subtipo;
+    this.reporteProvider.numeroReporteFormateado(this.usuario.id, 'REPORTE', subtipo).subscribe(
+      data => {
+        this.numeroReporteTecnico = data['valor'];
+        console.log('EL VALOR ES ' + data['valor']);
+      }
+    );
+
+    this.reporteProvider.numeroReporte(this.usuario.id, 'REPORTE', subtipo).subscribe(
+      data => {
+        this.numeroReporte = data['valor'];
+      }
+    );
 
   }
 
 
+  private llenarReportePorNotificacion(asignacionReparaciones: AsignacionReparaciones): void {
+
+    this.llenarCatalogosPreventivos();
+
+    this.cliente = asignacionReparaciones.idClienteSucursal.idCliente;
+    this.clienteSucursal = asignacionReparaciones.idClienteSucursal;
+    this.producto = asignacionReparaciones.producto;
+    this.modelo = asignacionReparaciones.producto.idModelo;
+    this.marca = asignacionReparaciones.producto.idModelo.idMarca;
+
+    this.detalleInventarioProducto.serial = asignacionReparaciones.serial;
+
+    this.clienteSucursalProvider.getByIdCliente(this.clienteSucursal.idCliente.id).subscribe(cs => {
+      this.clienteSucursales = cs;
+      this.clienteSucursales.forEach((client, index) => {
+        if (this.clienteSucursal !== null) {
+          if (client.id == this.clienteSucursal.id) {
+            this.clienteSucursal = this.clienteSucursales[index];
+            return;
+          }
+        }
+      });
+    });
 
 
+    this.tipoVisita = asignacionReparaciones.idTipoVisita;
+    this.tipoVisitaProvider.getAllTipoVisitas().subscribe(data => {
+      this.tiposVisitas = data;
+      this.tiposVisitas.forEach((visita, index) => {
+        if (this.tipoVisita !== null) {
+          if (visita.id == this.tipoVisita.id) {
+            this.tipoVisita = this.tiposVisitas[index];
+            this.reporteForm.value.idTipoVisita = this.tipoVisita.id;
+            return;
+          }
+        }
+      });
+
+
+    });
+
+
+
+    /*
+    
+        this.reporteProvider.numeroReporteFormateado(this.usuario.id, 'REPORTE', asignacionReparaciones.tipoReporte).subscribe(
+          data => {
+            this.numeroReporteTecnico = data['valor'];
+          }
+        );
+    
+        this.reporteProvider.numeroReporte(this.usuario.id, 'REPORTE', asignacionReparaciones.tipoReporte).subscribe(
+          data => {
+            this.numeroReporte = data['valor'];
+          }
+        );
+       
+    
+        this.api.consola('  el valor tipo reporte es  ' + asignacionReparaciones.tipoReporte).subscribe(x => { });
+    
+         this.tipoReporte = asignacionReparaciones.tipoReporte;
+     
+         this.reporteForm.patchValue({
+           idTipoVisita: this.tipoVisita.id,
+           idClienteSucursal: this.clienteSucursal.id,
+           tipoReporte: this.tipoReporte,
+     
+         });
+     */
+
+  }
 
   private llenarReportePorId(idReporte: number): void {
 
@@ -296,7 +393,8 @@ export class ReporteImpresorasPage {
         referenciaCtrl: this.reporte.referencia,
         facturaCtrl: this.reporte.factura,
         sintomas: this.reporte.sintomasEquipo,
-
+        horaInicio: [this.reporte.horaInicio],
+        horaFin: [this.reporte.horaFin],
         observacionesRecomendaciones: this.reporte.observacionesRecomendaciones,
         notas: this.reporte.notas,
         atencion: this.productoClienteReporte.atencion,
@@ -714,9 +812,7 @@ export class ReporteImpresorasPage {
     this.cdRef.detectChanges();
   }
 
-  prueba() {
 
-  }
 
   ionViewDidLoad() {
   }
@@ -889,7 +985,7 @@ export class ReporteImpresorasPage {
 
   private llenarCatalogosPreventivos(): void {
 
-
+    this.showLoader();
     this.tipoVisitaProvider.getAllTipoVisitas().subscribe(data => {
       this.tiposVisitas = data;
     });
@@ -908,6 +1004,7 @@ export class ReporteImpresorasPage {
     })
     this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('EXTERIORES').subscribe(data => {
       this.arrayPreventivoExteriores = data;
+      this.loading.dismiss();
     })
 
 
@@ -969,7 +1066,8 @@ export class ReporteImpresorasPage {
       idTipoVisita: [this.tipoVisita.id, Validators.required],
       idClienteSucursal: [this.clienteSucursal.id, Validators.required],
       facturaCtrl: [this.reporte.factura],
-
+      horaInicio: [this.reporte.horaInicio],
+      horaFin: [this.reporte.horaFin],
       referenciaCtrl: [this.reporte.referencia, ''],
 
       equipoProducto: [''],
@@ -1038,8 +1136,9 @@ export class ReporteImpresorasPage {
 
     let toast = this.toastCtrl.create({
       message: msg,
-      duration: 3000,
+      duration: 9000,
       position: 'top',
+      showCloseButton: true
     });
     toast.onDidDismiss(() => {
     });
