@@ -13,6 +13,7 @@ export class Api {
 
 
 
+  //url: string = 'http://localhost:8080/connector-1.0/rest';
 
   url: string = 'http://192.168.80.12:8080/connector-1.0/rest';
   // url: string = 'http://lolo-serv.7e14.starter-us-west-2.openshiftapps.com/rest';

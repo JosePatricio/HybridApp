@@ -51,6 +51,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 import {FCM} from "@ionic-native/fcm";
 import { Vibration } from '@ionic-native/vibration';
 import { BackgroundMode } from '@ionic-native/background-mode';
+import { UtilesProvider } from '../providers/utiles/utiles';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -128,7 +129,8 @@ export function provideSettings(storage: Storage) {
     ConsultasProvider,
     ProductoRepuestoReporteProvider,
     NativePageTransitions,
-    NotificacionProvider
+    NotificacionProvider,
+    UtilesProvider
 
   ]
 })

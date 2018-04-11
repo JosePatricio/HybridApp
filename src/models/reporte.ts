@@ -15,12 +15,11 @@ import { Usuario } from '../models/usuario';
 
 export class Reporte {
 
-
   id: number;
   idAsignacion: AsignacionReparaciones = new AsignacionReparaciones();
   idVisita: TipoVisitas = new TipoVisitas();
   idUsuario: Usuario = new Usuario();
-  numerofactura: Number;
+  numerofactura: number;
   factura: String;
   sintomasEquipo: String;
   observacionMantenimiento: String;
@@ -31,8 +30,9 @@ export class Reporte {
   nombreCliente: String;
   firmaCliente: String;
   firmaClienteBase64: String;
-  tipo: String;
-  subtipo: String;
+
+  tipo: string;
+  subtipo: string;
   estado: String;
   usuarioCreacion: String;
   usuarioModificacion: String;

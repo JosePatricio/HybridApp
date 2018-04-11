@@ -1,16 +1,15 @@
 import { Component, ViewChild, ChangeDetectorRef, NgZone } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, LoadingController, ToastController, AlertController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import moment from 'moment';
 import {
   Cliente, Producto, Modelo, Marca, ProductoDetalleReporte, TipoVisitas, DetalleCatalogoReporte, Reporte, ProductoRepuestoReporte, Usuario,
   DetalleInventarioProducto, ClienteSucursal, ProductoClienteReporte, Proyectos,
-  DatosReporteDTO,
-  AsignacionReparaciones
+  DatosReporteDTO, AsignacionReparaciones, ReporteMantenimiento
 } from '../../models/models';
-import { DetalleCatalogoReporteProvider, TipoVisitaProvider, ClienteProvider, ReporteProvider, ClienteSucursalProvider, Api, NotificacionProvider } from '../../providers/providers';
+import { DetalleCatalogoReporteProvider, TipoVisitaProvider, ClienteProvider, ReporteProvider, ClienteSucursalProvider, Api, NotificacionProvider, UtilesProvider } from '../../providers/providers';
 
 import { SignaturePad } from 'angular2-signaturepad/signature-pad';
-import { ReporteMantenimiento } from '../../models/reporteMantenimiento';
 import { AdministracionReportesPage } from '../administracion-reportes/administracion-reportes';
 
 
@@ -91,8 +90,11 @@ export class ReporteImpresorasPage {
   private isEdit: boolean;
   public someData: any;
   public tipoReporte: string;
+  public subTipoReporte: string;
+  public horaReporteInicio: any;
+  public horaReporteFin: any;
 
-  numeroReporteTecnico: String;
+  numeroReporteTecnico: string;
   numeroReporte: number;
 
   reporteForm: FormGroup;
@@ -108,7 +110,7 @@ export class ReporteImpresorasPage {
   @ViewChild(SignaturePad) public signaturePad: SignaturePad;
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public modalCtrl: ModalController,
     public loadingCtrl: LoadingController,
-    public detalleCatalogoReporteProvider: DetalleCatalogoReporteProvider, public clienteProvider: ClienteProvider, public api: Api,
+    public detalleCatalogoReporteProvider: DetalleCatalogoReporteProvider, public clienteProvider: ClienteProvider, public api: Api, public utilesProvider: UtilesProvider,
     public tipoVisitaProvider: TipoVisitaProvider, public reporteProvider: ReporteProvider, public notificacionProvider: NotificacionProvider
     , public clienteSucursalProvider: ClienteSucursalProvider, private cdRef: ChangeDetectorRef,
     private toastCtrl: ToastController, private alertCtrl: AlertController, private zone: NgZone
@@ -118,7 +120,6 @@ export class ReporteImpresorasPage {
 
   }
 
-  public jsonstring: string;
   ngOnInit() {
 
     this.initForm();
@@ -133,6 +134,7 @@ export class ReporteImpresorasPage {
     this.reporteForm = this.createMyForm();
 
     let user: Usuario = JSON.parse(localStorage.getItem("AUTENTHICATION"));
+    this.isEdit = (this.navParams.get('isEdit') === true);
 
     this.usuario.id = user.id;
     this.usuario.usuario = user.usuario;
@@ -141,7 +143,7 @@ export class ReporteImpresorasPage {
 
 
 
-    /*   NOMBRE BOTNONES CORRECITOVS  */
+    /*   NOMBRE BOTONES CORRECTIVOS  */
     this.detalleCatalogoReporteProvider.getCabeceraCatalogoReportesByTipo('CORRECTIVO').
       subscribe(data => {
         let c: number = 0;
@@ -167,7 +169,7 @@ export class ReporteImpresorasPage {
     }
     else {
       //EDICION REPORTE
-      this.isEdit = (this.navParams.get('isEdit') === true);
+
 
       if (this.navParams.get('tabReporte') === undefined) {
         this.reporteTab = 'datos';
@@ -175,9 +177,6 @@ export class ReporteImpresorasPage {
       else {
         this.reporteTab = this.navParams.get('tabReporte');
       }
-
-
-
 
       if (this.navParams.get('reporteDto') !== undefined) {
         let idReporte: number = this.navParams.get('reporteDto')['id'];
@@ -189,9 +188,7 @@ export class ReporteImpresorasPage {
       else {
         //NUEVO REPORTE
         this.llenarCatalogosPreventivos();
-
         this.reporte.numerofactura = this.numeroReporte;
-
         this.reporte.tipo = 'REPORTE';
         this.reporte.idUsuario = this.usuario;
         this.reporte.estado = 'PROCESANDO';
@@ -208,11 +205,10 @@ export class ReporteImpresorasPage {
 
 
   public onChange(subtipo) {
-    this.reporte.subtipo = subtipo;
+    this.tipoReporte = subtipo;
     this.reporteProvider.numeroReporteFormateado(this.usuario.id, 'REPORTE', subtipo).subscribe(
       data => {
         this.numeroReporteTecnico = data['valor'];
-        console.log('EL VALOR ES ' + data['valor']);
       }
     );
 
@@ -268,47 +264,45 @@ export class ReporteImpresorasPage {
 
 
 
-    /*
-    
-        this.reporteProvider.numeroReporteFormateado(this.usuario.id, 'REPORTE', asignacionReparaciones.tipoReporte).subscribe(
-          data => {
-            this.numeroReporteTecnico = data['valor'];
-          }
-        );
-    
-        this.reporteProvider.numeroReporte(this.usuario.id, 'REPORTE', asignacionReparaciones.tipoReporte).subscribe(
-          data => {
-            this.numeroReporte = data['valor'];
-          }
-        );
-       
-    
-        this.api.consola('  el valor tipo reporte es  ' + asignacionReparaciones.tipoReporte).subscribe(x => { });
-    
-         this.tipoReporte = asignacionReparaciones.tipoReporte;
-     
-         this.reporteForm.patchValue({
-           idTipoVisita: this.tipoVisita.id,
-           idClienteSucursal: this.clienteSucursal.id,
-           tipoReporte: this.tipoReporte,
-     
-         });
-     */
+    this.reporteProvider.numeroReporteFormateado(this.usuario.id, 'REPORTE', asignacionReparaciones.tipoReporte).subscribe(
+      data => {
+        this.numeroReporteTecnico = data['valor'];
+      }
+    );
+
+    this.reporteProvider.numeroReporte(this.usuario.id, 'REPORTE', asignacionReparaciones.tipoReporte).subscribe(
+      data => {
+        this.numeroReporte = data['valor'];
+      }
+    );
+
+    this.tipoReporte = asignacionReparaciones.tipoReporte;
+
+    this.reporteForm.patchValue({
+      idTipoVisita: this.tipoVisita.id,
+      idClienteSucursal: this.clienteSucursal.id,
+      subTipoReporte: this.tipoReporte,
+
+    });
+
 
   }
 
-  private llenarReportePorId(idReporte: number): void {
 
+
+  private llenarReportePorId(idReporte: number): void {
 
     this.showLoader();
     this.reporteProvider.reportesById(idReporte).subscribe(data => {
-
       this.reporte.numerofactura = data.idReporte.numerofactura;
+      this.numeroReporteTecnico = this.utilesProvider.formatoReporte(data.idReporte.numerofactura);
+
       this.productoClienteReporte = data;
       this.cliente = data.idCliente;
       this.reporte = data.idReporte;
-      this.numeroReporteTecnico = data.idReporte.numerofactura + '';
       this.productoDetalleReporte = data.idProductoDetalleReporte;
+      this.subTipoReporte = this.reporte.subtipo;
+
 
       if (data.idProducto !== null) {
         this.producto = data.idProducto;
@@ -356,22 +350,22 @@ export class ReporteImpresorasPage {
       this.llenarCatalogosCorrectivos();
 
       this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('PROCESAMIENTO').subscribe(catalogo => {
-        this.arrayPreventivoProcesamientoIds = this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
-        this.arrayPreventivoProcesamiento = this.loadReportePreventivos(catalogo, data.reporteMantenimientoList);
+        this.arrayPreventivoProcesamientoIds = this.utilesProvider.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
+        this.arrayPreventivoProcesamiento = this.utilesProvider.loadReportePreventivos(catalogo, data.reporteMantenimientoList);
       });
 
       this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('IMAGEN_PREVENTIVO').subscribe(catalogo => {
-        this.arrayPreventivoImagenIds = this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
-        this.arrayPreventivoImagen = this.loadReportePreventivos(catalogo, data.reporteMantenimientoList);
+        this.arrayPreventivoImagenIds = this.utilesProvider.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
+        this.arrayPreventivoImagen = this.utilesProvider.loadReportePreventivos(catalogo, data.reporteMantenimientoList);
       });
 
       this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('FIJACION_PREVENTIVO').subscribe(catalogo => {
         this.arrayPreventivoFijacion = catalogo;
-        this.arrayPreventivoFijacionIds = this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
+        this.arrayPreventivoFijacionIds = this.utilesProvider.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
       });
 
 
-      this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('EXTERIORES').subscribe(catalogo => { this.arrayPreventivoExteriores = catalogo; this.arrayPreventivoExterioresIds = this.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList); });
+      this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('EXTERIORES').subscribe(catalogo => { this.arrayPreventivoExteriores = catalogo; this.arrayPreventivoExterioresIds = this.utilesProvider.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList); });
 
 
       this.reporteMantenimientoListTemp = data.reporteMantenimientoList;
@@ -384,7 +378,8 @@ export class ReporteImpresorasPage {
       //FIN VISIVILIDAD BOTON VER CORRECTIVOS
 
 
-
+      this.horaReporteInicio = this.utilesProvider.horaActualFromDate(this.reporte.horaInicio).toISOString();
+      this.horaReporteFin = this.utilesProvider.horaActualFromDate(this.reporte.horaFin).toISOString();
 
       /*                                   FILL FORM VALUES                                                                                             */
       this.reporteForm.patchValue({
@@ -393,8 +388,8 @@ export class ReporteImpresorasPage {
         referenciaCtrl: this.reporte.referencia,
         facturaCtrl: this.reporte.factura,
         sintomas: this.reporte.sintomasEquipo,
-        horaInicio: [this.reporte.horaInicio],
-        horaFin: [this.reporte.horaFin],
+        horaInicio: [this.horaReporteInicio],
+        horaFin: [this.horaReporteFin],
         observacionesRecomendaciones: this.reporte.observacionesRecomendaciones,
         notas: this.reporte.notas,
         atencion: this.productoClienteReporte.atencion,
@@ -413,8 +408,8 @@ export class ReporteImpresorasPage {
         mantenimiento: this.productoDetalleReporte.mantenimiento,
         otros: this.productoDetalleReporte.otros,
         servicioFacturar: this.productoDetalleReporte.servicioFacturar,
-        servicioFacturarEstado: this.productoDetalleReporte.servicioFacturarEstado
-
+        servicioFacturarEstado: this.productoDetalleReporte.servicioFacturarEstado,
+        subTipoReporte: this.subTipoReporte
 
       });
       /*                                 END  FILL FORM VALUES                                                                                             */
@@ -424,65 +419,80 @@ export class ReporteImpresorasPage {
     });
   }
 
+  public fechauno: Date = new Date();
+
+  myDate: any;
+  formatAMPM(date) {
+    var hours = date[0];
+    var minutes = date[1];
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+  }
 
 
-  private guardar() {
+  private guardar(): void {
 
+
+    this.reporte.referencia = this.reporteForm.value.referenciaCtrl;
+    this.reporte.factura = this.reporteForm.value.facturaCtrl;
+    this.reporte.sintomasEquipo = this.reporteForm.value.sintomas;
+    this.reporte.subtipo = this.reporteForm.value.subTipoReporte;
+    this.reporte.observacionesRecomendaciones = this.reporteForm.value.observacionesRecomendaciones;
+    this.reporte.notas = this.reporteForm.value.notas;
+    this.reporte.firmaClienteBase64 = this.signaturePad.toDataURL();
+
+    this.reporte.horaInicio = this.utilesProvider.horaActual(this.reporteForm.value.horaInicio);
+    this.reporte.horaFin = this.utilesProvider.horaActual(this.reporteForm.value.horaFin);
+    this.datosReporteDTO.reporte = this.reporte;
+
+
+
+    this.productoClienteReporte.idProyecto = this.proyecto;
+    this.productoClienteReporte.atencion = this.reporteForm.value.atencion;
+    this.productoClienteReporte.ipEquipo = this.reporteForm.value.ipEquipo;
+    this.productoClienteReporte.puertoUsb = this.reporteForm.value.puertoUsb;
+
+    this.productoDetalleReporte.contadorTotalAnterior = this.reporteForm.value.contadorTotalAnterior;
+    this.productoDetalleReporte.contadorColorAnterior = this.reporteForm.value.contadorColorAnterior;
+    this.productoDetalleReporte.contadorBnAnterior = this.reporteForm.value.contadorBnAnterior;
+    this.productoDetalleReporte.contadorTotalActual = this.reporteForm.value.contadorTotalActual;
+    this.productoDetalleReporte.contadorColorActual = this.reporteForm.value.contadorColorActual;
+    this.productoDetalleReporte.contadorBnActual = this.reporteForm.value.contadorBnActual;
+    this.productoDetalleReporte.contadorTotalImpReal = this.reporteForm.value.contadorTotalImpReal;
+    this.productoDetalleReporte.contadorColorImpReal = this.reporteForm.value.contadorColorImpReal;
+    this.productoDetalleReporte.contadorBnImpReal = this.reporteForm.value.contadorBnImpReal;
+    this.productoDetalleReporte.mantenimiento = this.reporteForm.value.mantenimiento;
+    this.productoDetalleReporte.otros = this.reporteForm.value.otros;
+    this.productoDetalleReporte.servicioFacturar = this.reporteForm.value.servicioFacturar;
+    this.productoDetalleReporte.servicioFacturarEstado = this.reporteForm.value.servicioFacturarEstado;
+
+
+    this.datosReporteDTO.productoDetalleReporte = this.productoDetalleReporte;
+    this.datosReporteDTO.reporte = this.reporte;
+    this.datosReporteDTO.producto = this.producto;
+    this.datosReporteDTO.serie = this.detalleInventarioProducto.serial;
+    this.datosReporteDTO.cliente = this.cliente;
+    this.datosReporteDTO.usuarios = this.usuario;
+    this.datosReporteDTO.idClienteSucursal = this.reporteForm.value.idClienteSucursal;
+    this.datosReporteDTO.idTipoVisita = this.reporteForm.value.idTipoVisita;
+    this.datosReporteDTO.productoClienteReporte = this.productoClienteReporte;
+
+    console.log('ES EDICION  ' + this.isEdit + '    NUMEIR REOIRTE  ' + this.reporte.numerofactura);
     if (this.isEdit) {
-      // this.reporte.numerofactura = this.numeroReporte;
 
-      this.reporte.referencia = this.reporteForm.value.referenciaCtrl;
-      this.reporte.factura = this.reporteForm.value.facturaCtrl;
-      this.reporte.sintomasEquipo = this.reporteForm.value.sintomas;
+      this.datosReporteDTO.lista1 = this.utilesProvider.listPrevEdition(this.arrayPreventivoProcesamientoIds, this.arrayPreventivoProcesamiento, this.reporteMantenimientoListTemp);
+      this.datosReporteDTO.lista2 = this.utilesProvider.listPrevEdition(this.arrayPreventivoImagenIds, this.arrayPreventivoImagen, this.reporteMantenimientoListTemp);
+      this.datosReporteDTO.lista3 = this.utilesProvider.listPrevEdition(this.arrayPreventivoFijacionIds, this.arrayPreventivoFijacion, this.reporteMantenimientoListTemp);
+      this.datosReporteDTO.lista4 = this.utilesProvider.listPrevEdition(this.arrayPreventivoExterioresIds, this.arrayPreventivoExteriores, this.reporteMantenimientoListTemp);
 
-      this.reporte.observacionesRecomendaciones = this.reporteForm.value.observacionesRecomendaciones;
-      this.reporte.notas = this.reporteForm.value.notas;
-      this.reporte.firmaClienteBase64 = this.signaturePad.toDataURL();
-
-
-      //  this.proyecto.id = 10;
-      this.productoClienteReporte.idProyecto = this.proyecto;
-      this.productoClienteReporte.atencion = this.reporteForm.value.atencion;
-      this.productoClienteReporte.ipEquipo = this.reporteForm.value.ipEquipo;
-      this.productoClienteReporte.puertoUsb = this.reporteForm.value.puertoUsb;
-
-      this.productoDetalleReporte.contadorTotalAnterior = this.reporteForm.value.contadorTotalAnterior;
-      this.productoDetalleReporte.contadorColorAnterior = this.reporteForm.value.contadorColorAnterior;
-      this.productoDetalleReporte.contadorBnAnterior = this.reporteForm.value.contadorBnAnterior;
-      this.productoDetalleReporte.contadorTotalActual = this.reporteForm.value.contadorTotalActual;
-      this.productoDetalleReporte.contadorColorActual = this.reporteForm.value.contadorColorActual;
-      this.productoDetalleReporte.contadorBnActual = this.reporteForm.value.contadorBnActual;
-      this.productoDetalleReporte.contadorTotalImpReal = this.reporteForm.value.contadorTotalImpReal;
-      this.productoDetalleReporte.contadorColorImpReal = this.reporteForm.value.contadorColorImpReal;
-      this.productoDetalleReporte.contadorBnImpReal = this.reporteForm.value.contadorBnImpReal;
-      this.productoDetalleReporte.mantenimiento = this.reporteForm.value.mantenimiento;
-      this.productoDetalleReporte.otros = this.reporteForm.value.otros;
-      this.productoDetalleReporte.servicioFacturar = this.reporteForm.value.servicioFacturar;
-      this.productoDetalleReporte.servicioFacturarEstado = this.reporteForm.value.servicioFacturarEstado;
-
-
-      this.datosReporteDTO.productoDetalleReporte = this.productoDetalleReporte;
-      this.datosReporteDTO.reporte = this.reporte;
-      this.datosReporteDTO.producto = this.producto;
-      this.datosReporteDTO.serie = this.detalleInventarioProducto.serial;
-      this.datosReporteDTO.cliente = this.cliente;
-      this.datosReporteDTO.usuarios = this.usuario;
-      this.datosReporteDTO.idClienteSucursal = this.reporteForm.value.idClienteSucursal;
-      this.datosReporteDTO.idTipoVisita = this.reporteForm.value.idTipoVisita;
-      this.datosReporteDTO.productoClienteReporte = this.productoClienteReporte;
-
-
-      this.datosReporteDTO.lista1 = this.listPrevEdition(this.arrayPreventivoProcesamientoIds, this.arrayPreventivoProcesamiento, this.reporteMantenimientoListTemp);
-      this.datosReporteDTO.lista2 = this.listPrevEdition(this.arrayPreventivoImagenIds, this.arrayPreventivoImagen, this.reporteMantenimientoListTemp);
-      this.datosReporteDTO.lista3 = this.listPrevEdition(this.arrayPreventivoFijacionIds, this.arrayPreventivoFijacion, this.reporteMantenimientoListTemp);
-      this.datosReporteDTO.lista4 = this.listPrevEdition(this.arrayPreventivoExterioresIds, this.arrayPreventivoExteriores, this.reporteMantenimientoListTemp);
-
-      this.datosReporteDTO.lista5 = this.listCorrEdition(this.arrayCorrectivoRepuestosSuministros, this.reporteMantenimientoListTemp, this.arrayCorrectivoSuministros);
-      this.datosReporteDTO.lista6 = this.listCorrEdition(this.arrayCorrectivoRepuestosImagen, this.reporteMantenimientoListTemp, this.arrayCorrectivoImagen);
-      this.datosReporteDTO.lista7 = this.listCorrEdition(this.arrayCorrectivoRepuestosFijacion, this.reporteMantenimientoListTemp, this.arrayCorrectivoFijacion);
-      this.datosReporteDTO.lista8 = this.listCorrEdition(this.arrayCorrectivoRepuestosRevelado, this.reporteMantenimientoListTemp, this.arrayCorrectivoRevelado);
-
-
+      this.datosReporteDTO.lista5 = this.utilesProvider.listCorrEdition(this.arrayCorrectivoRepuestosSuministros, this.reporteMantenimientoListTemp, this.arrayCorrectivoSuministros);
+      this.datosReporteDTO.lista6 = this.utilesProvider.listCorrEdition(this.arrayCorrectivoRepuestosImagen, this.reporteMantenimientoListTemp, this.arrayCorrectivoImagen);
+      this.datosReporteDTO.lista7 = this.utilesProvider.listCorrEdition(this.arrayCorrectivoRepuestosFijacion, this.reporteMantenimientoListTemp, this.arrayCorrectivoFijacion);
+      this.datosReporteDTO.lista8 = this.utilesProvider.listCorrEdition(this.arrayCorrectivoRepuestosRevelado, this.reporteMantenimientoListTemp, this.arrayCorrectivoRevelado);
 
       this.showLoaderSave();
 
@@ -490,304 +500,46 @@ export class ReporteImpresorasPage {
         response => {
           this.navCtrl.push(AdministracionReportesPage);
           this.loading.dismiss();
-          this.msgSaveToast(true);
+          this.utilesProvider.msgSaveToast(true);
         }
       ).catch((error: any) => {
-        this.msgSaveToast(false);
+        this.utilesProvider.msgSaveToast(false);
         this.loading.dismiss();
       });
 
-
-
     } else {
       this.reporte.numerofactura = this.numeroReporte;
-      this.reporte.referencia = this.reporteForm.value.referenciaCtrl;
-      this.reporte.factura = this.reporteForm.value.facturaCtrl;
-      this.reporte.sintomasEquipo = this.reporteForm.value.sintomas;
 
-      this.reporte.observacionesRecomendaciones = this.reporteForm.value.observacionesRecomendaciones;
-      this.reporte.notas = this.reporteForm.value.notas;
-      this.reporte.firmaClienteBase64 = this.signaturePad.toDataURL();
+      this.datosReporteDTO.lista1 = this.utilesProvider.listPrev(this.arrayPreventivoProcesamientoIds, this.arrayPreventivoProcesamiento);
+      this.datosReporteDTO.lista2 = this.utilesProvider.listPrev(this.arrayPreventivoImagenIds, this.arrayPreventivoImagen);
+      this.datosReporteDTO.lista3 = this.utilesProvider.listPrev(this.arrayPreventivoFijacionIds, this.arrayPreventivoFijacion);
+      this.datosReporteDTO.lista4 = this.utilesProvider.listPrev(this.arrayPreventivoExterioresIds, this.arrayPreventivoExteriores);
 
-      this.reporte.usuarioCreacion = this.usuario.usuario;
-      this.productoClienteReporte.atencion = this.reporteForm.value.atencion;
-      this.productoClienteReporte.ipEquipo = this.reporteForm.value.ipEquipo;
-      this.productoClienteReporte.puertoUsb = this.reporteForm.value.puertoUsb;
-
-      this.productoDetalleReporte.contadorTotalAnterior = this.reporteForm.value.contadorTotalAnterior;
-      this.productoDetalleReporte.contadorColorAnterior = this.reporteForm.value.contadorColorAnterior;
-      this.productoDetalleReporte.contadorBnAnterior = this.reporteForm.value.contadorBnAnterior;
-      this.productoDetalleReporte.contadorTotalActual = this.reporteForm.value.contadorTotalActual;
-      this.productoDetalleReporte.contadorColorActual = this.reporteForm.value.contadorColorActual;
-      this.productoDetalleReporte.contadorBnActual = this.reporteForm.value.contadorBnActual;
-      this.productoDetalleReporte.contadorTotalImpReal = this.reporteForm.value.contadorTotalImpReal;
-      this.productoDetalleReporte.contadorColorImpReal = this.reporteForm.value.contadorColorImpReal;
-      this.productoDetalleReporte.contadorBnImpReal = this.reporteForm.value.contadorBnImpReal;
-      this.productoDetalleReporte.mantenimiento = this.reporteForm.value.mantenimiento;
-      this.productoDetalleReporte.otros = this.reporteForm.value.otros;
-      this.productoDetalleReporte.servicioFacturar = this.reporteForm.value.servicioFacturar;
-      this.productoDetalleReporte.servicioFacturarEstado = this.reporteForm.value.servicioFacturarEstado;
-
-
-      this.datosReporteDTO.productoDetalleReporte = this.productoDetalleReporte;
-      this.datosReporteDTO.reporte = this.reporte;
-      this.datosReporteDTO.producto = this.producto;
-      this.datosReporteDTO.serie = this.detalleInventarioProducto.serial;
-      this.datosReporteDTO.cliente = this.cliente;
-      this.datosReporteDTO.usuarios = this.usuario;
-      this.datosReporteDTO.idClienteSucursal = this.reporteForm.value.idClienteSucursal;
-      this.datosReporteDTO.idTipoVisita = this.reporteForm.value.idTipoVisita;
-      this.datosReporteDTO.productoClienteReporte = this.productoClienteReporte;
-
-
-
-      this.datosReporteDTO.lista1 = this.listPrev(this.arrayPreventivoProcesamientoIds, this.arrayPreventivoProcesamiento);
-      this.datosReporteDTO.lista2 = this.listPrev(this.arrayPreventivoImagenIds, this.arrayPreventivoImagen);
-      this.datosReporteDTO.lista3 = this.listPrev(this.arrayPreventivoFijacionIds, this.arrayPreventivoFijacion);
-      this.datosReporteDTO.lista4 = this.listPrev(this.arrayPreventivoExterioresIds, this.arrayPreventivoExteriores);
-
-      this.datosReporteDTO.lista5 = this.listCorr(this.arrayCorrectivoRepuestosSuministros);
-      this.datosReporteDTO.lista6 = this.listCorr(this.arrayCorrectivoRepuestosImagen);
-      this.datosReporteDTO.lista7 = this.listCorr(this.arrayCorrectivoRepuestosFijacion);
-      this.datosReporteDTO.lista8 = this.listCorr(this.arrayCorrectivoRepuestosRevelado);
-
+      this.datosReporteDTO.lista5 = this.utilesProvider.listCorr(this.arrayCorrectivoRepuestosSuministros);
+      this.datosReporteDTO.lista6 = this.utilesProvider.listCorr(this.arrayCorrectivoRepuestosImagen);
+      this.datosReporteDTO.lista7 = this.utilesProvider.listCorr(this.arrayCorrectivoRepuestosFijacion);
+      this.datosReporteDTO.lista8 = this.utilesProvider.listCorr(this.arrayCorrectivoRepuestosRevelado);
 
       this.showLoaderSave();
+
+      console.log(JSON.stringify(this.datosReporteDTO));
       this.reporteProvider.saveAllReporteImpresoras(this.datosReporteDTO).then(
         response => {
           this.navCtrl.push(AdministracionReportesPage);
           this.loading.dismiss();
-          this.msgSaveToast(true);
+          this.utilesProvider.msgSaveToast(true);
         }
       ).catch((error: any) => {
-        this.msgSaveToast(false);
+        this.utilesProvider.msgSaveToast(false);
         this.loading.dismiss();
-      })
-
-
-    }
-  }
-
-
-
-
-
-
-  private listPrevEdition(ids: any, catalogos: Array<DetalleCatalogoReporte>, reporteMantenimientoList: Array<ReporteMantenimiento>) {
-    let list: Array<DetalleCatalogoReporte> = [];
-    let catalogo: DetalleCatalogoReporte;
-    let reporteMantenimientoListFiltered: Array<ReporteMantenimiento> = []
-
-
-    reporteMantenimientoList.filter(f => f.idDetalleCatalogoReporte !== null).forEach(element => {
-      reporteMantenimientoListFiltered.push(element);
-    });
-    let idSelected: number;
-    catalogos.forEach(catalogo_ => {
-      catalogo = new DetalleCatalogoReporte()
-      catalogo = catalogo_;
-
-      if (ids.length > 0) {
-        for (var n = 0; n <= ids.length - 1; n++) {
-          idSelected = parseInt(ids[n] + '');
-          if (idSelected === catalogo.id) {
-            catalogo.seleccion = true;
-            break;
-          } else {
-            catalogo.seleccion = false;
-            catalogo.idReporteMantenimiento = this.reporteMantenimientoByIdDetalle(catalogo, reporteMantenimientoListFiltered).id;
-          }
-        }
-      } else {
-        let reporteMantenimiento: ReporteMantenimiento;
-        reporteMantenimiento = this.reporteMantenimientoByIdDetalle(catalogo, reporteMantenimientoListFiltered);
-        catalogo.seleccion = false;
-        catalogo.idReporteMantenimiento = reporteMantenimiento.id;
-
-      }
-
-
-      list.push(catalogo);
-    });
-    return list;
-  }
-
-
-  private reporteMantenimientoByIdDetalle(detalleCatalogoReporte: DetalleCatalogoReporte, reporteMantenimientoList: Array<ReporteMantenimiento>) {
-    for (var n = 0; n <= reporteMantenimientoList.length - 1; n++) {
-      if (detalleCatalogoReporte.id === reporteMantenimientoList[n].idDetalleCatalogoReporte.id) {
-        return reporteMantenimientoList[n];
-      }
-    }
-    return new ReporteMantenimiento();
-  }
-
-
-  private productoRepReporte(detalleCatalogoReporte: DetalleCatalogoReporte, productoRepuestoReportes: Array<ProductoRepuestoReporte>) {
-    let productoRepuestoReporte: ProductoRepuestoReporte;
-    for (var n = 0; n <= productoRepuestoReportes.length - 1; n++) {
-      if (detalleCatalogoReporte.id === productoRepuestoReportes[n].idDetalleCatalogoReporte.id) {
-        productoRepuestoReporte = new ProductoRepuestoReporte();
-        productoRepuestoReporte = productoRepuestoReportes[n];
-        productoRepuestoReporte.auxFound = true;
-        return productoRepuestoReporte;
-
-      }
-    }
-    return null;
-  }
-
-
-  private listCorrEdition(productoRepuestoReportes: Array<ProductoRepuestoReporte>, reporteMantenimientoList: Array<ReporteMantenimiento>, arrayCorrectivo: Array<DetalleCatalogoReporte>) {
-
-    let listRes: Array<DetalleCatalogoReporte> = [];
-    let detalleCatalogoReporte: DetalleCatalogoReporte;
-
-    let reporteMantenimientoListFiltered: Array<ReporteMantenimiento> = []
-
-
-    reporteMantenimientoList.filter(f => f.idProductoRepuestoReporte !== null).forEach(element => {
-      reporteMantenimientoListFiltered.push(element);
-    });
-
-    arrayCorrectivo.forEach(catalogo => {
-      detalleCatalogoReporte = new DetalleCatalogoReporte();
-      detalleCatalogoReporte = catalogo;
-
-      let aux: ProductoRepuestoReporte = this.productoRepReporte(detalleCatalogoReporte, productoRepuestoReportes);
-
-      if (reporteMantenimientoListFiltered.length > 0) {
-
-
-        for (var n = 0; n <= reporteMantenimientoListFiltered.length - 1; n++) {
-          if (reporteMantenimientoListFiltered[n].idProductoRepuestoReporte.idDetalleCatalogoReporte.id === detalleCatalogoReporte.id) {
-            if (aux !== null) {
-              detalleCatalogoReporte = aux.idDetalleCatalogoReporte;
-              detalleCatalogoReporte.seleccion = true;
-              break
-            } else {
-              detalleCatalogoReporte.idReporteMantenimiento = reporteMantenimientoListFiltered[n].id;
-            }
-            break;
-          } else {
-            if (aux !== null) {
-              detalleCatalogoReporte.idProductoRepuestoReporte = aux.id;
-              detalleCatalogoReporte.seleccion = true;
-            }
-          }
-        }
-      } else {
-        if (aux !== null) {
-          detalleCatalogoReporte.idProductoRepuestoReporte = aux.id;
-          detalleCatalogoReporte.seleccion = true;
-          detalleCatalogoReporte.codigoRepuesto = aux.idProducto.codigoFabricante + '';
-          detalleCatalogoReporte.porcentaje = aux.porcentaje;
-          detalleCatalogoReporte.tipoRepuesto = aux.cambiado ? 'C' : 'S';
-        }
-      }
-      listRes.push(detalleCatalogoReporte);
-    });
-
-
-    return listRes;
-  }
-
-  private listPrev(ids: any, catalogos: Array<DetalleCatalogoReporte>) {
-    let list: Array<DetalleCatalogoReporte> = [];
-    let catalogo: DetalleCatalogoReporte;
-
-    let idSelected: number;
-    catalogos.forEach(catalogo_ => {
-      catalogo = new DetalleCatalogoReporte()
-      catalogo = catalogo_;
-
-      for (var n = 0; n <= ids.length - 1; n++) {
-        idSelected = parseInt(ids[n] + '');
-        if (idSelected === catalogo.id) {
-          catalogo.seleccion = true;
-          break;
-        } else {
-          catalogo.seleccion = false;
-        }
-      }
-      list.push(catalogo);
-    });
-    return list;
-  }
-
-  private listCorr(ids: any) {
-    let list: Array<DetalleCatalogoReporte> = new Array<DetalleCatalogoReporte>();
-    let obj: DetalleCatalogoReporte;
-
-    ids.forEach(data => {
-      obj = new DetalleCatalogoReporte();
-      obj.idProductoRepuestoReporte = data.id;
-      obj.codigoRepuesto = data.idProducto.codigoFabricante;
-      obj.cambiado = data.cambiado;
-      obj.solicitar = data.solicitar;
-      obj.porcentaje = data.porcentaje;
-      obj.tipoRepuesto = obj.cambiado ? 'C' : 'S';
-      obj.seleccion = true;
-      list.push(obj);
-
-    });
-
-    return list;
-  }
-
-  private loadReportePreventivos(repuestos: Array<DetalleCatalogoReporte>, reporteMantenimientoList: Array<ReporteMantenimiento>) {
-
-    let list: Array<DetalleCatalogoReporte> = [];
-    let catalogo: DetalleCatalogoReporte;
-
-    repuestos.forEach(catalogoReporte => {
-      catalogo = new DetalleCatalogoReporte();
-      catalogo = catalogoReporte;
-
-      reporteMantenimientoList.filter(sw => sw.idDetalleCatalogoReporte !== null).forEach(mantenimiento => {
-        if (catalogoReporte.id === mantenimiento.idDetalleCatalogoReporte.id && mantenimiento.estado === true) {
-          catalogo.seleccion = true;
-          catalogo.idReporteMantenimiento = mantenimiento.id;
-        }
       });
 
-      list.push(catalogo);
-
-    });
-
-
-    return list;
-  }
-
-  private loadReportePreventivosIds(arrayPreventivos: Array<DetalleCatalogoReporte>, reporteMantenimientoList: Array<ReporteMantenimiento>) {
-    let idList = [Number];
-    if (arrayPreventivos !== null && reporteMantenimientoList !== null) {
-      arrayPreventivos.forEach(catalogo => {
-        reporteMantenimientoList.filter(sw => sw.idDetalleCatalogoReporte !== null).forEach(element => {
-          if (element.idDetalleCatalogoReporte.id === catalogo.id) {
-            this.someData = catalogo.id;
-            idList.push(this.someData);
-          }
-        });
-      });
     }
-    return idList;
+
+
+
   }
 
-  private loadReporteCorrectivosIds(arrayPreventivos: Array<DetalleCatalogoReporte>, reporteMantenimientoList: Array<ReporteMantenimiento>) {
-    let idList = [Number];
-    if (arrayPreventivos !== null && reporteMantenimientoList !== null) {
-      arrayPreventivos.forEach(catalogo => {
-        reporteMantenimientoList.filter(sw => sw.idProductoRepuestoReporte !== null).forEach(element => {
-          if (element.idDetalleCatalogoReporte.id === catalogo.id) {
-            this.someData = catalogo.id;
-            idList.push(this.someData);
-          }
-        });
-      });
-    }
-    return idList;
-  }
 
   private llenarRepuestos(tipo: String, productoRepuestoReporte: ProductoRepuestoReporte): void {
     if (tipo === 'SUMINISTROS') {
@@ -822,14 +574,10 @@ export class ReporteImpresorasPage {
     addModal.onDidDismiss(item => {
       if (item !== undefined) {
         this.cliente = item;
-
-
         this.clienteSucursalProvider.getByIdCliente(this.cliente.id).subscribe(data => {
-
           this.clienteSucursales = data;
         });
       }
-
     })
     addModal.present();
   }
@@ -855,10 +603,8 @@ export class ReporteImpresorasPage {
         this.llenarRepuestos(item.cabecera, item.productoRepuestoReporte);
       }
     }
-
     );
     addModal.present();
-
     this.loading.dismiss();
   }
 
@@ -880,12 +626,9 @@ export class ReporteImpresorasPage {
     let addModal = this.modalCtrl.create('ModalRepuestosSeleccionadosPage', { cabecera: tipo, arrayRepuestos: repuestos });
 
     addModal.onDidDismiss(item => {
-
-      if (item.arrayRepuestos !== undefined) {
-
+      if ((item.arrayRepuestos) && item.arrayRepuestos !== undefined) {
         this.actualizarRepuestos(item.cabecera, item.arrayRepuestos);
       }
-
     })
     addModal.present();
     this.loading.dismiss();
@@ -893,19 +636,14 @@ export class ReporteImpresorasPage {
 
   private actualizarRepuestos(tipo: String, arrayCorrectivos: Array<ProductoRepuestoReporte>): void {
     if (tipo === 'SUMINISTROS') {
-
       this.arrayCorrectivoRepuestosSuministros = arrayCorrectivos;
     } if (tipo === 'IMAGEN_CORRECTIVO') {
-
       this.arrayCorrectivoRepuestosImagen = arrayCorrectivos;
     } if (tipo === 'FIJACION_CORRECTIVO') {
-
       this.arrayCorrectivoRepuestosFijacion = arrayCorrectivos;
     } if (tipo === 'REVELADO') {
-
       this.arrayCorrectivoRepuestosRevelado = arrayCorrectivos;
     } if (tipo === 'ALIMENTACION') {
-
       this.arrayCorrectivoRepuestosAlimentacion = arrayCorrectivos;
     }
   }
@@ -989,13 +727,9 @@ export class ReporteImpresorasPage {
     this.tipoVisitaProvider.getAllTipoVisitas().subscribe(data => {
       this.tiposVisitas = data;
     });
-
-    //this.showLoader();
     this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('PROCESAMIENTO').subscribe(data => {
       this.arrayPreventivoProcesamiento = data;
-      //   this.loading.dismiss();
     })
-
     this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('IMAGEN_PREVENTIVO').subscribe(data => {
       this.arrayPreventivoImagen = data;
     })
@@ -1006,9 +740,6 @@ export class ReporteImpresorasPage {
       this.arrayPreventivoExteriores = data;
       this.loading.dismiss();
     })
-
-
-
   }
 
   private llenarCatalogosCorrectivos(): void {
@@ -1066,8 +797,8 @@ export class ReporteImpresorasPage {
       idTipoVisita: [this.tipoVisita.id, Validators.required],
       idClienteSucursal: [this.clienteSucursal.id, Validators.required],
       facturaCtrl: [this.reporte.factura],
-      horaInicio: [this.reporte.horaInicio],
-      horaFin: [this.reporte.horaFin],
+      horaInicio: [],
+      horaFin: [],
       referenciaCtrl: [this.reporte.referencia, ''],
 
       equipoProducto: [''],
@@ -1092,7 +823,7 @@ export class ReporteImpresorasPage {
       sintomas: [],
 
       nulo: [],
-
+      subTipoReporte: [],
       botonCliente: [],
       sortButton: [],
       busqueda: [],
@@ -1105,45 +836,10 @@ export class ReporteImpresorasPage {
     });
   }
 
-  msgSaveToast(succes: boolean) {
-    let msg: string;
-    let css_Class: string;
-
-    if (succes) {
-      msg = "Reporte Guardado Correctamente";
-      css_Class = "toastSucces";
-    } else {
-      msg = "Error al guardar el Reporte";
-      css_Class = "toastError";
-    }
-
-    let toast = this.toastCtrl.create({
-      message: msg,
-      duration: 3000,
-      position: 'top',
-      cssClass: css_Class
-    });
-
-    toast.onDidDismiss(() => {
-
-    });
-
-    toast.present();
-  }
 
 
-  msgToast(msg: string) {
 
-    let toast = this.toastCtrl.create({
-      message: msg,
-      duration: 9000,
-      position: 'top',
-      showCloseButton: true
-    });
-    toast.onDidDismiss(() => {
-    });
-    toast.present();
-  }
+
 
 
 }

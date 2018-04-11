@@ -11,7 +11,6 @@
 
     <form [formGroup]="reporteForm">
 
-
         <div padding-horizontal text-center class="animated fadeInDown">
             <div class="logo"></div>
             <h2 ion-text color="primary">
@@ -22,7 +21,7 @@
             </h2>
             <ion-item>
                 <ion-label floating>Tipo</ion-label>
-                <ion-select #C (ionChange)="onChange(C.value)" ([ngModel])="tipoReporte" formControlName="tipoReporte">
+                <ion-select #C (ionChange)="onChange(C.value)" ([ngModel])="subTipoReporte" formControlName="subTipoReporte">
                     <ion-option value="DIAGNOSTICO">DIAGNOSTICO</ion-option>
                     <ion-option value="REPARACION">REPARACION</ion-option>
                     <ion-option value="CONTADOR">CONTADOR</ion-option>
@@ -591,12 +590,12 @@
 
                             <ion-item>
                                 <ion-label floating>Hora Inicio</ion-label>
-                                <ion-datetime displayFormat="HH:mm" [(ngModel)]="reporte.horaInicio" formControlName="horaInicio"></ion-datetime>
+                                <ion-datetime displayFormat="HH:mm A" [(ngModel)]="horaReporteInicio" formControlName="horaInicio"></ion-datetime>
                             </ion-item>
 
                             <ion-item>
                                 <ion-label floating>Hora Fin</ion-label>
-                                <ion-datetime displayFormat="HH:mm" [(ngModel)]="reporte.horaFin" formControlName="horaFin"></ion-datetime>
+                                <ion-datetime displayFormat="HH:mm A" [(ngModel)]="horaReporteFin" formControlName="horaFin"></ion-datetime>
                             </ion-item>
                         </ion-list>
 

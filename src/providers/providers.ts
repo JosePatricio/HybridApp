@@ -10,6 +10,7 @@ import { ReporteProvider } from './reporte/reporte';
 import { ClienteSucursalProvider } from './cliente-sucursal/cliente-sucursal';
 import { ParametrosProvider } from './parametros/parametros';
 import { NotificacionProvider } from './notificacion/notificacion';
+import { UtilesProvider } from './utiles/utiles';
 
 export {
     Api,
@@ -22,5 +23,7 @@ export {
     ProductoRepuestoReporteProvider,
     ReporteProvider,
     ClienteSucursalProvider,
-    NotificacionProvider, ParametrosProvider
+    NotificacionProvider,
+    ParametrosProvider,
+    UtilesProvider
 };

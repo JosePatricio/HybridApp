@@ -17,11 +17,11 @@ import { SideMenuContentComponent } from './../shared/side-menu-content/side-men
 import { SideMenuSettings } from './../shared/side-menu-content/models/side-menu-settings';
 import { MenuOptionModel } from './../shared/side-menu-content/models/menu-option-model';
 import { timer } from 'rxjs/observable/timer';
-import { LocalNotifications } from '@ionic-native/local-notifications';
-import { FCM, NotificationData } from "@ionic-native/fcm";
 import { AsignacionReparaciones, Usuario } from '../models/models';
 import { BackgroundMode } from '@ionic-native/background-mode';
 import { Vibration } from '@ionic-native/vibration';
+import { FCM, NotificationData } from "@ionic-native/fcm";
+import { LocalNotifications } from '@ionic-native/local-notifications';
 import { LoginPage } from '../pages/login/login';
 
 @Component({
