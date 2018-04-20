@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {/* IonicPage, NavController, NavParams, ModalController, LoadingController,AlertController,*/ ToastController } from 'ionic-angular';
+import {ToastController } from 'ionic-angular';
 import {
   Cliente, Producto, Modelo, Marca, ProductoDetalleReporte, TipoVisitas, DetalleCatalogoReporte, Reporte, ProductoRepuestoReporte, Usuario,
   DetalleInventarioProducto, ClienteSucursal, ProductoClienteReporte, Proyectos,
   DatosReporteDTO, AsignacionReparaciones, ReporteMantenimiento
 } from '../../models/models';
-
+import { Api } from '../api/api';
 /*
   Generated class for the UtilesProvider provider.
 
@@ -17,10 +17,15 @@ export class UtilesProvider {
 
 
   public someData: any;
-  constructor(private toastCtrl: ToastController) {
+  constructor(private toastCtrl: ToastController, public api: Api) {
 
 
   }
+
+  public consola(valor: string) {
+    return this.api.putHttp('parametrosService/consola/', valor);
+  }
+
 
   msgToast(msg: string) {
 
@@ -61,6 +66,21 @@ export class UtilesProvider {
     toast.present();
   }
 
+
+
+  public msgToastWarn(msg: string) {
+
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      position: 'top',
+      showCloseButton: true,
+      cssClass: 'toastError'
+    });
+    toast.onDidDismiss(() => {
+    });
+    toast.present();
+  }
 
 
   public listPrevEdition(ids: any, catalogos: Array<DetalleCatalogoReporte>, reporteMantenimientoList: Array<ReporteMantenimiento>) {
@@ -278,10 +298,7 @@ export class UtilesProvider {
 
 
 
-  public validacionCamposReporte(): boolean {
 
-    return false;
-  }
 
   public horaActual(hora: string) {
     let date = new Date('1991-06-12 ' + hora)
@@ -300,5 +317,60 @@ export class UtilesProvider {
     var s = "000000000" + num;
     return s;
   }
+
+
+
+  public validarCampos(productoClienteReporte: ProductoClienteReporte, reporte: Reporte, detalleInventarioProducto: DetalleInventarioProducto): boolean {
+    if (reporte.subtipo == undefined || reporte.subtipo == null) {
+      this.msgToastWarn('Ingrese el tipo de reporte');
+      return false;
+    }
+
+    if (productoClienteReporte.idCliente.id == undefined || productoClienteReporte.idCliente.id == null) {
+      this.msgToastWarn('Seleccione el Cliente');
+      return false;
+    }
+
+    if (productoClienteReporte.correoAtencion == undefined || productoClienteReporte.correoAtencion == null) {
+      this.msgToastWarn('Ingrese el campo Correo');
+      return false;
+    }
+
+    if (productoClienteReporte.atencion == undefined || productoClienteReporte.atencion == null) {
+      this.msgToastWarn('Ingrese el campo Atención');
+      return false;
+    }
+
+    if (reporte.idVisita.id == undefined || reporte.idVisita.id == null) {
+      this.msgToastWarn('Ingrese el campo Tipo de visita');
+      return false;
+    }
+    if (productoClienteReporte.idProducto.id == undefined || productoClienteReporte.idProducto.id == null) {
+      this.msgToastWarn('Seleccione un equipo');
+      return false;
+    }
+    if (detalleInventarioProducto.serial == undefined || detalleInventarioProducto.serial == null) {
+      this.msgToastWarn('Ingrese el campo serial');
+      return false;
+    }
+    if (productoClienteReporte.ipEquipo == undefined || productoClienteReporte.ipEquipo == null) {
+      this.msgToastWarn('Ingrese el campo Ip Equipo');
+      return false;
+    }
+    if (productoClienteReporte.idClienteSucursal.id == undefined || productoClienteReporte.idClienteSucursal.id == null) {
+      this.msgToastWarn('Seleccione el sucursal');
+      return false;
+    }
+
+    /*if (reporte.firmaClienteBase64 == undefined || reporte.firmaClienteBase64 == null) {
+      this.msgToastWarn('Firma de Cliente requerida');
+      return false;
+    }*/
+
+    return true;
+  }
+
+
+
 
 }

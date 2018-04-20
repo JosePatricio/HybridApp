@@ -1,7 +1,6 @@
 import { Component, ViewChild, ChangeDetectorRef, NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, LoadingController, ToastController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, LoadingController, ToastController, AlertController, Platform, PopoverController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import moment from 'moment';
 import {
   Cliente, Producto, Modelo, Marca, ProductoDetalleReporte, TipoVisitas, DetalleCatalogoReporte, Reporte, ProductoRepuestoReporte, Usuario,
   DetalleInventarioProducto, ClienteSucursal, ProductoClienteReporte, Proyectos,
@@ -12,6 +11,9 @@ import { DetalleCatalogoReporteProvider, TipoVisitaProvider, ClienteProvider, Re
 import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 import { AdministracionReportesPage } from '../administracion-reportes/administracion-reportes';
 
+import { Vibration } from '@ionic-native/vibration';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { NotificationsPage } from '../notifications/notifications';
 
 /**
  * Generated class for the ReporteImpresorasPage page.
@@ -100,7 +102,8 @@ export class ReporteImpresorasPage {
   reporteForm: FormGroup;
   reporteTab: any;
   loading: any;
-  colorNotification: string;
+  public colorNotification: string = 'light';
+  public notificationes: number;
 
   visibleCorrectivosBtns: Array<Boolean> = [false, false, false, false, false, false];
   nombreListaCorrectivo: Array<string> = [];
@@ -109,12 +112,16 @@ export class ReporteImpresorasPage {
 
   @ViewChild(SignaturePad) public signaturePad: SignaturePad;
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public modalCtrl: ModalController,
-    public loadingCtrl: LoadingController,
+    public loadingCtrl: LoadingController, private platform: Platform,
     public detalleCatalogoReporteProvider: DetalleCatalogoReporteProvider, public clienteProvider: ClienteProvider, public api: Api, public utilesProvider: UtilesProvider,
     public tipoVisitaProvider: TipoVisitaProvider, public reporteProvider: ReporteProvider, public notificacionProvider: NotificacionProvider
-    , public clienteSucursalProvider: ClienteSucursalProvider, private cdRef: ChangeDetectorRef,
-    private toastCtrl: ToastController, private alertCtrl: AlertController, private zone: NgZone
+    , public clienteSucursalProvider: ClienteSucursalProvider, private cdRef: ChangeDetectorRef, private toastCtrl: ToastController, private alertCtrl: AlertController
+    , private zone: NgZone, private vibration: Vibration, public popoverCtrl: PopoverController,
+    private localNotifications: LocalNotifications
   ) {
+
+
+
 
 
 
@@ -142,6 +149,8 @@ export class ReporteImpresorasPage {
     this.usuario.nombreCompleto = user.nombreCompleto;
 
 
+    this.notificationes = this.notificacionProvider.getnumeroNotificacion();
+    this.colorNotification = this.notificationes == 0 ? 'light' : 'danger';
 
     /*   NOMBRE BOTONES CORRECTIVOS  */
     this.detalleCatalogoReporteProvider.getCabeceraCatalogoReportesByTipo('CORRECTIVO').
@@ -204,6 +213,16 @@ export class ReporteImpresorasPage {
   }
 
 
+
+  giveAlert() {
+    // Give the alert once the notification is clicked/scheduled
+    this.localNotifications.on("click", (notification, state) => {
+      this.navCtrl.push(ReporteImpresorasPage, { notification: JSON.stringify(notification.data.data) });
+
+    });
+
+  }
+
   public onChange(subtipo) {
     this.tipoReporte = subtipo;
     this.reporteProvider.numeroReporteFormateado(this.usuario.id, 'REPORTE', subtipo).subscribe(
@@ -232,6 +251,8 @@ export class ReporteImpresorasPage {
     this.marca = asignacionReparaciones.producto.idModelo.idMarca;
 
     this.detalleInventarioProducto.serial = asignacionReparaciones.serial;
+
+    this.productoClienteReporte.correoAtencion = asignacionReparaciones.idClienteSucursal.idCliente.email;
 
     this.clienteSucursalProvider.getByIdCliente(this.clienteSucursal.idCliente.id).subscribe(cs => {
       this.clienteSucursales = cs;
@@ -302,7 +323,6 @@ export class ReporteImpresorasPage {
       this.reporte = data.idReporte;
       this.productoDetalleReporte = data.idProductoDetalleReporte;
       this.subTipoReporte = this.reporte.subtipo;
-
 
       if (data.idProducto !== null) {
         this.producto = data.idProducto;
@@ -395,7 +415,7 @@ export class ReporteImpresorasPage {
         atencion: this.productoClienteReporte.atencion,
         ipEquipo: this.productoClienteReporte.ipEquipo,
         puertoUsb: this.productoClienteReporte.puertoUsb,
-
+        email: this.productoClienteReporte.correoAtencion,
         contadorTotalAnterior: this.productoDetalleReporte.contadorTotalAnterior,
         contadorColorAnterior: this.productoDetalleReporte.contadorColorAnterior,
         contadorBnAnterior: this.productoDetalleReporte.contadorBnAnterior,
@@ -419,20 +439,6 @@ export class ReporteImpresorasPage {
     });
   }
 
-  public fechauno: Date = new Date();
-
-  myDate: any;
-  formatAMPM(date) {
-    var hours = date[0];
-    var minutes = date[1];
-    var ampm = hours >= 12 ? 'pm' : 'am';
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    var strTime = hours + ':' + minutes + ' ' + ampm;
-    return strTime;
-  }
-
 
   private guardar(): void {
 
@@ -447,14 +453,19 @@ export class ReporteImpresorasPage {
 
     this.reporte.horaInicio = this.utilesProvider.horaActual(this.reporteForm.value.horaInicio);
     this.reporte.horaFin = this.utilesProvider.horaActual(this.reporteForm.value.horaFin);
-    this.datosReporteDTO.reporte = this.reporte;
 
+
+    this.reporte.idVisita.id = this.reporteForm.value.idTipoVisita;
 
 
     this.productoClienteReporte.idProyecto = this.proyecto;
     this.productoClienteReporte.atencion = this.reporteForm.value.atencion;
     this.productoClienteReporte.ipEquipo = this.reporteForm.value.ipEquipo;
     this.productoClienteReporte.puertoUsb = this.reporteForm.value.puertoUsb;
+    this.productoClienteReporte.correoAtencion = this.reporteForm.value.email;
+    this.productoClienteReporte.idCliente = this.cliente;
+    this.productoClienteReporte.idClienteSucursal.id = this.reporteForm.value.idClienteSucursal;
+    this.productoClienteReporte.idProducto = this.producto;
 
     this.productoDetalleReporte.contadorTotalAnterior = this.reporteForm.value.contadorTotalAnterior;
     this.productoDetalleReporte.contadorColorAnterior = this.reporteForm.value.contadorColorAnterior;
@@ -481,7 +492,8 @@ export class ReporteImpresorasPage {
     this.datosReporteDTO.idTipoVisita = this.reporteForm.value.idTipoVisita;
     this.datosReporteDTO.productoClienteReporte = this.productoClienteReporte;
 
-    console.log('ES EDICION  ' + this.isEdit + '    NUMEIR REOIRTE  ' + this.reporte.numerofactura);
+
+
     if (this.isEdit) {
 
       this.datosReporteDTO.lista1 = this.utilesProvider.listPrevEdition(this.arrayPreventivoProcesamientoIds, this.arrayPreventivoProcesamiento, this.reporteMantenimientoListTemp);
@@ -520,19 +532,25 @@ export class ReporteImpresorasPage {
       this.datosReporteDTO.lista7 = this.utilesProvider.listCorr(this.arrayCorrectivoRepuestosFijacion);
       this.datosReporteDTO.lista8 = this.utilesProvider.listCorr(this.arrayCorrectivoRepuestosRevelado);
 
-      this.showLoaderSave();
 
-      console.log(JSON.stringify(this.datosReporteDTO));
-      this.reporteProvider.saveAllReporteImpresoras(this.datosReporteDTO).then(
-        response => {
-          this.navCtrl.push(AdministracionReportesPage);
+      if (this.utilesProvider.validarCampos(this.productoClienteReporte, this.reporte, this.detalleInventarioProducto)) {
+
+        this.showLoaderSave();
+
+        console.log(JSON.stringify(this.datosReporteDTO));
+        this.reporteProvider.saveAllReporteImpresoras(this.datosReporteDTO).then(
+          response => {
+            this.navCtrl.push(AdministracionReportesPage);
+            this.loading.dismiss();
+            this.utilesProvider.msgSaveToast(true);
+          }
+        ).catch((error: any) => {
+          this.utilesProvider.msgSaveToast(false);
           this.loading.dismiss();
-          this.utilesProvider.msgSaveToast(true);
-        }
-      ).catch((error: any) => {
-        this.utilesProvider.msgSaveToast(false);
-        this.loading.dismiss();
-      });
+        });
+      }
+
+
 
     }
 
@@ -572,8 +590,10 @@ export class ReporteImpresorasPage {
   public openModalCliente() {
     let addModal = this.modalCtrl.create('ModalSearchClientePage');
     addModal.onDidDismiss(item => {
-      if (item !== undefined) {
+      if ((item)&&item !== undefined) {
         this.cliente = item;
+        this.productoClienteReporte.correoAtencion = item.email;
+
         this.clienteSucursalProvider.getByIdCliente(this.cliente.id).subscribe(data => {
           this.clienteSucursales = data;
         });
@@ -587,6 +607,7 @@ export class ReporteImpresorasPage {
     let addModal = this.modalCtrl.create('ModalSearchProductoPage');
     addModal.onDidDismiss(item => {
       if (item) {
+        console.log('EL ID PRODUCTO ES ' + item.id);
         this.producto = item;
         this.marca = this.producto.idModelo.idMarca;
         this.modelo = this.producto.idModelo;
@@ -778,6 +799,13 @@ export class ReporteImpresorasPage {
     this.loading.present();
   }
 
+  public presentNotifications(myEvent) {
+    console.log(myEvent);
+    let popover = this.popoverCtrl.create(NotificationsPage);
+    popover.present({
+      ev: myEvent
+    });
+  }
   private createMyForm() {
     return this.formBuilder.group({
       reporteSegment: [],

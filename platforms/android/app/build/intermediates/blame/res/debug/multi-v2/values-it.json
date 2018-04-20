@@ -4,7 +4,7 @@
             "outputFile": "C:\\PROYECTOS\\HybridApp\\platforms\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-it\\values-it.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\pato\\.gradle\\caches\\transforms-1\\files-1.1\\firebase-messaging-12.0.1.aar\\c86659cf2e55f32458e5eae9d32a638f\\res\\values-it\\values.xml",
+                    "source": "C:\\Users\\pato\\.gradle\\caches\\transforms-1\\files-1.1\\firebase-messaging-15.0.0.aar\\7230e0745b5d9b0dc36f90a2f16dcb10\\res\\values-it\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -38,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\pato\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-12.0.1.aar\\6e40965776954ba367d223534de9bbbd\\res\\values-it\\values.xml",
+                    "source": "C:\\Users\\pato\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-15.0.0.aar\\2cc43d3f0e0d8ba13fca16734d3a28f9\\res\\values-it\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",

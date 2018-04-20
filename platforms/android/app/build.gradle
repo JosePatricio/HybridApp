@@ -91,9 +91,9 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
-apply from: "../cordova-plugin-badge/starter-badge.gradle"
-apply from: "../cordova-plugin-local-notification/starter-localnotification.gradle"
-apply from: "../cordova-plugin-fcm/starter-FCMPlugin.gradle"
+apply from: "../cordova-plugin-badge/ionic-badge.gradle"
+apply from: "../cordova-plugin-fcm/ionic-FCMPlugin.gradle"
+apply from: "../cordova-plugin-local-notification/ionic-localnotification.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras = file('build-extras.gradle').exists()
@@ -262,10 +262,10 @@ dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
-    compile "com.android.support:support-v4:27.1.0"
-    compile "com.android.support:support-v4:26.+"
     compile "com.google.firebase:firebase-core:+"
     compile "com.google.firebase:firebase-messaging:+"
+    compile "com.android.support:support-v4:27.1.0"
+    compile "com.android.support:support-v4:26.+"
     // SUB-PROJECT DEPENDENCIES END
 }
 

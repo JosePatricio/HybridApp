@@ -9,6 +9,7 @@ import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 import { ReporteImpresorasPage } from '../reporte-impresoras/reporte-impresoras';
 import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
+import { ReporteScannersPage } from '../reporte-scanners/reporte-scanners';
 
 
 /**
@@ -99,20 +100,20 @@ export class AdministracionReportesPage {
   edit(item: any) {
 
     let reporteDto = item;
-
-    /*  this.navCtrl.push(ReporteImpresorasPage, { reporteDto: reporteDto, isEdit: true });
-      this.nativePageTransitions.fade(null);
-      this.navCtrl.setRoot(ReporteImpresorasPage);
-  */
-
-
     let options: NativeTransitionOptions = {
       direction: 'up',
       duration: 600
     };
 
     this.nativePageTransitions.flip(options);
-    this.navCtrl.push(ReporteImpresorasPage, { reporteDto: reporteDto, isEdit: true })
+
+if(item.tipo =='REPORTE'){
+  this.navCtrl.push(ReporteImpresorasPage, { reporteDto: reporteDto, isEdit: true })
+}
+if(item.tipo =='SCANNERS'){
+  this.navCtrl.push(ReporteScannersPage, { reporteDto: reporteDto, isEdit: true })
+}
+  
 
 
   }

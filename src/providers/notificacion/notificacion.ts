@@ -1,6 +1,8 @@
 
 import { Injectable } from '@angular/core';
 import { Api } from '../api/api';
+import { Observable } from 'rxjs/Observable';
+import { AsignacionReparaciones } from '../../models/models';
 /*
   Generated class for the NotificacionProvider provider.
 
@@ -22,9 +24,11 @@ export class NotificacionProvider {
   }
 
 
-  public getNotificacionesByEstadoReporteByIdUsuario(id: number) {
-    return this.api.get('asignacionReparacionService/getNotificacionesByEstadoReporteByIdUsuario/' + id);
+  public getNotificacionesByEstadoReporteByIdUsuario(id: number): Observable<Array<AsignacionReparaciones>> {
+    return this.api.get_type<Array<AsignacionReparaciones>>('asignacionReparacionService/getNotificacionesByEstadoReporteByIdUsuario/' + id);
   }
+
+
 
 
   public setnumeroNotificacion(numero: number) {

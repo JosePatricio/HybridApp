@@ -37,11 +37,8 @@ export class ModalRepuestosSeleccionadosPage {
   }
 
   deleteItem(r: any) {
-    console.log('Eliminar ' + r);
-
-
+   
     let index = this.arrayRepuestos.indexOf(r);
-    console.log('INDEX TP DELETE ' + index);
     if (index > -1) {
       this.arrayRepuestos.splice(index, 1); // works
 

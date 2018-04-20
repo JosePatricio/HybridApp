@@ -23,49 +23,14 @@ export class ListMasterPage {
     //this.currentItems = this.items.query();
 
     this.notificationes = this.notificacionProvider.getnumeroNotificacion();
-    //this.colorNotification='danger';
+    this.colorNotification = this.notificationes == 0 ? 'light' : 'danger';
+
+
+
+
+  }
 
   
-    
-
-  }
-
-  slidePage() {
-    let options: NativeTransitionOptions = {
-      direction: 'left',
-      duration: 400,
-      slowdownfactor: -1,
-      iosdelay: 50
-    };
-
-    this.nativePageTransitions.slide(options);
-    this.navCtrl.setRoot(ReporteImpresorasPage);
-  }
-
-  flipPage() {
-    let options: NativeTransitionOptions = {
-      direction: 'up',
-      duration: 600
-    };
-
-    this.nativePageTransitions.flip(options);
-    this.navCtrl.push(ReporteImpresorasPage);
-  }
-
-  fadePage() {
-    this.nativePageTransitions.fade(null);
-    this.navCtrl.setRoot(ReporteImpresorasPage);
-  }
-
-  curlPage() {
-    let options: NativeTransitionOptions = {
-      direction: 'up',
-      duration: 600
-    };
-    this.nativePageTransitions.curl(options);
-    this.navCtrl.setRoot(ReporteImpresorasPage);
-  }
-
 
   ngAfterViewInit() {
     // this.signaturePad is now available
@@ -83,12 +48,7 @@ export class ListMasterPage {
 
 
 
-
-  openItem(item: any) {
-    this.navCtrl.push('ItemDetailPage', {
-      item: item
-    });
-  }
+  
 
   presentNotifications(myEvent) {
     console.log(myEvent);

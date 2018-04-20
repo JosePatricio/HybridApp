@@ -3,6 +3,7 @@ import { Reporte, ProductoDetalleReporte, ClienteSucursal, Producto, Cliente, Re
 export class ProductoClienteReporte {
 
 
+    
     id: number;
     serie: String;
     atencion: String;
@@ -13,7 +14,7 @@ export class ProductoClienteReporte {
     correoAtencion: String;
     idReporte: Reporte = new Reporte();
     idProductoDetalleReporte: ProductoDetalleReporte = new ProductoDetalleReporte();
-    idClienteSucursal: ClienteSucursal;
+    idClienteSucursal: ClienteSucursal= new ClienteSucursal();
     idCliente: Cliente = new Cliente();
     idProducto: Producto = new Producto();
     idProyecto: Proyectos = new Proyectos();

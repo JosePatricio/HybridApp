@@ -4,23 +4,6 @@
             "outputFile": "C:\\PROYECTOS\\HybridApp\\platforms\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-lt\\values-lt.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\pato\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-12.0.1.aar\\6e40965776954ba367d223534de9bbbd\\res\\values-lt\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "247",
-                        "endColumns": "217",
-                        "endOffsets": "464"
-                    },
-                    "to": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "105",
-                        "endColumns": "217",
-                        "endOffsets": "318"
-                    }
-                },
-                {
                     "source": "C:\\Users\\pato\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.0.aar\\da4670d3c98cd86dd97230149df566de\\res\\values-lt\\values-lt.xml",
                     "from": {
                         "startLines": "2",
@@ -38,7 +21,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\pato\\.gradle\\caches\\transforms-1\\files-1.1\\firebase-messaging-12.0.1.aar\\c86659cf2e55f32458e5eae9d32a638f\\res\\values-lt\\values.xml",
+                    "source": "C:\\Users\\pato\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-15.0.0.aar\\2cc43d3f0e0d8ba13fca16734d3a28f9\\res\\values-lt\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "217",
+                        "endOffsets": "464"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "105",
+                        "endColumns": "217",
+                        "endOffsets": "318"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\pato\\.gradle\\caches\\transforms-1\\files-1.1\\firebase-messaging-15.0.0.aar\\7230e0745b5d9b0dc36f90a2f16dcb10\\res\\values-lt\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",

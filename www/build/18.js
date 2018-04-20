@@ -1,15 +1,15 @@
 webpackJsonp([18],{
 
-/***/ 490:
+/***/ 495:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CardsPageModule", function() { return CardsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListMasterPageModule", function() { return ListMasterPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__ = __webpack_require__(140);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__cards__ = __webpack_require__(512);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__list_master__ = __webpack_require__(523);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -20,37 +20,40 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var CardsPageModule = /** @class */ (function () {
-    function CardsPageModule() {
+var ListMasterPageModule = /** @class */ (function () {
+    function ListMasterPageModule() {
     }
-    CardsPageModule = __decorate([
+    ListMasterPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_3__cards__["a" /* CardsPage */],
+                __WEBPACK_IMPORTED_MODULE_3__list_master__["a" /* ListMasterPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_3__cards__["a" /* CardsPage */]),
+                __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_3__list_master__["a" /* ListMasterPage */]),
                 __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__["b" /* TranslateModule */].forChild()
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_3__cards__["a" /* CardsPage */]
+                __WEBPACK_IMPORTED_MODULE_3__list_master__["a" /* ListMasterPage */]
             ]
         })
-    ], CardsPageModule);
-    return CardsPageModule;
+    ], ListMasterPageModule);
+    return ListMasterPageModule;
 }());
 
-//# sourceMappingURL=cards.module.js.map
+//# sourceMappingURL=list-master.module.js.map
 
 /***/ }),
 
-/***/ 512:
+/***/ 523:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CardsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListMasterPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_native_page_transitions__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__notifications_notifications__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_providers__ = __webpack_require__(34);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -62,49 +65,49 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var CardsPage = /** @class */ (function () {
-    function CardsPage(navCtrl) {
+
+
+
+var ListMasterPage = /** @class */ (function () {
+    function ListMasterPage(navCtrl, modalCtrl, nativePageTransitions, popoverCtrl, notificacionProvider) {
+        //this.currentItems = this.items.query();
         this.navCtrl = navCtrl;
-        this.cardItems = [
-            {
-                user: {
-                    avatar: 'assets/img/marty-avatar.png',
-                    name: 'Marty McFly'
-                },
-                date: 'November 5, 1955',
-                image: 'assets/img/advance-card-bttf.png',
-                content: 'Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.',
-            },
-            {
-                user: {
-                    avatar: 'assets/img/sarah-avatar.png.jpeg',
-                    name: 'Sarah Connor'
-                },
-                date: 'May 12, 1984',
-                image: 'assets/img/advance-card-tmntr.jpg',
-                content: 'I face the unknown future, with a sense of hope. Because if a machine, a Terminator, can learn the value of human life, maybe we can too.'
-            },
-            {
-                user: {
-                    avatar: 'assets/img/ian-avatar.png',
-                    name: 'Dr. Ian Malcolm'
-                },
-                date: 'June 28, 1990',
-                image: 'assets/img/advance-card-jp.jpg',
-                content: 'Your scientists were so preoccupied with whether or not they could, that they didn\'t stop to think if they should.'
-            }
-        ];
+        this.modalCtrl = modalCtrl;
+        this.nativePageTransitions = nativePageTransitions;
+        this.popoverCtrl = popoverCtrl;
+        this.notificacionProvider = notificacionProvider;
+        this.colorNotification = 'light';
+        this.notificationes = this.notificacionProvider.getnumeroNotificacion();
+        this.colorNotification = this.notificationes == 0 ? 'light' : 'danger';
     }
-    CardsPage = __decorate([
+    ListMasterPage.prototype.ngAfterViewInit = function () {
+        // this.signaturePad is now available
+        //  this.signaturePad.set('minWidth', 5); // set szimek/signature_pad options at runtime
+        // this.signaturePad.clear(); // invoke functions from szimek/signature_pad API
+    };
+    /**
+     * The view loaded, let's query our items for the list
+     */
+    ListMasterPage.prototype.ionViewDidLoad = function () {
+    };
+    ListMasterPage.prototype.presentNotifications = function (myEvent) {
+        console.log(myEvent);
+        var popover = this.popoverCtrl.create(__WEBPACK_IMPORTED_MODULE_3__notifications_notifications__["a" /* NotificationsPage */]);
+        popover.present({
+            ev: myEvent
+        });
+    };
+    ListMasterPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-cards',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\cards\cards.html"*/'<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>{{ \'CARDS_TITLE\' | translate }}</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content>\n\n\n\n  <ion-card *ngFor="let item of cardItems">\n\n\n\n    <ion-item>\n\n      <ion-avatar item-start>\n\n        <img [src]="item.user.avatar">\n\n      </ion-avatar>\n\n      <h2>{{item.user.name}}</h2>\n\n      <p>{{item.date}}</p>\n\n    </ion-item>\n\n\n\n    <img [src]="item.image">\n\n\n\n    <ion-card-content>\n\n      <p>{{item.content}}</p>\n\n    </ion-card-content>\n\n\n\n    <ion-row>\n\n      <ion-col>\n\n        <button ion-button color="primary" clear small icon-start>\n\n            <ion-icon name=\'thumbs-up\'></ion-icon>\n\n            12 Likes\n\n          </button>\n\n      </ion-col>\n\n      <ion-col>\n\n        <button ion-button color="primary" clear small icon-start>\n\n            <ion-icon name=\'text\'></ion-icon>\n\n            4 Comments\n\n          </button>\n\n      </ion-col>\n\n      <ion-col center text-center>\n\n        <ion-note>\n\n          11h ago\n\n        </ion-note>\n\n      </ion-col>\n\n    </ion-row>\n\n  </ion-card>\n\n</ion-content>'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\cards\cards.html"*/
+            selector: 'page-list-master',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\list-master\list-master.html"*/'<ion-header>\n\n\n\n  <ion-navbar>\n\n    <button ion-button menuToggle color="light">\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-title>{{ \'HOME_TITLE\' | translate }}</ion-title>\n\n\n\n    <ion-buttons end>\n\n      <button ion-button tappable (click)="presentNotifications($event)" color="light">\n\n        {{notificationes}}\n\n        <ion-icon name="notifications" color="{{colorNotification}}"></ion-icon>\n\n      </button>\n\n\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n<ion-content>\n\n\n\n\n\n\n\n  <ion-content padding>\n\n\n\n\n\n\n\n\n\n  </ion-content>\n\n\n\n\n\n</ion-content>'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\list-master\list-master.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */]])
-    ], CardsPage);
-    return CardsPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_native_page_transitions__["a" /* NativePageTransitions */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* PopoverController */], __WEBPACK_IMPORTED_MODULE_4__providers_providers__["e" /* NotificacionProvider */]])
+    ], ListMasterPage);
+    return ListMasterPage;
 }());
 
-//# sourceMappingURL=cards.js.map
+//# sourceMappingURL=list-master.js.map
 
 /***/ })
 

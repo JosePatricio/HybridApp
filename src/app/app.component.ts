@@ -6,7 +6,7 @@ import { Config, Nav, Platform, MenuController, AlertController, ToastController
 
 import { FirstRunPage, MainPage } from '../pages/pages';
 
-import { Api, NotificacionProvider } from '../providers/providers';
+import { NotificacionProvider, UtilesProvider } from '../providers/providers';
 
 import { ReporteImpresorasPage } from '../pages/reporte-impresoras/reporte-impresoras';
 import { AdministracionReportesPage } from '../pages/administracion-reportes/administracion-reportes';
@@ -17,12 +17,14 @@ import { SideMenuContentComponent } from './../shared/side-menu-content/side-men
 import { SideMenuSettings } from './../shared/side-menu-content/models/side-menu-settings';
 import { MenuOptionModel } from './../shared/side-menu-content/models/menu-option-model';
 import { timer } from 'rxjs/observable/timer';
-import { AsignacionReparaciones, Usuario } from '../models/models';
+import { AsignacionReparaciones, Usuario, Marca } from '../models/models';
 import { BackgroundMode } from '@ionic-native/background-mode';
 import { Vibration } from '@ionic-native/vibration';
 import { FCM, NotificationData } from "@ionic-native/fcm";
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { LoginPage } from '../pages/login/login';
+import { ReporteScannersPage } from '../pages/reporte-scanners/reporte-scanners';
+import { ReporteGenericoPage } from '../pages/reporte-generico/reporte-generico';
 
 @Component({
 
@@ -47,8 +49,8 @@ export class MyApp {
 
 
   constructor(private alertCtrl: AlertController, private menuCtrl: MenuController, private translate: TranslateService,
-    private platform: Platform, private config: Config, private statusBar: StatusBar, public api: Api, public notificacionProvider: NotificacionProvider,
-    private splashScreen: SplashScreen, private fcm: FCM, private backgroundMode: BackgroundMode, private vibration: Vibration,
+    private platform: Platform, private config: Config, private statusBar: StatusBar, public notificacionProvider: NotificacionProvider,
+    private splashScreen: SplashScreen, private fcm: FCM, private backgroundMode: BackgroundMode, private vibration: Vibration, private utilesProvider: UtilesProvider,
     private localNotifications: LocalNotifications, private toastCtrl: ToastController) {
 
     this.usuario = JSON.parse(localStorage.getItem("AUTENTHICATION"));
@@ -56,27 +58,44 @@ export class MyApp {
     this.rootPage = (this.usuario === null) ? FirstRunPage : MainPage;
 
 
+
+
+
     platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 
+
       if (this.platform.is('android')) {
+
+       
+
         this.getIdDeviceoken();
+
         this.onNotification();
         this.giveAlert();
 
-        this.backgroundMode.setDefaults({ title: 'App to Run in BackGround', text: 'App Running in Background', resume: true, hidden: true, silent: true });
+     /*   this.backgroundMode.setDefaults({ title: 'App to Run in BackGround', text: 'App Running in Background', resume: true, hidden: true, silent: true });
         this.backgroundMode.setDefaults({ silent: true });
 
         this.backgroundMode.enable();
         this.backgroundMode.on("activate").subscribe(() => {
           this.onNotification();
-        });
+        });*/
 
       }
 
 
     });
+
+
+    this.notificacionProvider.getNotificacionesByEstadoReporteByIdUsuario(this.usuario.id).subscribe(x => {
+
+      this.notificacionProvider.setnumeroNotificacion(x.length);
+
+
+    });
+
 
     this.initTranslate();
     this.initializeApp();
@@ -102,7 +121,6 @@ export class MyApp {
         //aquí se debe enviar el token al back-end para tenerlo registrado y de esta forma poder enviar mensajes
         // a esta  aplicación
         //o también copiar el token para usarlo con Postman :D
-
         this.notificacionProvider.updateIdDeviceCode(token).then(r => { });
 
       })
@@ -126,25 +144,38 @@ export class MyApp {
     this.fcm.onNotification().subscribe(
       (data: NotificationData) => {
 
+        this.utilesProvider.consola(JSON.stringify(data.jsonNotification));
+
         this.asignacionReparaciones = JSON.parse(data.jsonNotification);
 
-        if (data.wasTapped) {
-          //ocurre cuando nuestra app está en segundo plano y hacemos tap en la notificación que se muestra en el dispositivo
-          console.log("Received in background", JSON.stringify(data))
-        } else {
 
-          this.vibration.vibrate(500);
-          this.localNotifications.schedule({
-            id: this.asignacionReparaciones.id,
-            title: 'Notificación',
-            text: this.asignacionReparaciones.tipoNotificacion + '-' + this.asignacionReparaciones.tipoReporte + '-' + this.asignacionReparaciones.estado,
-            data: { data: this.asignacionReparaciones }
+
+
+        if (this.asignacionReparaciones.idUsuarioAtencion !== undefined && this.asignacionReparaciones.idUsuarioAtencion.id === this.usuario.id) {
+
+
+          this.notificacionProvider.getNotificacionesByEstadoReporteByIdUsuario(this.usuario.id).subscribe(x => {
+            this.notificacionProvider.setnumeroNotificacion(x.length);
           });
 
+          if (data.wasTapped) {
+            //ocurre cuando nuestra app está en segundo plano y hacemos tap en la notificación que se muestra en el dispositivo
+            console.log("Received in background", JSON.stringify(data))
+            this.utilesProvider.consola('Received in background"' + JSON.parse(data.jsonNotification));
+          } else {
 
+            this.vibration.vibrate(500);
+            this.localNotifications.schedule({
+              id: this.asignacionReparaciones.id,
+              title: 'Notificación',
+              text: this.asignacionReparaciones.tipoNotificacion + '-' + this.asignacionReparaciones.tipoReporte + '-' + this.asignacionReparaciones.estado,
+              data: { data: this.asignacionReparaciones }
+            });
+          }
         }
       }, error => {
         console.error("Error in notification", error)
+        this.utilesProvider.consola('hubo un error  ' + error);
       }
     );
 
@@ -169,18 +200,7 @@ export class MyApp {
 
 
 
-  msgToast(msg: string) {
 
-    let toast = this.toastCtrl.create({
-      message: msg,
-      duration: 9000,
-      position: 'top',
-      showCloseButton: true
-    });
-    toast.onDidDismiss(() => {
-    });
-    toast.present();
-  }
 
 
 
@@ -216,36 +236,37 @@ export class MyApp {
           iconName: 'print',
           displayName: 'Impresoras',
           component: ReporteImpresorasPage
-          // component: { ReporteImpresorasPage, isEdit: true }
         },
         {
           iconName: 'qr-scanner',
           displayName: 'Scanner',
-          //	component: DetailsPage
+          component: ReporteScannersPage
         }
         ,
         {
-          iconName: 'desktop',
-          displayName: 'Monitor',
-          //	component: DetailsPage
+          iconName: 'create',
+          displayName: 'Genérico',
+          component: ReporteGenericoPage
         }
-        ,
-        {
-          iconName: 'bookmark',
-          displayName: 'Destructora',
-          //	component: DetailsPage
-        }
-        ,
-        {
-          iconName: 'bookmarks',
-          displayName: 'Etiquetadoras',
-          //	component: DetailsPage
-        },
-        {
-          iconName: 'clientes',
-          displayName: 'Etiquetadoras',
-          //	component: DetailsPage
-        }
+        /* ,
+         {
+           iconName: 'desktop',
+           displayName: 'Monitor',
+           //	component: DetailsPage
+         }
+         ,
+         {
+           iconName: 'bookmark',
+           displayName: 'Destructora',
+           //	component: DetailsPage
+         }
+         ,
+         {
+           iconName: 'bookmarks',
+           displayName: 'Etiquetadoras',
+           //	component: DetailsPage
+         }*/
+
       ]
     });
 

@@ -1,14 +1,14 @@
 webpackJsonp([10],{
 
-/***/ 499:
+/***/ 506:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalCorrectivosPageModule", function() { return ModalCorrectivosPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalRepuestosPageModule", function() { return ModalRepuestosPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_correctivos__ = __webpack_require__(520);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_repuestos__ = __webpack_require__(533);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,35 +18,35 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var ModalCorrectivosPageModule = /** @class */ (function () {
-    function ModalCorrectivosPageModule() {
+var ModalRepuestosPageModule = /** @class */ (function () {
+    function ModalRepuestosPageModule() {
     }
-    ModalCorrectivosPageModule = __decorate([
+    ModalRepuestosPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__modal_correctivos__["a" /* ModalCorrectivosPage */],
+                __WEBPACK_IMPORTED_MODULE_2__modal_repuestos__["a" /* ModalRepuestosPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__modal_correctivos__["a" /* ModalCorrectivosPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__modal_repuestos__["a" /* ModalRepuestosPage */]),
             ],
         })
-    ], ModalCorrectivosPageModule);
-    return ModalCorrectivosPageModule;
+    ], ModalRepuestosPageModule);
+    return ModalRepuestosPageModule;
 }());
 
-//# sourceMappingURL=modal-correctivos.module.js.map
+//# sourceMappingURL=modal-repuestos.module.js.map
 
 /***/ }),
 
-/***/ 520:
+/***/ 533:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModalCorrectivosPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModalRepuestosPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_models__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_providers__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_models__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_providers__ = __webpack_require__(34);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -61,63 +61,66 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 /**
- * Generated class for the ModalCorrectivosPage page.
+ * Generated class for the ModalRepuestosPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-var ModalCorrectivosPage = /** @class */ (function () {
-    function ModalCorrectivosPage(navCtrl, navParams, viewCtrl, modalCtrl, loadingCtrl, detalleCatalogoReporteProvider) {
+var ModalRepuestosPage = /** @class */ (function () {
+    function ModalRepuestosPage(navCtrl, viewCtrl, navParams, loadingCtrl, modalCtrl, productoRepuestoReporteProvider) {
         this.navCtrl = navCtrl;
-        this.navParams = navParams;
         this.viewCtrl = viewCtrl;
-        this.modalCtrl = modalCtrl;
+        this.navParams = navParams;
         this.loadingCtrl = loadingCtrl;
-        this.detalleCatalogoReporteProvider = detalleCatalogoReporteProvider;
+        this.modalCtrl = modalCtrl;
+        this.productoRepuestoReporteProvider = productoRepuestoReporteProvider;
+        this.detalleCatalogoReporte = new __WEBPACK_IMPORTED_MODULE_2__models_models__["e" /* DetalleCatalogoReporte */]();
         this.producto = new __WEBPACK_IMPORTED_MODULE_2__models_models__["j" /* Producto */]();
-        this.cabecera = navParams.get('cabecera');
+        this.productoRepuestoReporte = new __WEBPACK_IMPORTED_MODULE_2__models_models__["m" /* ProductoRepuestoReporte */]();
+        this.detalleCatalogoReporte = navParams.get('detalle');
         this.producto = navParams.get('producto');
     }
-    ;
-    ModalCorrectivosPage.prototype.cancel = function () {
+    ModalRepuestosPage.prototype.ionViewDidLoad = function () {
+        var _this = this;
+        this.showLoader();
+        console.log(' this.detalleCatalogoReporte.id= ' + this.detalleCatalogoReporte.id + '   ,this.productoidModelo= ' + this.producto.idModelo.id);
+        this.productoRepuestoReporteProvider.getByIdDetalleCatalogoReporteByIdModelo(this.detalleCatalogoReporte.id, this.producto.idModelo.id).subscribe(function (data) {
+            _this.repuestos = data;
+        });
+        this.loading.dismiss();
+    };
+    ModalRepuestosPage.prototype.cancel = function () {
         this.viewCtrl.dismiss();
     };
-    ModalCorrectivosPage.prototype.openItem = function (detalle) {
+    ModalRepuestosPage.prototype.openItem = function (valor) {
         var _this = this;
-        var addModal = this.modalCtrl.create('ModalRepuestosPage', { detalle: detalle, producto: this.producto });
+        this.productoRepuestoReporte = valor;
+        var addModal = this.modalCtrl.create('ModalConfirmacionRepuestoPage', { productoRepuestoReporte: this.productoRepuestoReporte });
         addModal.onDidDismiss(function (item) {
             if ((item) && item.productoRepuestoReporte !== undefined) {
-                _this.viewCtrl.dismiss({ cabecera: _this.cabecera, productoRepuestoReporte: item.productoRepuestoReporte });
+                _this.viewCtrl.dismiss({ productoRepuestoReporte: item.productoRepuestoReporte });
             }
         });
         addModal.present();
     };
-    ModalCorrectivosPage.prototype.ionViewDidLoad = function () {
-        var _this = this;
-        this.showLoader();
-        this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo(this.cabecera).subscribe(function (data) {
-            _this.catalogos = data;
-        });
-        this.loading.dismiss();
-    };
-    ModalCorrectivosPage.prototype.showLoader = function () {
+    ModalRepuestosPage.prototype.showLoader = function () {
         this.loading = this.loadingCtrl.create({
             content: 'Cargando...'
         });
         this.loading.present();
     };
-    ModalCorrectivosPage = __decorate([
+    ModalRepuestosPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-modal-correctivos',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\modal-correctivos\modal-correctivos.html"*/'<!--\n\n  Generated template for the ModalCorrectivosPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>Correctivos</ion-title>\n\n\n\n    <ion-buttons start>\n\n      <button ion-button (click)="cancel()">\n\n        <span color="primary" showWhen="ios">\n\n          Cancelar\n\n        </span>\n\n        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n  <ion-item *ngFor="let c of catalogos ">\n\n\n\n      <button ion-item (click)="openItem(c)">\n\n        <h2> {{c.descripcion}}</h2>\n\n      </button>\n\n\n\n    </ion-item>\n\n \n\n\n\n\n\n</ion-content>'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\modal-correctivos\modal-correctivos.html"*/,
+            selector: 'page-modal-repuestos',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\modal-repuestos\modal-repuestos.html"*/'<!--\n\n  Generated template for the ModalRepuestosPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n\n\n  <ion-navbar>\n\n    <ion-title>Repuestos</ion-title>\n\n\n\n    <ion-buttons start>\n\n      <button ion-button (click)="cancel()">\n\n        <span color="primary" showWhen="ios">\n\n          Cancelar\n\n        </span>\n\n        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n  <ion-item *ngFor="let r of repuestos ">\n\n\n\n    <button ion-item (click)="openItem(r)">\n\n      <h2> {{r.idProducto.codigoFabricante}}</h2>\n\n      <p>Marca: {{r.idProducto.idMarca.marca}}</p>\n\n      <p>Desc: {{r.idProducto.descripcionVenta}}</p>\n\n      <p>Stock: {{r.stock}}</p>\n\n      <p>Stock: {{r.id}}</p>\n\n      <p>CATALOGO: {{r.idDetalleCatalogoReporte.descripcion}}</p>\n\n\n\n\n\n    </button>\n\n\n\n  </ion-item>\n\n\n\n</ion-content>'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\modal-repuestos\modal-repuestos.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* ViewController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_providers__["d" /* DetalleCatalogoReporteProvider */]])
-    ], ModalCorrectivosPage);
-    return ModalCorrectivosPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* ViewController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_providers__["g" /* ProductoRepuestoReporteProvider */]])
+    ], ModalRepuestosPage);
+    return ModalRepuestosPage;
 }());
 
-//# sourceMappingURL=modal-correctivos.js.map
+//# sourceMappingURL=modal-repuestos.js.map
 
 /***/ })
 

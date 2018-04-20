@@ -3,6 +3,14 @@
         <button ion-button menuToggle color="light">
             <ion-icon name="menu"></ion-icon>
         </button>
+
+        <ion-buttons end>
+            <button ion-button tappable (click)="presentNotifications($event)" color="light">
+                {{notificationes}}
+                <ion-icon name="notifications" color="{{colorNotification}}"></ion-icon>
+            </button>
+
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 
@@ -109,7 +117,7 @@
 
                             <ion-item>
                                 <ion-label floating>Correo</ion-label>
-                                <ion-input type="text" [(ngModel)]="cliente.email" style="pointer-events: none" formControlName="email"></ion-input>
+                                <ion-input type="text" [(ngModel)]="productoClienteReporte.correoAtencion"  formControlName="email"></ion-input>
                             </ion-item>
 
                             <ion-item>
@@ -241,8 +249,7 @@
 
 
                             <ion-item>
-
-
+                             
                                 <ion-grid item-content>
                                     <ion-row col-12>
                                         <ion-label floating>Contadores</ion-label>
@@ -624,24 +631,39 @@
                                 <ion-grid>
                                     <ion-row>
 
-                                        <ion-col col-2>
-
-                                        </ion-col>
                                         <ion-col col-6>
-                                            {{cliente.cliente}}
+                                            Cliente :  {{cliente.cliente}}
                                         </ion-col>
                                         <ion-col col-4>
+                                          
+                                        </ion-col>
+                                        <ion-col col-2>
 
                                         </ion-col>
                                     </ion-row>
                                 </ion-grid>
 
+                             
+                                
                             </ion-item>
 
                             <ion-item>
 
-                                <ion-label fixed>Responsable</ion-label>
-                                <ion-label>{{usuario.nombreCompleto}}</ion-label>
+                             
+                                <ion-grid>
+                                    <ion-row>
+
+                                        <ion-col col-6>
+                                            Responsable : {{usuario.nombreCompleto}}
+                                        </ion-col>
+                                        <ion-col col-4>
+                                           
+                                        </ion-col>
+                                        <ion-col col-2>
+
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
 
                             </ion-item>
 

@@ -17,6 +17,31 @@ module.exports = [
     ]
   },
   {
+    "id": "cordova-plugin-background-mode.BackgroundMode",
+    "file": "plugins/cordova-plugin-background-mode/www/background-mode.js",
+    "pluginId": "cordova-plugin-background-mode",
+    "clobbers": [
+      "cordova.plugins.backgroundMode",
+      "plugin.backgroundMode"
+    ]
+  },
+  {
+    "id": "cordova-plugin-badge.Badge",
+    "file": "plugins/cordova-plugin-badge/www/badge.js",
+    "pluginId": "cordova-plugin-badge",
+    "clobbers": [
+      "cordova.plugins.notification.badge"
+    ]
+  },
+  {
+    "id": "cordova-plugin-fcm.FCMPlugin",
+    "file": "plugins/cordova-plugin-fcm/www/FCMPlugin.js",
+    "pluginId": "cordova-plugin-fcm",
+    "clobbers": [
+      "FCMPlugin"
+    ]
+  },
+  {
     "id": "cordova-plugin-file.DirectoryEntry",
     "file": "plugins/cordova-plugin-file/www/DirectoryEntry.js",
     "pluginId": "cordova-plugin-file",
@@ -223,31 +248,6 @@ module.exports = [
     ]
   },
   {
-    "id": "cordova-plugin-splashscreen.SplashScreen",
-    "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
-    "pluginId": "cordova-plugin-splashscreen",
-    "clobbers": [
-      "navigator.splashscreen"
-    ]
-  },
-  {
-    "id": "ionic-plugin-keyboard.keyboard",
-    "file": "plugins/ionic-plugin-keyboard/www/android/keyboard.js",
-    "pluginId": "ionic-plugin-keyboard",
-    "clobbers": [
-      "cordova.plugins.Keyboard"
-    ],
-    "runs": true
-  },
-  {
-    "id": "cordova-plugin-badge.Badge",
-    "file": "plugins/cordova-plugin-badge/www/badge.js",
-    "pluginId": "cordova-plugin-badge",
-    "clobbers": [
-      "cordova.plugins.notification.badge"
-    ]
-  },
-  {
     "id": "cordova-plugin-local-notification.LocalNotification",
     "file": "plugins/cordova-plugin-local-notification/www/local-notification.js",
     "pluginId": "cordova-plugin-local-notification",
@@ -274,21 +274,21 @@ module.exports = [
     ]
   },
   {
-    "id": "cordova-plugin-fcm.FCMPlugin",
-    "file": "plugins/cordova-plugin-fcm/www/FCMPlugin.js",
-    "pluginId": "cordova-plugin-fcm",
+    "id": "cordova-plugin-splashscreen.SplashScreen",
+    "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+    "pluginId": "cordova-plugin-splashscreen",
     "clobbers": [
-      "FCMPlugin"
+      "navigator.splashscreen"
     ]
   },
   {
-    "id": "cordova-plugin-background-mode.BackgroundMode",
-    "file": "plugins/cordova-plugin-background-mode/www/background-mode.js",
-    "pluginId": "cordova-plugin-background-mode",
+    "id": "ionic-plugin-keyboard.keyboard",
+    "file": "plugins/ionic-plugin-keyboard/www/android/keyboard.js",
+    "pluginId": "ionic-plugin-keyboard",
     "clobbers": [
-      "cordova.plugins.backgroundMode",
-      "plugin.backgroundMode"
-    ]
+      "cordova.plugins.Keyboard"
+    ],
+    "runs": true
   }
 ];
 module.exports.metadata = 
@@ -296,19 +296,19 @@ module.exports.metadata =
 {
   "com.telerik.plugins.nativepagetransitions": "0.6.5",
   "cordova-plugin-device": "1.1.4",
+  "cordova-plugin-background-mode": "0.7.2",
+  "cordova-plugin-badge": "0.8.7",
+  "cordova-plugin-fcm": "2.1.2",
   "cordova-plugin-file": "6.0.1",
   "cordova-plugin-file-opener2": "2.0.19",
   "cordova-plugin-file-transfer": "1.7.1",
   "cordova-plugin-inappbrowser": "2.0.2",
   "cordova-plugin-ionic-webview": "1.1.16",
-  "cordova-plugin-splashscreen": "4.0.3",
-  "cordova-plugin-whitelist": "1.3.1",
-  "ionic-plugin-keyboard": "2.2.1",
-  "cordova-plugin-badge": "0.8.7",
   "cordova-plugin-local-notification": "0.9.0-beta.2",
-  "cordova-plugin-fcm": "2.1.2",
-  "cordova-plugin-background-mode": "0.7.2",
-  "cordova-plugin-vibration": "3.0.1"
+  "cordova-plugin-splashscreen": "4.0.3",
+  "cordova-plugin-vibration": "3.0.1",
+  "cordova-plugin-whitelist": "1.3.1",
+  "ionic-plugin-keyboard": "2.2.1"
 };
 // BOTTOM OF METADATA
 });

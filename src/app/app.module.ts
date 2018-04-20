@@ -32,11 +32,11 @@ import { ReporteImpresorasPage } from '../pages/reporte-impresoras/reporte-impre
 import { AdministracionReportesPage } from '../pages/administracion-reportes/administracion-reportes';
 import { LogOutPage } from '../pages/log-out/log-out';
 import { NotificationsPage } from '../pages/notifications/notifications';
-
+import { ReporteScannersPage} from '../pages/reporte-scanners/reporte-scanners';
+import { ReporteGenericoPage} from '../pages/reporte-generico/reporte-generico';
 
 import { PipesModule } from '../pipes/pipes.module';
 import { ProductoRepuestoReporteProvider } from '../providers/producto-repuesto-reporte/producto-repuesto-reporte';
-
 
 
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -78,7 +78,7 @@ export function provideSettings(storage: Storage) {
 
 @NgModule({
   declarations: [
-    MyApp, ReporteImpresorasPage, AdministracionReportesPage, LogOutPage,NotificationsPage,
+    MyApp, ReporteImpresorasPage, AdministracionReportesPage, LogOutPage,NotificationsPage,ReporteScannersPage,ReporteGenericoPage,
     SideMenuContentComponent,
 
   ],
@@ -102,7 +102,7 @@ export function provideSettings(storage: Storage) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp, ReporteImpresorasPage, AdministracionReportesPage, LogOutPage,NotificationsPage
+    MyApp, ReporteImpresorasPage, AdministracionReportesPage, LogOutPage,NotificationsPage,ReporteScannersPage,ReporteGenericoPage
   ],
   providers: [
     BackgroundMode,

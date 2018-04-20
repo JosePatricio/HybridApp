@@ -12,20 +12,20 @@ import { ProductoRepuestoReporte } from './productoRepuestoReporte';
 import { ClienteSucursal } from './clienteSucursal';
 import { ProductoClienteReporte } from './productoClienteReporte';
 import { DatosReporteDTO } from './datosReporteDTO';
-
 import { TipoVisitas } from './TipoVisitas';
-
 import { AsignacionReparaciones } from './asignacionReparaciones';
-
 import { DetalleInventarioProducto } from './detalleInventarioProducto';
 import { DetalleInventario } from './detalleInventario';
 import { ReporteMantenimiento } from './reporteMantenimiento';
 import { CabeceraCatalogoReporte } from './cabeceraCatalogoReporte';
 import { Proyectos } from './proyectos';
+import { ReporteGenericoItems } from './ReporteGenericoItems';
+
 
 export {
 
   Categoria, Cliente, DetalleCatalogoReporte, Marca, Modelo, Producto, TipoProducto, Usuario, Reporte,
-  ProductoDetalleReporte, ProductoRepuestoReporte, TipoVisitas, AsignacionReparaciones, ClienteSucursal, DatosReporteDTO, ProductoClienteReporte,
-  DetalleInventarioProducto, DetalleInventario, ReporteMantenimiento, CabeceraCatalogoReporte, Proyectos
+  ProductoDetalleReporte, ProductoRepuestoReporte, TipoVisitas, AsignacionReparaciones, ClienteSucursal, DatosReporteDTO,
+  ProductoClienteReporte,
+  DetalleInventarioProducto, DetalleInventario, ReporteMantenimiento, CabeceraCatalogoReporte, Proyectos, ReporteGenericoItems
 };

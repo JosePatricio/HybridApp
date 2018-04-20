@@ -1,5 +1,5 @@
 import { Reporte, Cliente, Producto, ProductoDetalleReporte, Usuario,
-     AsignacionReparaciones, DetalleCatalogoReporte, ProductoClienteReporte } 
+     AsignacionReparaciones, DetalleCatalogoReporte, ProductoClienteReporte, ReporteGenericoItems } 
      from '../models/models';
 export class DatosReporteDTO {
 
@@ -41,6 +41,8 @@ export class DatosReporteDTO {
     lista11: Array<DetalleCatalogoReporte> = new Array<DetalleCatalogoReporte>();
     lista12: Array<DetalleCatalogoReporte> = new Array<DetalleCatalogoReporte>();
 
+
+    itemsReporteGenerico: Array<ReporteGenericoItems> = new Array<ReporteGenericoItems>();
 
 }
 

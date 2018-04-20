@@ -53,7 +53,6 @@ export class ReporteProvider {
 
 
   public saveAllReporteImpresoras(item: DatosReporteDTO) {
-    console.log('FROM SERVICE  ' + item);
     return this.api.postHttp('reporteService/saveAllReporteImpresoras/', item);
 
   }
@@ -61,6 +60,16 @@ export class ReporteProvider {
 
   public updateAllReporteImpresoras(item: DatosReporteDTO) {
     return this.api.putHttp('reporteService/updateAllReporteImpresoras/' + item.reporte.id, item);
+  }
+
+
+  public saveReporteReporteGenerico(item: DatosReporteDTO) {
+    return this.api.postHttp('reporteService/saveReporteReporteGenerico/', item);
+  }
+
+
+  public updateReporteReporteGenerico(item: DatosReporteDTO) {
+    return this.api.putHttp('reporteService/updateReporteReporteGenerico/' + item.reporte.id, item);
   }
 
 
