@@ -10,6 +10,7 @@ import { FileOpener } from '@ionic-native/file-opener';
 import { ReporteImpresorasPage } from '../reporte-impresoras/reporte-impresoras';
 import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
 import { ReporteScannersPage } from '../reporte-scanners/reporte-scanners';
+import { ReporteGenericoPage } from '../reporte-generico/reporte-generico';
 
 
 /**
@@ -50,12 +51,12 @@ export class AdministracionReportesPage {
   ionViewDidLoad() {
     this.reporteProvider.reportesBySubTipo('REPORTE')
       .subscribe(
-      reporte => {
-        this.reportes = reporte;
+        reporte => {
+          this.reportes = reporte;
 
-      }
-      ,
-      error => this.errorMessage = <any>error);
+        }
+        ,
+        error => this.errorMessage = <any>error);
 
   }
 
@@ -107,13 +108,15 @@ export class AdministracionReportesPage {
 
     this.nativePageTransitions.flip(options);
 
-if(item.tipo =='REPORTE'){
-  this.navCtrl.push(ReporteImpresorasPage, { reporteDto: reporteDto, isEdit: true })
-}
-if(item.tipo =='SCANNERS'){
-  this.navCtrl.push(ReporteScannersPage, { reporteDto: reporteDto, isEdit: true })
-}
-  
+    if (item.tipo == 'REPORTE') {
+      this.navCtrl.push(ReporteImpresorasPage, { reporteDto: reporteDto, isEdit: true })
+    }
+    if (item.tipo == 'SCANNERS') {
+      this.navCtrl.push(ReporteScannersPage, { reporteDto: reporteDto, isEdit: true })
+    }
+    if (item.tipo == 'REPORTE_GENERICO') {
+      this.navCtrl.push(ReporteGenericoPage, { reporteDto: reporteDto, isEdit: true })
+    }
 
 
   }

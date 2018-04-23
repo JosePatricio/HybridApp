@@ -392,28 +392,38 @@
 
                   <ion-row>
                     <ion-col col-6>
-                      
+
                       <button ion-button full (click)="openModalGenericosPreventivo()">
                         <ion-icon name="add"> Preventivos </ion-icon>
-                    </button>
+                      </button>
 
 
 
-                    <ion-item-sliding  *ngFor="let r of arrayRepuestosGenericosPreventivos">
+                      <ion-item-sliding *ngFor="let r of arrayRepuestosGenericosPreventivos">
                         <ion-item>
                           <div>
                             <p> {{r.descripcion}}</p>
                           </div>
                         </ion-item>
-                     
+
                       </ion-item-sliding>
 
 
                     </ion-col>
                     <ion-col col-6>
-                        <button ion-button full (click)="openModalGenericosCorrectivo()">
+                      <button ion-button full (click)="openModalGenericosCorrectivo()">
                         <ion-icon name="add"> Correctivos </ion-icon>
-                    </button>
+                      </button>
+
+                      <ion-item-sliding *ngFor="let r of arrayRepuestosGenericosCorrectivos">
+                        <ion-item>
+                          <p> {{r.descripcion}}</p>
+                          <p> {{r.cambiado==true && r.solicitar==true ? 'Cambiado-Solicitar': r.cambiado==true? 'Cambiado ':r.solicitar==true?'Solicitar' :'' }}  </p>
+                          <p> {{r.codigoRepuesto}}</p>
+                        </ion-item>
+
+                      </ion-item-sliding>
+
                     </ion-col>
 
                   </ion-row>

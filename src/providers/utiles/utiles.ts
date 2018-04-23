@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {ToastController } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 import {
   Cliente, Producto, Modelo, Marca, ProductoDetalleReporte, TipoVisitas, DetalleCatalogoReporte, Reporte, ProductoRepuestoReporte, Usuario,
   DetalleInventarioProducto, ClienteSucursal, ProductoClienteReporte, Proyectos,
-  DatosReporteDTO, AsignacionReparaciones, ReporteMantenimiento
+  DatosReporteDTO, AsignacionReparaciones, ReporteMantenimiento, ReporteGenericoItems
 } from '../../models/models';
 import { Api } from '../api/api';
 /*
@@ -369,6 +369,117 @@ export class UtilesProvider {
 
     return true;
   }
+
+
+  public buscarItemGenerico(items: Array<ReporteGenericoItems>, item: ReporteGenericoItems) {
+    let itemFound: ReporteGenericoItems = null;
+    items.filter(f => f.id == item.id).forEach(data => {
+      itemFound = data;
+    });
+    return itemFound;
+  }
+
+
+  public cargarRepuestoGenericosPreventivo(dbItems: Array<ReporteGenericoItems>, currentItems: Array<ReporteGenericoItems>): Array<ReporteGenericoItems> {
+    let reporteGenericoItem: ReporteGenericoItems;
+    let resultList: Array<ReporteGenericoItems> = new Array<ReporteGenericoItems>();
+    let reporteGenericoItemBusqueda: ReporteGenericoItems;
+
+
+    let array1: Array<ReporteGenericoItems> = new Array<ReporteGenericoItems>();
+    let array2: Array<ReporteGenericoItems> = new Array<ReporteGenericoItems>();
+
+    let dbItemsPreve: Array<ReporteGenericoItems> = new Array<ReporteGenericoItems>();
+    dbItems.filter(f => f.tipo == 'P').forEach(currentItem => {
+      dbItemsPreve.push(currentItem);
+    });
+
+    console.log('dbItemsPreve.length= ' + dbItemsPreve.length + ' , currentItems.length = ' + currentItems.length)
+
+    //  console.log(dbItems.concat(currentItems));
+
+    dbItemsPreve.forEach(db => {
+      reporteGenericoItem = new ReporteGenericoItems();
+      reporteGenericoItem = db;
+      for (var n = 0; n <= currentItems.length - 1; n++) {
+        console.log(n + '  COMPARACION =   ' + reporteGenericoItem.id + ' == ' + currentItems[n].id + ' , DESC  ' + currentItems[n].descripcion + '  , SELECCION ' + currentItems[n].seleccion);
+
+        if (currentItems[n].id == reporteGenericoItem.id) {
+          console.log(n + ' EL MISMO ' + currentItems[n].descripcion);
+          reporteGenericoItem = currentItems[n];
+          reporteGenericoItem.seleccion = true;
+          array1.push(reporteGenericoItem);
+        } else {
+          if (currentItems[n].id == undefined) {
+            console.log(n + ' NUEVO ' + currentItems[n].descripcion);
+            reporteGenericoItem = currentItems[n];
+            array2.push(reporteGenericoItem);
+           // break;
+          }
+
+          reporteGenericoItemBusqueda = this.buscarItemGenerico(dbItemsPreve, reporteGenericoItem);
+          if (reporteGenericoItemBusqueda != null) {
+            console.log(n + ' ENCONTRADO ' + reporteGenericoItemBusqueda.descripcion);
+            reporteGenericoItem = reporteGenericoItemBusqueda;
+            reporteGenericoItem.seleccion = false;
+          }
+
+
+          array2.push(reporteGenericoItem);
+        }
+
+
+
+        console.log('                 ');
+      }
+      console.log('         *************          ');
+      console.log('         *************          ');
+    });
+
+
+    console.log('  array1   ' + array1.length + '   ' + array2.length);
+    console.log(array1);
+    console.log('         *************          ');
+    console.log(array2);
+    console.log(' ***************************   ');
+
+
+    var concatArr = array1.concat(array2);
+
+    var unique = concatArr.filter(function (elem, index, self) {
+      return index === self.indexOf(elem);
+    })
+    console.log('FILTRADO !!    ');
+    console.log(unique);
+
+    /* currentItems.forEach(current => {
+       reporteGenericoItem = new ReporteGenericoItems();
+       reporteGenericoItem = current;
+       reporteGenericoItemBusqueda = this.buscarItemGenerico(dbItems, current);
+       if (reporteGenericoItemBusqueda != null) {
+         reporteGenericoItem = reporteGenericoItemBusqueda;
+       } else {
+         reporteGenericoItem.seleccion = true;
+       }
+ 
+       resultList.push(reporteGenericoItem);
+       console.log('               *            **                      **               *');
+       console.log('               *            **                      **               *');
+     });*/
+
+
+
+
+
+
+
+    return resultList;
+  }
+
+
+
+
+
 
 
 

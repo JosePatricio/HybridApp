@@ -23,12 +23,18 @@ export class ModalItemsGenericosPreventivoPage {
   public reporteGenericoItems: ReporteGenericoItems = new ReporteGenericoItems();
 
   descripcionReporte: string;
+
+  public coughtArrayRepuestos: Array<ReporteGenericoItems>;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public utilesProvider: UtilesProvider,
     public viewCtrl: ViewController) {
 
     this.reporteForm = this.createMyForm();
-    this.arrayRepuestos = navParams.get('arrayRepuestos');
+    if (navParams.get('arrayRepuestosPreventivos') != undefined) {
 
+      this.arrayRepuestos = navParams.get('arrayRepuestosPreventivos');
+      this.coughtArrayRepuestos = this.arrayRepuestos;
+    }
   }
 
   ionViewDidLoad() {
@@ -39,11 +45,12 @@ export class ModalItemsGenericosPreventivoPage {
   public agregar(): void {
     if (this.reporteGenericoItems.descripcion != undefined) {
       this.reporteGenericoItems.tipo = 'P';
+      this.reporteGenericoItems.seleccion = true;
       this.arrayRepuestos.push(this.reporteGenericoItems);
       this.reporteGenericoItems = new ReporteGenericoItems();
       this.reporteForm.reset();
 
-      console.log(this.arrayRepuestos);
+
 
     } else {
       this.utilesProvider.msgToastWarn('El campo no puede estar vacio');
@@ -61,8 +68,14 @@ export class ModalItemsGenericosPreventivoPage {
   }
 
   public cancel() {
-    this.viewCtrl.dismiss({ arrayRepuestos: this.arrayRepuestos });
+ 
+    this.viewCtrl.dismiss({ arrayRepuestosPreventivos: this.arrayRepuestos });
+
   }
+
+
+
+
 
   private createMyForm() {
     return this.formBuilder.group({

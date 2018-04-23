@@ -40,19 +40,19 @@ export class ReporteGenericoPage {
   tiposVisitas: Array<TipoVisitas>;
   clienteSucursales: Array<ClienteSucursal> = new Array<ClienteSucursal>();
 
-  
- 
-  
+
+
+
 
   arrayRepuestosGenericosPreventivos: Array<ReporteGenericoItems> = new Array<ReporteGenericoItems>();
   arrayRepuestosGenericosCorrectivos: Array<ReporteGenericoItems> = new Array<ReporteGenericoItems>();
- 
-  
+
+
 
   arrayRepuestosGenericosPreventivos_: Array<ReporteGenericoItems> = [];
   arrayRepuestosGenericosCorrectivos_: Array<ReporteGenericoItems> = [];
 
-  
+
 
   reporteGenericoItemsListTemp: Array<ReporteGenericoItems> = [];
 
@@ -163,7 +163,6 @@ export class ReporteGenericoPage {
     else {
       //EDICION REPORTE
 
-
       if (this.navParams.get('tabReporte') === undefined) {
         this.reporteTab = 'datos';
       }
@@ -179,9 +178,14 @@ export class ReporteGenericoPage {
       }
 
       else {
+
+        this.tipoVisitaProvider.getAllTipoVisitas().subscribe(data => {
+          this.tiposVisitas = data;
+        });
+
         //NUEVO REPORTE
         this.reporte.numerofactura = this.numeroReporte;
-        this.reporte.tipo = 'REPORTE';
+        this.reporte.tipo = 'REPORTE_GENERICO';
         this.reporte.idUsuario = this.usuario;
         this.reporte.estado = 'PROCESANDO';
 
@@ -196,10 +200,10 @@ export class ReporteGenericoPage {
   }
 
 
-public  addItemGenerico():void{
+  public addItemGenerico(): void {
 
-}
-  
+  }
+
 
   public onChange(subtipo) {
     this.tipoReporte = subtipo;
@@ -220,8 +224,8 @@ public  addItemGenerico():void{
 
   private llenarReportePorNotificacion(asignacionReparaciones: AsignacionReparaciones): void {
 
-  
-    
+
+
     this.cliente = asignacionReparaciones.idClienteSucursal.idCliente;
     this.clienteSucursal = asignacionReparaciones.idClienteSucursal;
     this.producto = asignacionReparaciones.producto;
@@ -345,23 +349,41 @@ public  addItemGenerico():void{
         });
       });
 
-/*
-      this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('PROCESAMIENTO').subscribe(catalogo => {
-        this.arrayPreventivoProcesamientoIds = this.utilesProvider.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
-        this.arrayPreventivoProcesamiento = this.utilesProvider.loadReportePreventivos(catalogo, data.reporteMantenimientoList);
-      });*/
-
-     
-    //  this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('EXTERIORES').subscribe(catalogo => { this.arrayPreventivoExteriores = catalogo; this.arrayPreventivoExterioresIds = this.utilesProvider.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList); });
 
 
-  //    this.reporteGenericoItemsListTemp = data.reporteMantenimientoList;
+      data.reporteGenericoItemsList.filter(f => f.tipo == 'P').forEach(data => {
+        let reporteGenericoItems: ReporteGenericoItems = new ReporteGenericoItems();
+        reporteGenericoItems = data;
+        reporteGenericoItems.seleccion = true;
+        this.arrayRepuestosGenericosPreventivos.push(reporteGenericoItems);
 
-      //VISIVILIDAD BOTON VER CORRECTIVOS
-      data.reporteMantenimientoList.filter(sw => sw.idProductoRepuestoReporte !== null).forEach(element => {
 
-     //   this.llenarRepuestos(element.idProductoRepuestoReporte.idDetalleCatalogoReporte.idCabecera.codigo, element.idProductoRepuestoReporte);
       });
+
+
+      data.reporteGenericoItemsList.filter(f => f.tipo == 'C').forEach(data => {
+        let reporteGenericoItems: ReporteGenericoItems = new ReporteGenericoItems();
+        reporteGenericoItems = data;
+        reporteGenericoItems.seleccion = true;
+        this.arrayRepuestosGenericosCorrectivos.push(reporteGenericoItems);
+      });
+
+
+      this.reporteGenericoItemsListTemp = data.reporteGenericoItemsList;
+
+      /*
+            this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('PROCESAMIENTO').subscribe(catalogo => {
+              this.arrayPreventivoProcesamientoIds = this.utilesProvider.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
+              this.arrayPreventivoProcesamiento = this.utilesProvider.loadReportePreventivos(catalogo, data.reporteMantenimientoList);
+            });*/
+
+
+      //  this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('EXTERIORES').subscribe(catalogo => { this.arrayPreventivoExteriores = catalogo; this.arrayPreventivoExterioresIds = this.utilesProvider.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList); });
+
+
+      //  
+
+
 
 
       //FIN VISIVILIDAD BOTON VER CORRECTIVOS
@@ -463,37 +485,41 @@ public  addItemGenerico():void{
 
 
 
+
     if (this.isEdit) {
+      //this.utilesProvider.cargarRepuestoGenericos(this.reporteGenericoItemsListTemp, this.arrayRepuestosGenericosCo);
 
-    //  this.datosReporteDTO.lista1 = this.utilesProvider.listPrevEdition(this.arrayPreventivoProcesamientoIds, this.arrayPreventivoProcesamiento, this.reporteGenericoItemsListTemp);
-    
-      this.showLoaderSave();
+      // this.datosReporteDTO.itemsReporteGenerico = this.arrayRepuestosGenericosCorrectivos.concat(this.arrayRepuestosGenericosPreventivos);
 
-      this.reporteProvider.updateAllReporteImpresoras(this.datosReporteDTO).then(
-        response => {
-          this.navCtrl.push(AdministracionReportesPage);
+      this.datosReporteDTO.itemsReporteGenerico = this.utilesProvider.cargarRepuestoGenericosPreventivo(this.reporteGenericoItemsListTemp, this.arrayRepuestosGenericosPreventivos);
+
+      console.log('EDITAR');
+      console.log(this.datosReporteDTO.itemsReporteGenerico);
+
+      /*  this.showLoaderSave();
+  
+        this.reporteProvider.updateReporteReporteGenerico(this.datosReporteDTO).then(
+          response => {
+            this.navCtrl.push(AdministracionReportesPage);
+            this.loading.dismiss();
+            this.utilesProvider.msgSaveToast(true);
+          }
+        ).catch((error: any) => {
+          this.utilesProvider.msgSaveToast(false);
           this.loading.dismiss();
-          this.utilesProvider.msgSaveToast(true);
-        }
-      ).catch((error: any) => {
-        this.utilesProvider.msgSaveToast(false);
-        this.loading.dismiss();
-      });
+        });*/
 
     } else {
       this.reporte.numerofactura = this.numeroReporte;
 
-    
-      this.datosReporteDTO.itemsReporteGenerico =this.arrayRepuestosGenericosCorrectivos.concat(this.arrayRepuestosGenericosCorrectivos );
 
-      //this.arrayRepuestosGenericosPreventivos,this.arrayRepuestosGenericosCorrectivos 
+      this.datosReporteDTO.itemsReporteGenerico = this.arrayRepuestosGenericosCorrectivos.concat(this.arrayRepuestosGenericosPreventivos);
+
 
       if (this.utilesProvider.validarCampos(this.productoClienteReporte, this.reporte, this.detalleInventarioProducto)) {
 
         this.showLoaderSave();
-
-        console.log(JSON.stringify(this.datosReporteDTO));
-        this.reporteProvider.saveAllReporteImpresoras(this.datosReporteDTO).then(
+        this.reporteProvider.saveReporteReporteGenerico(this.datosReporteDTO).then(
           response => {
             this.navCtrl.push(AdministracionReportesPage);
             this.loading.dismiss();
@@ -503,6 +529,7 @@ public  addItemGenerico():void{
           this.utilesProvider.msgSaveToast(false);
           this.loading.dismiss();
         });
+
       }
 
 
@@ -514,7 +541,7 @@ public  addItemGenerico():void{
   }
 
 
-  
+
 
   ngAfterViewChecked() {
     this.cdRef.detectChanges();
@@ -528,7 +555,7 @@ public  addItemGenerico():void{
   public openModalCliente() {
     let addModal = this.modalCtrl.create('ModalSearchClientePage');
     addModal.onDidDismiss(item => {
-      if ((item)&&item !== undefined) {
+      if ((item) && item !== undefined) {
         this.cliente = item;
         this.productoClienteReporte.correoAtencion = item.email;
 
@@ -554,31 +581,31 @@ public  addItemGenerico():void{
   }
 
 
-  
+
 
   public openModalGenericosPreventivo() {
 
-    let addModal = this.modalCtrl.create('ModalItemsGenericosPreventivoPage',{arrayRepuestos:this.arrayRepuestosGenericosPreventivos});
-    
+    let addModal = this.modalCtrl.create('ModalItemsGenericosPreventivoPage', { arrayRepuestosPreventivos: this.arrayRepuestosGenericosPreventivos });
+
     addModal.onDidDismiss(item => {
       if (item) {
-       this.arrayRepuestosGenericosPreventivos=item.arrayRepuestos;
+        this.arrayRepuestosGenericosPreventivos = item.arrayRepuestosPreventivos;
       }
     })
     addModal.present();
   }
   public openModalGenericosCorrectivo() {
 
-    let addModal = this.modalCtrl.create('ModalItemsGenericosCorrectivoPage');
+    let addModal = this.modalCtrl.create('ModalItemsGenericosCorrectivoPage', { arrayRepuestosCorrectivos: this.arrayRepuestosGenericosCorrectivos });
     addModal.onDidDismiss(item => {
       if (item) {
-        this.arrayRepuestosGenericosPreventivos=item.arrayRepuestos;
+        this.arrayRepuestosGenericosCorrectivos = item.arrayRepuestosCorrectivos;
       }
     })
     addModal.present();
   }
 
-  
+
 
   public contador(valor: any) {
 
@@ -653,7 +680,7 @@ public  addItemGenerico():void{
 
   }
 
-  
+
 
 
   public showLoader() {

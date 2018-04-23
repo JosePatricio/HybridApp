@@ -1,6 +1,5 @@
 <!--
   Generated template for the ModalItemsGenericosCorrectivoPage page.
-
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
@@ -54,7 +53,7 @@
           <ion-row>
               <ion-col col-12>
                   <ion-label floating>Código</ion-label>
-                  <ion-input type="text" [(ngModel)]="reporteGenericoItems.codigo" formControlName="codigo"></ion-input>
+                  <ion-input type="text" [(ngModel)]="reporteGenericoItems.codigoRepuesto" formControlName="codigoRepuesto"></ion-input>
     
               </ion-col>
           
@@ -68,14 +67,15 @@
 
     </ion-list>
 
+
+
     <ion-list>
       <ion-item-sliding *ngFor="let r of arrayRepuestos">
         <ion-item>
           <div>
-            <h2> {{r.descripcion}}</h2>
-            <h2> {{r.cambiado}}</h2>
-            <h2> {{r.solicitar}}</h2>
-            <h2> {{r.codigo}}</h2>
+            <p>Descripción: {{r.descripcion}}</p>
+            <p>Cambiado: {{r.cambiado==true ? '✓':'X' }} - Solicitar {{r.solicitar==true ? '✓':'X'}}</p>
+            <p>Código: {{r.codigoRepuesto}}</p>
 
           </div>
           <ion-icon class="ios-add-size icon icon-md ios-arrow-forward"></ion-icon>

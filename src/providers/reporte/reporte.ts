@@ -69,7 +69,7 @@ export class ReporteProvider {
 
 
   public updateReporteReporteGenerico(item: DatosReporteDTO) {
-    return this.api.putHttp('reporteService/updateReporteReporteGenerico/' + item.reporte.id, item);
+    return this.api.putHttp('reporteService/updateReporteReporteGenerico/' , item);
   }
 
 

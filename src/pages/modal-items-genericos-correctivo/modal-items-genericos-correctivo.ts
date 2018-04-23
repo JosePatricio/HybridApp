@@ -27,7 +27,9 @@ export class ModalItemsGenericosCorrectivoPage {
     public viewCtrl: ViewController) {
 
     this.reporteForm = this.createMyForm();
-    this.arrayRepuestos = navParams.get('arrayRepuestos');
+    if (navParams.get('arrayRepuestosCorrectivos') != undefined) {
+      this.arrayRepuestos = navParams.get('arrayRepuestosCorrectivos');
+    }
 
   }
 
@@ -39,8 +41,7 @@ export class ModalItemsGenericosCorrectivoPage {
   public agregar(): void {
     if (this.reporteGenericoItems.descripcion != undefined) {
       this.reporteGenericoItems.tipo = 'C';
-console.log('EL OBJECTO ES '+JSON.stringify(this.reporteGenericoItems));
-
+      this.reporteGenericoItems.seleccion=true;
       this.arrayRepuestos.push(this.reporteGenericoItems);
       this.reporteGenericoItems = new ReporteGenericoItems();
       this.reporteForm.reset();
@@ -63,7 +64,7 @@ console.log('EL OBJECTO ES '+JSON.stringify(this.reporteGenericoItems));
   }
 
   public cancel() {
-    this.viewCtrl.dismiss({ arrayRepuestos: this.arrayRepuestos });
+    this.viewCtrl.dismiss({ arrayRepuestosCorrectivos: this.arrayRepuestos });
   }
 
   private createMyForm() {
@@ -71,7 +72,7 @@ console.log('EL OBJECTO ES '+JSON.stringify(this.reporteGenericoItems));
       descripcion: [this.reporteGenericoItems.descripcion],
       cambiado: [this.reporteGenericoItems.cambiado],
       solicitar: [this.reporteGenericoItems.solicitar],
-      codigo: [this.reporteGenericoItems.codigoRepuesto]
+      codigoRepuesto: [this.reporteGenericoItems.codigoRepuesto]
     });
   }
 

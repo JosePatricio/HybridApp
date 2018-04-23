@@ -215,9 +215,12 @@ var ReporteGenericoPage = /** @class */ (function () {
                 this.llenarReportePorId(idReporte);
             }
             else {
+                this.tipoVisitaProvider.getAllTipoVisitas().subscribe(function (data) {
+                    _this.tiposVisitas = data;
+                });
                 //NUEVO REPORTE
                 this.reporte.numerofactura = this.numeroReporte;
-                this.reporte.tipo = 'REPORTE';
+                this.reporte.tipo = 'REPORTE_GENERICO';
                 this.reporte.idUsuario = this.usuario;
                 this.reporte.estado = 'PROCESANDO';
             }
@@ -335,17 +338,26 @@ var ReporteGenericoPage = /** @class */ (function () {
                     }
                 });
             });
+            data.reporteGenericoItemsList.filter(function (f) { return f.tipo == 'P'; }).forEach(function (data) {
+                var reporteGenericoItems = new __WEBPACK_IMPORTED_MODULE_3__models_models__["p" /* ReporteGenericoItems */]();
+                reporteGenericoItems = data;
+                reporteGenericoItems.seleccion = true;
+                _this.arrayRepuestosGenericosPreventivos.push(reporteGenericoItems);
+            });
+            data.reporteGenericoItemsList.filter(function (f) { return f.tipo == 'C'; }).forEach(function (data) {
+                var reporteGenericoItems = new __WEBPACK_IMPORTED_MODULE_3__models_models__["p" /* ReporteGenericoItems */]();
+                reporteGenericoItems = data;
+                reporteGenericoItems.seleccion = true;
+                _this.arrayRepuestosGenericosCorrectivos.push(reporteGenericoItems);
+            });
+            _this.reporteGenericoItemsListTemp = data.reporteGenericoItemsList;
             /*
                   this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('PROCESAMIENTO').subscribe(catalogo => {
                     this.arrayPreventivoProcesamientoIds = this.utilesProvider.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
                     this.arrayPreventivoProcesamiento = this.utilesProvider.loadReportePreventivos(catalogo, data.reporteMantenimientoList);
                   });*/
             //  this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('EXTERIORES').subscribe(catalogo => { this.arrayPreventivoExteriores = catalogo; this.arrayPreventivoExterioresIds = this.utilesProvider.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList); });
-            //    this.reporteGenericoItemsListTemp = data.reporteMantenimientoList;
-            //VISIVILIDAD BOTON VER CORRECTIVOS
-            data.reporteMantenimientoList.filter(function (sw) { return sw.idProductoRepuestoReporte !== null; }).forEach(function (element) {
-                //   this.llenarRepuestos(element.idProductoRepuestoReporte.idDetalleCatalogoReporte.idCabecera.codigo, element.idProductoRepuestoReporte);
-            });
+            //  
             //FIN VISIVILIDAD BOTON VER CORRECTIVOS
             _this.horaReporteInicio = _this.utilesProvider.horaActualFromDate(_this.reporte.horaInicio).toISOString();
             _this.horaReporteFin = _this.utilesProvider.horaActualFromDate(_this.reporte.horaFin).toISOString();
@@ -426,25 +438,30 @@ var ReporteGenericoPage = /** @class */ (function () {
         this.datosReporteDTO.idTipoVisita = this.reporteForm.value.idTipoVisita;
         this.datosReporteDTO.productoClienteReporte = this.productoClienteReporte;
         if (this.isEdit) {
-            //  this.datosReporteDTO.lista1 = this.utilesProvider.listPrevEdition(this.arrayPreventivoProcesamientoIds, this.arrayPreventivoProcesamiento, this.reporteGenericoItemsListTemp);
-            this.showLoaderSave();
-            this.reporteProvider.updateAllReporteImpresoras(this.datosReporteDTO).then(function (response) {
-                _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_6__administracion_reportes_administracion_reportes__["a" /* AdministracionReportesPage */]);
-                _this.loading.dismiss();
-                _this.utilesProvider.msgSaveToast(true);
-            }).catch(function (error) {
-                _this.utilesProvider.msgSaveToast(false);
-                _this.loading.dismiss();
-            });
+            //this.utilesProvider.cargarRepuestoGenericos(this.reporteGenericoItemsListTemp, this.arrayRepuestosGenericosCo);
+            // this.datosReporteDTO.itemsReporteGenerico = this.arrayRepuestosGenericosCorrectivos.concat(this.arrayRepuestosGenericosPreventivos);
+            this.datosReporteDTO.itemsReporteGenerico = this.utilesProvider.cargarRepuestoGenericosPreventivo(this.reporteGenericoItemsListTemp, this.arrayRepuestosGenericosPreventivos);
+            console.log('EDITAR');
+            console.log(this.datosReporteDTO.itemsReporteGenerico);
+            /*  this.showLoaderSave();
+        
+              this.reporteProvider.updateReporteReporteGenerico(this.datosReporteDTO).then(
+                response => {
+                  this.navCtrl.push(AdministracionReportesPage);
+                  this.loading.dismiss();
+                  this.utilesProvider.msgSaveToast(true);
+                }
+              ).catch((error: any) => {
+                this.utilesProvider.msgSaveToast(false);
+                this.loading.dismiss();
+              });*/
         }
         else {
             this.reporte.numerofactura = this.numeroReporte;
-            this.datosReporteDTO.itemsReporteGenerico = this.arrayRepuestosGenericosCorrectivos.concat(this.arrayRepuestosGenericosCorrectivos);
-            //this.arrayRepuestosGenericosPreventivos,this.arrayRepuestosGenericosCorrectivos 
+            this.datosReporteDTO.itemsReporteGenerico = this.arrayRepuestosGenericosCorrectivos.concat(this.arrayRepuestosGenericosPreventivos);
             if (this.utilesProvider.validarCampos(this.productoClienteReporte, this.reporte, this.detalleInventarioProducto)) {
                 this.showLoaderSave();
-                console.log(JSON.stringify(this.datosReporteDTO));
-                this.reporteProvider.saveAllReporteImpresoras(this.datosReporteDTO).then(function (response) {
+                this.reporteProvider.saveReporteReporteGenerico(this.datosReporteDTO).then(function (response) {
                     _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_6__administracion_reportes_administracion_reportes__["a" /* AdministracionReportesPage */]);
                     _this.loading.dismiss();
                     _this.utilesProvider.msgSaveToast(true);
@@ -488,20 +505,20 @@ var ReporteGenericoPage = /** @class */ (function () {
     };
     ReporteGenericoPage.prototype.openModalGenericosPreventivo = function () {
         var _this = this;
-        var addModal = this.modalCtrl.create('ModalItemsGenericosPreventivoPage', { arrayRepuestos: this.arrayRepuestosGenericosPreventivos });
+        var addModal = this.modalCtrl.create('ModalItemsGenericosPreventivoPage', { arrayRepuestosPreventivos: this.arrayRepuestosGenericosPreventivos });
         addModal.onDidDismiss(function (item) {
             if (item) {
-                _this.arrayRepuestosGenericosPreventivos = item.arrayRepuestos;
+                _this.arrayRepuestosGenericosPreventivos = item.arrayRepuestosPreventivos;
             }
         });
         addModal.present();
     };
     ReporteGenericoPage.prototype.openModalGenericosCorrectivo = function () {
         var _this = this;
-        var addModal = this.modalCtrl.create('ModalItemsGenericosCorrectivoPage');
+        var addModal = this.modalCtrl.create('ModalItemsGenericosCorrectivoPage', { arrayRepuestosCorrectivos: this.arrayRepuestosGenericosCorrectivos });
         addModal.onDidDismiss(function (item) {
             if (item) {
-                _this.arrayRepuestosGenericosPreventivos = item.arrayRepuestos;
+                _this.arrayRepuestosGenericosCorrectivos = item.arrayRepuestosCorrectivos;
             }
         });
         addModal.present();
@@ -635,7 +652,7 @@ var ReporteGenericoPage = /** @class */ (function () {
     ], ReporteGenericoPage.prototype, "signaturePad", void 0);
     ReporteGenericoPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-reporte-generico',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\reporte-generico\reporte-generico.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle color="light">\n      <ion-icon name="menu"></ion-icon>\n    </button>\n\n    <ion-buttons end>\n      <button ion-button tappable (click)="presentNotifications($event)" color="light">\n        {{notificationes}}\n        <ion-icon name="notifications" color="{{colorNotification}}"></ion-icon>\n      </button>\n\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n\n  <form [formGroup]="reporteForm">\n\n    <div padding-horizontal text-center class="animated fadeInDown">\n      <div class="logo"></div>\n      <h2 ion-text color="primary">\n        <strong>Reporte Genérico</strong>\n        <br/>\n        <strong>N° {{ numeroReporteTecnico }}</strong>\n        <strong>{{ usuario.codigo }}</strong>\n      </h2>\n      <ion-item>\n        <ion-label floating>Tipo</ion-label>\n        <ion-select #C (ionChange)="onChange(C.value)" ([ngModel])="subTipoReporte" formControlName="subTipoReporte">\n          <ion-option value="DIAGNOSTICO">DIAGNOSTICO</ion-option>\n          <ion-option value="REPARACION">REPARACION</ion-option>\n          <ion-option value="CONTADOR">CONTADOR</ion-option>\n        </ion-select>\n      </ion-item>\n\n\n    </div>\n\n\n    <div padding>\n      <ion-segment [(ngModel)]="reporteTab" name="reportename" formControlName="reporteSegment" style="vertical-align: middle"\n        (ionChange)="segmentChanged($event)">\n        <ion-segment-button value="datos">\n          <ion-icon name="person"></ion-icon>\n        </ion-segment-button>\n        <ion-segment-button value="equipo">\n          <ion-icon name="print"></ion-icon>\n        </ion-segment-button>\n\n        <ion-segment-button value="items">\n          <ion-icon name="barcode"></ion-icon>\n        </ion-segment-button>\n        <ion-segment-button value="observaciones">\n          <ion-icon name="list-box"></ion-icon>\n        </ion-segment-button>\n        <ion-segment-button value="cliente">\n          <ion-icon name="create"></ion-icon>\n        </ion-segment-button>\n\n      </ion-segment>\n    </div>\n\n\n    <div [ngSwitch]="reporteTab">\n      <ion-list *ngSwitchCase="\'datos\'">\n        <ion-item>\n          <ion-thumbnail item-start>\n\n\n            <h2 ion-text color="primary">\n              <strong>Datos generales</strong>\n              <br/>\n            </h2>\n\n            <ion-list>\n              <ion-item>\n\n                <ion-grid>\n                  <ion-row align-items-start>\n\n                    <ion-col>\n                      <button ion-button full (click)="openModalCliente()">\n                        <ion-icon name="search"> Buscar Cliente </ion-icon>\n                      </button>\n                    </ion-col>\n\n\n                  </ion-row>\n                </ion-grid>\n              </ion-item>\n\n\n              <ion-item>\n                <ion-label floating>Referencia</ion-label>\n                <ion-input type="text" [(ngModel)]="reporte.referencia" formControlName="referenciaCtrl"></ion-input>\n              </ion-item>\n\n              <!-- <ion-item>\n                              <ion-label floating>Factura #</ion-label>\n                              <ion-input type="text" ([ngModel])="reporte.factura" formControlName="facturaCtrl"></ion-input>\n                          </ion-item>-->\n\n              <ion-item>\n                <ion-label floating>Factura #</ion-label>\n                <ion-input type="text" [(ngModel)]="reporte.factura" formControlName="facturaCtrl"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Atención</ion-label>\n                <ion-input type="text" [(ngModel)]="productoClienteReporte.atencion" formControlName="atencion"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Correo</ion-label>\n                <ion-input type="text" [(ngModel)]="productoClienteReporte.correoAtencion" formControlName="email"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Empresa/Cliente</ion-label>\n                <ion-input type="text" [(ngModel)]="cliente.cliente" style="pointer-events: none" formControlName="cliente"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>No. RUC</ion-label>\n                <ion-input type="text" [(ngModel)]="cliente.ruc" style="pointer-events: none" formControlName="ruc"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Telefono</ion-label>\n                <ion-input type="text" [(ngModel)]="cliente.telefono" style="pointer-events: none" formControlName="telefono"></ion-input>\n              </ion-item>\n              <ion-item>\n                <ion-label floating>Telefono 2</ion-label>\n                <ion-input type="text" [(ngModel)]="cliente.telefono2" style="pointer-events: none" formControlName="telefono2"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Dirección</ion-label>\n                <ion-input type="text" [(ngModel)]="cliente.direccion" style="pointer-events: none" formControlName="direccion"></ion-input>\n              </ion-item>\n\n\n              <ion-item>\n                <ion-label floating>Ciudad</ion-label>\n                <ion-input type="text" [(ngModel)]="cliente.ciudad" style="pointer-events: none" formControlName="ciudad"></ion-input>\n              </ion-item>\n\n\n\n              <!--   <ion-item>\n                              <ion-label floating>Correo</ion-label>\n                              <ion-input type="text" ([ngModel])="cliente.email" style="pointer-events: none" formControlName="email"></ion-input>\n                          </ion-item>\n-->\n\n\n\n              <ion-item>\n                <ion-label floating>Tipo visita</ion-label>\n                <ion-select ([ngModel])="tipoVisita.id" formControlName="idTipoVisita">\n                  <ion-option *ngFor="let item of tiposVisitas" [value]="item.id" [selected]="tipoVisita == item">{{item.descripcion}}</ion-option>\n                </ion-select>\n              </ion-item>\n\n\n            </ion-list>\n\n\n          </ion-thumbnail>\n\n        </ion-item>\n      </ion-list>\n\n\n      <ion-list *ngSwitchCase="\'equipo\'">\n        <ion-item>\n          <ion-thumbnail item-start>\n\n            <h2 ion-text color="primary">\n              <strong>Datos de equipo / Tipo de servicio</strong>\n              <br/>\n            </h2>\n\n\n            <ion-list>\n\n\n              <ion-item>\n\n                <ion-grid>\n                  <ion-row align-items-start>\n\n                    <ion-col>\n                      <button ion-button full (click)="openModalProducto()">\n                        <ion-icon name="search"> Buscar Equipo </ion-icon>\n                      </button>\n                    </ion-col>\n\n                  </ion-row>\n                </ion-grid>\n              </ion-item>\n\n\n              <ion-item>\n                <ion-label floating>Sucursal</ion-label>\n                <ion-select ([ngModel])="clienteSucursal.id" formControlName="idClienteSucursal">\n                  <ion-option *ngFor="let item of clienteSucursales" [value]="item.id" [selected]="clienteSucursal == item">{{item.nombre}}</ion-option>\n                </ion-select>\n              </ion-item>\n\n\n\n              <ion-item>\n                <ion-label floating>Equipo</ion-label>\n                <ion-input type="text" [(ngModel)]="producto.descripcionCompra" style="pointer-events: none" formControlName="equipoProducto"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Marca</ion-label>\n                <ion-input type="text" [(ngModel)]="marca.marca" style="pointer-events: none" formControlName="marca"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Modelo</ion-label>\n                <ion-input type="text" [(ngModel)]="modelo.modelo" style="pointer-events: none" formControlName="modelo"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Ip Equipo</ion-label>\n                <ion-input type="text" [(ngModel)]="productoClienteReporte.ipEquipo" formControlName="ipEquipo"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Puerto USB</ion-label>\n                <ion-input type="text" [(ngModel)]="productoClienteReporte.puertoUsb" formControlName="puertoUsb"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Serie</ion-label>\n                <ion-input type="text" [(ngModel)]="detalleInventarioProducto.serial" formControlName="serie"></ion-input>\n              </ion-item>\n\n\n\n\n              <ion-item>\n\n                <ion-grid item-content>\n                  <ion-row col-12>\n                    <ion-label floating>Contadores</ion-label>\n                  </ion-row>\n                  <ion-row col-12>\n                    <br/>\n                  </ion-row>\n                  <ion-row>\n                    <ion-col col-3>\n\n                    </ion-col>\n                    <ion-col col-3>\n                      Total\n                    </ion-col>\n                    <ion-col col-3>\n                      Color\n                    </ion-col>\n                    <ion-col col-3>\n                      B/N\n                    </ion-col>\n                  </ion-row>\n                  <ion-row>\n                    <ion-col col-3>\n                      Anterior\n                    </ion-col>\n                    <ion-col col-3>\n\n                      <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorTotalAnterior" formControlName="contadorTotalAnterior"></ion-input>\n                    </ion-col>\n                    <ion-col col-3>\n                      <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorColorAnterior" formControlName="contadorColorAnterior"\n                        (ionChange)="contador(\'contadorColorAnterior\')" placeholder="..."></ion-input>\n                    </ion-col>\n                    <ion-col col-3>\n                      <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorBnAnterior" formControlName="contadorBnAnterior" (ionChange)="contador(\'contadorBnAnterior\')"\n                        placeholder="..."></ion-input>\n                    </ion-col>\n                  </ion-row>\n\n                  <ion-row>\n                    <ion-col col-3>\n                      Actual\n                    </ion-col>\n                    <ion-col col-3>\n                      <ion-input [(ngModel)]="productoDetalleReporte.contadorTotalActual" formControlName="contadorTotalActual"></ion-input>\n                    </ion-col>\n                    <ion-col col-3>\n                      <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorColorActual" formControlName="contadorColorActual" (ionChange)="contador(\'contadorColorActual\')"\n                        placeholder="..."></ion-input>\n\n                    </ion-col>\n                    <ion-col col-3>\n                      <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorBnActual" formControlName="contadorBnActual" (ionChange)="contador(\'contadorBnActual\')"\n                        placeholder="..."></ion-input>\n\n                    </ion-col>\n                  </ion-row>\n\n                  <ion-row>\n                    <ion-col col-3>\n                      Imp. Real\n                    </ion-col>\n                    <ion-col col-3>\n                      <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorTotalImpReal" formControlName="contadorTotalImpReal"></ion-input>\n                    </ion-col>\n                    <ion-col col-3>\n                      <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorColorImpReal" formControlName="contadorColorImpReal"></ion-input>\n                    </ion-col>\n                    <ion-col col-3>\n                      <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorBnImpReal" formControlName="contadorBnImpReal"></ion-input>\n                    </ion-col>\n                  </ion-row>\n\n\n\n                  <ion-row>\n\n\n                    <ion-col col-2>\n                      <ion-input type="number" placeholder="Mantenimiento" [(ngModel)]="productoDetalleReporte.mantenimiento" formControlName="mantenimiento"></ion-input>\n\n                    </ion-col>\n\n                    <ion-col col-2>\n                      <ion-input type="number" placeholder="Otros" [(ngModel)]="productoDetalleReporte.otros" formControlName="otros"></ion-input>\n\n                    </ion-col>\n                    <ion-col col-4>\n                      <ion-label>Servicio a FACTURAR</ion-label>\n                    </ion-col>\n\n                    <ion-col col-1>\n                      <ion-checkbox [(ngModel)]="productoDetalleReporte.servicioFacturarEstado" formControlName="servicioFacturarEstado"></ion-checkbox>\n                    </ion-col>\n\n                    <ion-col col-3>\n                      <ion-input type="number" placeholder="US$" [(ngModel)]="productoDetalleReporte.servicioFacturar" formControlName="servicioFacturar"></ion-input>\n\n                    </ion-col>\n\n                  </ion-row>\n\n\n\n                </ion-grid>\n\n              </ion-item>\n\n\n              <ion-item>\n                <ion-label floating>Síntomas</ion-label>\n                <ion-input type="text" [(ngModel)]="reporte.sintomasEquipo" formControlName="sintomas"></ion-input>\n              </ion-item>\n\n\n\n            </ion-list>\n\n\n          </ion-thumbnail>\n\n        </ion-item>\n      </ion-list>\n\n\n\n\n\n      <ion-list *ngSwitchCase="\'items\'">\n        <ion-item>\n          <ion-thumbnail item-start>\n\n            <h2 ion-text color="primary">\n              <strong>Items Reporte Genérico </strong>\n              <br/>\n            </h2>\n\n            <ion-list>\n\n              <ion-item>\n                <ion-grid item-content>\n\n                  <ion-row>\n                    <ion-col col-6>\n                      \n                      <button ion-button full (click)="openModalGenericosPreventivo()">\n                        <ion-icon name="add"> Preventivos </ion-icon>\n                    </button>\n\n\n\n                    <ion-item-sliding  *ngFor="let r of arrayRepuestosGenericosPreventivos">\n                        <ion-item>\n                          <div>\n                            <p> {{r.descripcion}}</p>\n                          </div>\n                        </ion-item>\n                     \n                      </ion-item-sliding>\n\n\n                    </ion-col>\n                    <ion-col col-6>\n                        <button ion-button full (click)="openModalGenericosCorrectivo()">\n                        <ion-icon name="add"> Correctivos </ion-icon>\n                    </button>\n                    </ion-col>\n\n                  </ion-row>\n\n\n                </ion-grid>\n\n              </ion-item>\n\n\n\n            </ion-list>\n\n          </ion-thumbnail>\n\n        </ion-item>\n      </ion-list>\n\n\n\n      <ion-list *ngSwitchCase="\'observaciones\'">\n        <ion-item>\n          <ion-thumbnail item-start>\n            <h2 ion-text color="primary">\n\n              <h2 ion-text color="primary">\n                <strong>Observaciones / Recomendaciones </strong>\n                <br/>\n              </h2>\n\n\n            </h2>\n\n            <ion-list>\n              <ion-item>\n\n                <ion-label floating>Observaciones / Recomendaciones</ion-label>\n                <ion-input type="text" [(ngModel)]="reporte.observacionesRecomendaciones" formControlName="observacionesRecomendaciones"></ion-input>\n\n              </ion-item>\n\n              <ion-item>\n\n                <ion-label floating>Notas de Técnico</ion-label>\n                <ion-input type="text" [(ngModel)]="reporte.notas" formControlName="notas"></ion-input>\n\n              </ion-item>\n\n\n            </ion-list>\n          </ion-thumbnail>\n\n        </ion-item>\n      </ion-list>\n\n\n      <ion-list *ngSwitchCase="\'cliente\'">\n        <ion-item>\n          <ion-thumbnail item-start>\n            <h2 ion-text color="primary">\n              <strong>Exclusivo para el cliente</strong>\n              <br/>\n            </h2>\n            <ion-list>\n\n              <ion-item>\n                <ion-label floating>Hora Inicio</ion-label>\n                <ion-datetime displayFormat="HH:mm A" [(ngModel)]="horaReporteInicio" formControlName="horaInicio"></ion-datetime>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Hora Fin</ion-label>\n                <ion-datetime displayFormat="HH:mm A" [(ngModel)]="horaReporteFin" formControlName="horaFin"></ion-datetime>\n              </ion-item>\n            </ion-list>\n\n            <ion-list>\n              <ion-item>\n\n                <ion-grid>\n                  <ion-row>\n\n                    <ion-col col-4>\n                      <button ion-button full color="light" (click)="clearSignature()">Limpiar</button>\n                    </ion-col>\n                    <ion-col col-4>\n\n                    </ion-col>\n                    <ion-col col-4>\n\n                    </ion-col>\n                  </ion-row>\n                </ion-grid>\n                <signature-pad [options]="signaturePadOptions" id="signatureCanvas"></signature-pad>\n                <br/>\n                <div>\n                  <img [src]=\'reporte.firmaClienteBase64\' *ngIf="reporte.firmaClienteBase64" />\n                </div>\n                <ion-grid>\n                  <ion-row>\n\n                    <ion-col col-6>\n                      Cliente : {{cliente.cliente}}\n                    </ion-col>\n                    <ion-col col-4>\n\n                    </ion-col>\n                    <ion-col col-2>\n\n                    </ion-col>\n                  </ion-row>\n                </ion-grid>\n\n\n\n              </ion-item>\n\n              <ion-item>\n\n\n                <ion-grid>\n                  <ion-row>\n\n                    <ion-col col-6>\n                      Responsable : {{usuario.nombreCompleto}}\n                    </ion-col>\n                    <ion-col col-4>\n\n                    </ion-col>\n                    <ion-col col-2>\n\n                    </ion-col>\n                  </ion-row>\n                </ion-grid>\n\n              </ion-item>\n\n\n            </ion-list>\n\n\n          </ion-thumbnail>\n\n        </ion-item>\n\n\n        <ion-item>\n\n          <ion-grid>\n            <ion-row align-items-start>\n\n              <ion-col>\n                <button ion-button full (click)="presentConfirm()" ion-button full>\n                  Guardar\n                </button>\n                <!--  <button type="submit" ion-button full [disabled]="!reporteForm.valid">Guardar</button>-->\n\n\n              </ion-col>\n\n            </ion-row>\n          </ion-grid>\n        </ion-item>\n\n      </ion-list>\n\n\n    </div>\n\n  </form>\n\n</ion-content>'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\reporte-generico\reporte-generico.html"*/,
+            selector: 'page-reporte-generico',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\reporte-generico\reporte-generico.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle color="light">\n      <ion-icon name="menu"></ion-icon>\n    </button>\n\n    <ion-buttons end>\n      <button ion-button tappable (click)="presentNotifications($event)" color="light">\n        {{notificationes}}\n        <ion-icon name="notifications" color="{{colorNotification}}"></ion-icon>\n      </button>\n\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n\n  <form [formGroup]="reporteForm">\n\n    <div padding-horizontal text-center class="animated fadeInDown">\n      <div class="logo"></div>\n      <h2 ion-text color="primary">\n        <strong>Reporte Genérico</strong>\n        <br/>\n        <strong>N° {{ numeroReporteTecnico }}</strong>\n        <strong>{{ usuario.codigo }}</strong>\n      </h2>\n      <ion-item>\n        <ion-label floating>Tipo</ion-label>\n        <ion-select #C (ionChange)="onChange(C.value)" ([ngModel])="subTipoReporte" formControlName="subTipoReporte">\n          <ion-option value="DIAGNOSTICO">DIAGNOSTICO</ion-option>\n          <ion-option value="REPARACION">REPARACION</ion-option>\n          <ion-option value="CONTADOR">CONTADOR</ion-option>\n        </ion-select>\n      </ion-item>\n\n\n    </div>\n\n\n    <div padding>\n      <ion-segment [(ngModel)]="reporteTab" name="reportename" formControlName="reporteSegment" style="vertical-align: middle"\n        (ionChange)="segmentChanged($event)">\n        <ion-segment-button value="datos">\n          <ion-icon name="person"></ion-icon>\n        </ion-segment-button>\n        <ion-segment-button value="equipo">\n          <ion-icon name="print"></ion-icon>\n        </ion-segment-button>\n\n        <ion-segment-button value="items">\n          <ion-icon name="barcode"></ion-icon>\n        </ion-segment-button>\n        <ion-segment-button value="observaciones">\n          <ion-icon name="list-box"></ion-icon>\n        </ion-segment-button>\n        <ion-segment-button value="cliente">\n          <ion-icon name="create"></ion-icon>\n        </ion-segment-button>\n\n      </ion-segment>\n    </div>\n\n\n    <div [ngSwitch]="reporteTab">\n      <ion-list *ngSwitchCase="\'datos\'">\n        <ion-item>\n          <ion-thumbnail item-start>\n\n\n            <h2 ion-text color="primary">\n              <strong>Datos generales</strong>\n              <br/>\n            </h2>\n\n            <ion-list>\n              <ion-item>\n\n                <ion-grid>\n                  <ion-row align-items-start>\n\n                    <ion-col>\n                      <button ion-button full (click)="openModalCliente()">\n                        <ion-icon name="search"> Buscar Cliente </ion-icon>\n                      </button>\n                    </ion-col>\n\n\n                  </ion-row>\n                </ion-grid>\n              </ion-item>\n\n\n              <ion-item>\n                <ion-label floating>Referencia</ion-label>\n                <ion-input type="text" [(ngModel)]="reporte.referencia" formControlName="referenciaCtrl"></ion-input>\n              </ion-item>\n\n              <!-- <ion-item>\n                              <ion-label floating>Factura #</ion-label>\n                              <ion-input type="text" ([ngModel])="reporte.factura" formControlName="facturaCtrl"></ion-input>\n                          </ion-item>-->\n\n              <ion-item>\n                <ion-label floating>Factura #</ion-label>\n                <ion-input type="text" [(ngModel)]="reporte.factura" formControlName="facturaCtrl"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Atención</ion-label>\n                <ion-input type="text" [(ngModel)]="productoClienteReporte.atencion" formControlName="atencion"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Correo</ion-label>\n                <ion-input type="text" [(ngModel)]="productoClienteReporte.correoAtencion" formControlName="email"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Empresa/Cliente</ion-label>\n                <ion-input type="text" [(ngModel)]="cliente.cliente" style="pointer-events: none" formControlName="cliente"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>No. RUC</ion-label>\n                <ion-input type="text" [(ngModel)]="cliente.ruc" style="pointer-events: none" formControlName="ruc"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Telefono</ion-label>\n                <ion-input type="text" [(ngModel)]="cliente.telefono" style="pointer-events: none" formControlName="telefono"></ion-input>\n              </ion-item>\n              <ion-item>\n                <ion-label floating>Telefono 2</ion-label>\n                <ion-input type="text" [(ngModel)]="cliente.telefono2" style="pointer-events: none" formControlName="telefono2"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Dirección</ion-label>\n                <ion-input type="text" [(ngModel)]="cliente.direccion" style="pointer-events: none" formControlName="direccion"></ion-input>\n              </ion-item>\n\n\n              <ion-item>\n                <ion-label floating>Ciudad</ion-label>\n                <ion-input type="text" [(ngModel)]="cliente.ciudad" style="pointer-events: none" formControlName="ciudad"></ion-input>\n              </ion-item>\n\n\n\n              <!--   <ion-item>\n                              <ion-label floating>Correo</ion-label>\n                              <ion-input type="text" ([ngModel])="cliente.email" style="pointer-events: none" formControlName="email"></ion-input>\n                          </ion-item>\n-->\n\n\n\n              <ion-item>\n                <ion-label floating>Tipo visita</ion-label>\n                <ion-select ([ngModel])="tipoVisita.id" formControlName="idTipoVisita">\n                  <ion-option *ngFor="let item of tiposVisitas" [value]="item.id" [selected]="tipoVisita == item">{{item.descripcion}}</ion-option>\n                </ion-select>\n              </ion-item>\n\n\n            </ion-list>\n\n\n          </ion-thumbnail>\n\n        </ion-item>\n      </ion-list>\n\n\n      <ion-list *ngSwitchCase="\'equipo\'">\n        <ion-item>\n          <ion-thumbnail item-start>\n\n            <h2 ion-text color="primary">\n              <strong>Datos de equipo / Tipo de servicio</strong>\n              <br/>\n            </h2>\n\n\n            <ion-list>\n\n\n              <ion-item>\n\n                <ion-grid>\n                  <ion-row align-items-start>\n\n                    <ion-col>\n                      <button ion-button full (click)="openModalProducto()">\n                        <ion-icon name="search"> Buscar Equipo </ion-icon>\n                      </button>\n                    </ion-col>\n\n                  </ion-row>\n                </ion-grid>\n              </ion-item>\n\n\n              <ion-item>\n                <ion-label floating>Sucursal</ion-label>\n                <ion-select ([ngModel])="clienteSucursal.id" formControlName="idClienteSucursal">\n                  <ion-option *ngFor="let item of clienteSucursales" [value]="item.id" [selected]="clienteSucursal == item">{{item.nombre}}</ion-option>\n                </ion-select>\n              </ion-item>\n\n\n\n              <ion-item>\n                <ion-label floating>Equipo</ion-label>\n                <ion-input type="text" [(ngModel)]="producto.descripcionCompra" style="pointer-events: none" formControlName="equipoProducto"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Marca</ion-label>\n                <ion-input type="text" [(ngModel)]="marca.marca" style="pointer-events: none" formControlName="marca"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Modelo</ion-label>\n                <ion-input type="text" [(ngModel)]="modelo.modelo" style="pointer-events: none" formControlName="modelo"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Ip Equipo</ion-label>\n                <ion-input type="text" [(ngModel)]="productoClienteReporte.ipEquipo" formControlName="ipEquipo"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Puerto USB</ion-label>\n                <ion-input type="text" [(ngModel)]="productoClienteReporte.puertoUsb" formControlName="puertoUsb"></ion-input>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Serie</ion-label>\n                <ion-input type="text" [(ngModel)]="detalleInventarioProducto.serial" formControlName="serie"></ion-input>\n              </ion-item>\n\n\n\n\n              <ion-item>\n\n                <ion-grid item-content>\n                  <ion-row col-12>\n                    <ion-label floating>Contadores</ion-label>\n                  </ion-row>\n                  <ion-row col-12>\n                    <br/>\n                  </ion-row>\n                  <ion-row>\n                    <ion-col col-3>\n\n                    </ion-col>\n                    <ion-col col-3>\n                      Total\n                    </ion-col>\n                    <ion-col col-3>\n                      Color\n                    </ion-col>\n                    <ion-col col-3>\n                      B/N\n                    </ion-col>\n                  </ion-row>\n                  <ion-row>\n                    <ion-col col-3>\n                      Anterior\n                    </ion-col>\n                    <ion-col col-3>\n\n                      <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorTotalAnterior" formControlName="contadorTotalAnterior"></ion-input>\n                    </ion-col>\n                    <ion-col col-3>\n                      <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorColorAnterior" formControlName="contadorColorAnterior"\n                        (ionChange)="contador(\'contadorColorAnterior\')" placeholder="..."></ion-input>\n                    </ion-col>\n                    <ion-col col-3>\n                      <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorBnAnterior" formControlName="contadorBnAnterior" (ionChange)="contador(\'contadorBnAnterior\')"\n                        placeholder="..."></ion-input>\n                    </ion-col>\n                  </ion-row>\n\n                  <ion-row>\n                    <ion-col col-3>\n                      Actual\n                    </ion-col>\n                    <ion-col col-3>\n                      <ion-input [(ngModel)]="productoDetalleReporte.contadorTotalActual" formControlName="contadorTotalActual"></ion-input>\n                    </ion-col>\n                    <ion-col col-3>\n                      <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorColorActual" formControlName="contadorColorActual" (ionChange)="contador(\'contadorColorActual\')"\n                        placeholder="..."></ion-input>\n\n                    </ion-col>\n                    <ion-col col-3>\n                      <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorBnActual" formControlName="contadorBnActual" (ionChange)="contador(\'contadorBnActual\')"\n                        placeholder="..."></ion-input>\n\n                    </ion-col>\n                  </ion-row>\n\n                  <ion-row>\n                    <ion-col col-3>\n                      Imp. Real\n                    </ion-col>\n                    <ion-col col-3>\n                      <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorTotalImpReal" formControlName="contadorTotalImpReal"></ion-input>\n                    </ion-col>\n                    <ion-col col-3>\n                      <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorColorImpReal" formControlName="contadorColorImpReal"></ion-input>\n                    </ion-col>\n                    <ion-col col-3>\n                      <ion-input type="number" [(ngModel)]="productoDetalleReporte.contadorBnImpReal" formControlName="contadorBnImpReal"></ion-input>\n                    </ion-col>\n                  </ion-row>\n\n\n\n                  <ion-row>\n\n\n                    <ion-col col-2>\n                      <ion-input type="number" placeholder="Mantenimiento" [(ngModel)]="productoDetalleReporte.mantenimiento" formControlName="mantenimiento"></ion-input>\n\n                    </ion-col>\n\n                    <ion-col col-2>\n                      <ion-input type="number" placeholder="Otros" [(ngModel)]="productoDetalleReporte.otros" formControlName="otros"></ion-input>\n\n                    </ion-col>\n                    <ion-col col-4>\n                      <ion-label>Servicio a FACTURAR</ion-label>\n                    </ion-col>\n\n                    <ion-col col-1>\n                      <ion-checkbox [(ngModel)]="productoDetalleReporte.servicioFacturarEstado" formControlName="servicioFacturarEstado"></ion-checkbox>\n                    </ion-col>\n\n                    <ion-col col-3>\n                      <ion-input type="number" placeholder="US$" [(ngModel)]="productoDetalleReporte.servicioFacturar" formControlName="servicioFacturar"></ion-input>\n\n                    </ion-col>\n\n                  </ion-row>\n\n\n\n                </ion-grid>\n\n              </ion-item>\n\n\n              <ion-item>\n                <ion-label floating>Síntomas</ion-label>\n                <ion-input type="text" [(ngModel)]="reporte.sintomasEquipo" formControlName="sintomas"></ion-input>\n              </ion-item>\n\n\n\n            </ion-list>\n\n\n          </ion-thumbnail>\n\n        </ion-item>\n      </ion-list>\n\n\n\n\n\n      <ion-list *ngSwitchCase="\'items\'">\n        <ion-item>\n          <ion-thumbnail item-start>\n\n            <h2 ion-text color="primary">\n              <strong>Items Reporte Genérico </strong>\n              <br/>\n            </h2>\n\n            <ion-list>\n\n              <ion-item>\n                <ion-grid item-content>\n\n                  <ion-row>\n                    <ion-col col-6>\n\n                      <button ion-button full (click)="openModalGenericosPreventivo()">\n                        <ion-icon name="add"> Preventivos </ion-icon>\n                      </button>\n\n\n\n                      <ion-item-sliding *ngFor="let r of arrayRepuestosGenericosPreventivos">\n                        <ion-item>\n                          <div>\n                            <p> {{r.descripcion}}</p>\n                          </div>\n                        </ion-item>\n\n                      </ion-item-sliding>\n\n\n                    </ion-col>\n                    <ion-col col-6>\n                      <button ion-button full (click)="openModalGenericosCorrectivo()">\n                        <ion-icon name="add"> Correctivos </ion-icon>\n                      </button>\n\n                      <ion-item-sliding *ngFor="let r of arrayRepuestosGenericosCorrectivos">\n                        <ion-item>\n                          <p> {{r.descripcion}}</p>\n                          <p> {{r.cambiado==true && r.solicitar==true ? \'Cambiado-Solicitar\': r.cambiado==true? \'Cambiado \':r.solicitar==true?\'Solicitar\' :\'\' }}  </p>\n                          <p> {{r.codigoRepuesto}}</p>\n                        </ion-item>\n\n                      </ion-item-sliding>\n\n                    </ion-col>\n\n                  </ion-row>\n\n\n                </ion-grid>\n\n              </ion-item>\n\n\n\n            </ion-list>\n\n          </ion-thumbnail>\n\n        </ion-item>\n      </ion-list>\n\n\n\n      <ion-list *ngSwitchCase="\'observaciones\'">\n        <ion-item>\n          <ion-thumbnail item-start>\n            <h2 ion-text color="primary">\n\n              <h2 ion-text color="primary">\n                <strong>Observaciones / Recomendaciones </strong>\n                <br/>\n              </h2>\n\n\n            </h2>\n\n            <ion-list>\n              <ion-item>\n\n                <ion-label floating>Observaciones / Recomendaciones</ion-label>\n                <ion-input type="text" [(ngModel)]="reporte.observacionesRecomendaciones" formControlName="observacionesRecomendaciones"></ion-input>\n\n              </ion-item>\n\n              <ion-item>\n\n                <ion-label floating>Notas de Técnico</ion-label>\n                <ion-input type="text" [(ngModel)]="reporte.notas" formControlName="notas"></ion-input>\n\n              </ion-item>\n\n\n            </ion-list>\n          </ion-thumbnail>\n\n        </ion-item>\n      </ion-list>\n\n\n      <ion-list *ngSwitchCase="\'cliente\'">\n        <ion-item>\n          <ion-thumbnail item-start>\n            <h2 ion-text color="primary">\n              <strong>Exclusivo para el cliente</strong>\n              <br/>\n            </h2>\n            <ion-list>\n\n              <ion-item>\n                <ion-label floating>Hora Inicio</ion-label>\n                <ion-datetime displayFormat="HH:mm A" [(ngModel)]="horaReporteInicio" formControlName="horaInicio"></ion-datetime>\n              </ion-item>\n\n              <ion-item>\n                <ion-label floating>Hora Fin</ion-label>\n                <ion-datetime displayFormat="HH:mm A" [(ngModel)]="horaReporteFin" formControlName="horaFin"></ion-datetime>\n              </ion-item>\n            </ion-list>\n\n            <ion-list>\n              <ion-item>\n\n                <ion-grid>\n                  <ion-row>\n\n                    <ion-col col-4>\n                      <button ion-button full color="light" (click)="clearSignature()">Limpiar</button>\n                    </ion-col>\n                    <ion-col col-4>\n\n                    </ion-col>\n                    <ion-col col-4>\n\n                    </ion-col>\n                  </ion-row>\n                </ion-grid>\n                <signature-pad [options]="signaturePadOptions" id="signatureCanvas"></signature-pad>\n                <br/>\n                <div>\n                  <img [src]=\'reporte.firmaClienteBase64\' *ngIf="reporte.firmaClienteBase64" />\n                </div>\n                <ion-grid>\n                  <ion-row>\n\n                    <ion-col col-6>\n                      Cliente : {{cliente.cliente}}\n                    </ion-col>\n                    <ion-col col-4>\n\n                    </ion-col>\n                    <ion-col col-2>\n\n                    </ion-col>\n                  </ion-row>\n                </ion-grid>\n\n\n\n              </ion-item>\n\n              <ion-item>\n\n\n                <ion-grid>\n                  <ion-row>\n\n                    <ion-col col-6>\n                      Responsable : {{usuario.nombreCompleto}}\n                    </ion-col>\n                    <ion-col col-4>\n\n                    </ion-col>\n                    <ion-col col-2>\n\n                    </ion-col>\n                  </ion-row>\n                </ion-grid>\n\n              </ion-item>\n\n\n            </ion-list>\n\n\n          </ion-thumbnail>\n\n        </ion-item>\n\n\n        <ion-item>\n\n          <ion-grid>\n            <ion-row align-items-start>\n\n              <ion-col>\n                <button ion-button full (click)="presentConfirm()" ion-button full>\n                  Guardar\n                </button>\n                <!--  <button type="submit" ion-button full [disabled]="!reporteForm.valid">Guardar</button>-->\n\n\n              </ion-col>\n\n            </ion-row>\n          </ion-grid>\n        </ion-item>\n\n      </ion-list>\n\n\n    </div>\n\n  </form>\n\n</ion-content>'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\reporte-generico\reporte-generico.html"*/,
         }),
         __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormBuilder */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_4__providers_providers__["d" /* DetalleCatalogoReporteProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_providers__["d" /* DetalleCatalogoReporteProvider */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_4__providers_providers__["b" /* ClienteProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_providers__["b" /* ClienteProvider */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_4__providers_providers__["a" /* Api */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_providers__["a" /* Api */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_4__providers_providers__["l" /* UtilesProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_providers__["l" /* UtilesProvider */]) === "function" && _l || Object, typeof (_m = typeof __WEBPACK_IMPORTED_MODULE_4__providers_providers__["j" /* TipoVisitaProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_providers__["j" /* TipoVisitaProvider */]) === "function" && _m || Object, typeof (_o = typeof __WEBPACK_IMPORTED_MODULE_4__providers_providers__["h" /* ReporteProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_providers__["h" /* ReporteProvider */]) === "function" && _o || Object, typeof (_p = typeof __WEBPACK_IMPORTED_MODULE_4__providers_providers__["e" /* NotificacionProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_providers__["e" /* NotificacionProvider */]) === "function" && _p || Object, typeof (_q = typeof __WEBPACK_IMPORTED_MODULE_4__providers_providers__["c" /* ClienteSucursalProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_providers__["c" /* ClienteSucursalProvider */]) === "function" && _q || Object, typeof (_r = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectorRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectorRef"]) === "function" && _r || Object, typeof (_s = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ToastController */]) === "function" && _s || Object, typeof (_t = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _t || Object, typeof (_u = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgZone"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgZone"]) === "function" && _u || Object, typeof (_v = typeof __WEBPACK_IMPORTED_MODULE_7__ionic_native_vibration__["a" /* Vibration */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ionic_native_vibration__["a" /* Vibration */]) === "function" && _v || Object, typeof (_w = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* PopoverController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* PopoverController */]) === "function" && _w || Object, typeof (_x = typeof __WEBPACK_IMPORTED_MODULE_8__ionic_native_local_notifications__["a" /* LocalNotifications */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__ionic_native_local_notifications__["a" /* LocalNotifications */]) === "function" && _x || Object])
     ], ReporteGenericoPage);
@@ -748,55 +765,55 @@ var map = {
 		28
 	],
 	"../pages/cards/cards.module": [
-		494,
+		493,
 		22
 	],
 	"../pages/content/content.module": [
-		499,
+		494,
 		21
 	],
 	"../pages/item-create/item-create.module": [
-		493,
+		495,
 		20
 	],
 	"../pages/item-detail/item-detail.module": [
-		501,
+		496,
 		19
 	],
 	"../pages/list-master/list-master.module": [
-		495,
+		497,
 		18
 	],
 	"../pages/log-out/log-out.module": [
-		496,
+		505,
 		27
 	],
 	"../pages/login/login.module": [
-		497,
+		498,
 		17
 	],
 	"../pages/menu/menu.module": [
-		498,
+		500,
 		16
 	],
 	"../pages/modal-confirmacion-repuesto/modal-confirmacion-repuesto.module": [
-		504,
+		499,
 		15
 	],
 	"../pages/modal-correctivos/modal-correctivos.module": [
-		500,
+		502,
 		14
 	],
 	"../pages/modal-items-genericos-correctivo/modal-items-genericos-correctivo.module": [
-		505,
+		501,
 		13
 	],
 	"../pages/modal-items-genericos-preventivo/modal-items-genericos-preventivo.module": [
-		502,
+		503,
 		12
 	],
 	"../pages/modal-repuestos-seleccionados/modal-repuestos-seleccionados.module": [
-		503,
+		504,
 		11
 	],
 	"../pages/modal-repuestos/modal-repuestos.module": [
@@ -808,19 +825,19 @@ var map = {
 		9
 	],
 	"../pages/modal-search-producto/modal-search-producto.module": [
-		511,
+		508,
 		8
 	],
 	"../pages/notifications/notifications.module": [
-		508,
+		509,
 		26
 	],
 	"../pages/reporte-generico/reporte-generico.module": [
-		509,
+		510,
 		25
 	],
 	"../pages/reporte-impresoras/reporte-impresoras.module": [
-		510,
+		511,
 		24
 	],
 	"../pages/reporte-monitores/reporte-monitores.module": [
@@ -828,23 +845,23 @@ var map = {
 		7
 	],
 	"../pages/reporte-scanners/reporte-scanners.module": [
-		514,
+		513,
 		23
 	],
 	"../pages/reporte-trituradores/reporte-trituradores.module": [
-		516,
+		514,
 		6
 	],
 	"../pages/search/search.module": [
-		513,
+		515,
 		5
 	],
 	"../pages/settings/settings.module": [
-		517,
+		516,
 		4
 	],
 	"../pages/signup/signup.module": [
-		515,
+		517,
 		3
 	],
 	"../pages/tabs/tabs.module": [
@@ -1225,7 +1242,7 @@ var ReporteProvider = /** @class */ (function () {
         return this.api.postHttp('reporteService/saveReporteReporteGenerico/', item);
     };
     ReporteProvider.prototype.updateReporteReporteGenerico = function (item) {
-        return this.api.putHttp('reporteService/updateReporteReporteGenerico/' + item.reporte.id, item);
+        return this.api.putHttp('reporteService/updateReporteReporteGenerico/', item);
     };
     ReporteProvider.prototype.numeroReporte = function (idUsuario, tipo, subtipo) {
         return this.api.get_type('reporteService/numeroReporte/' + idUsuario + '/' + tipo + '/' + subtipo);
@@ -1241,9 +1258,10 @@ var ReporteProvider = /** @class */ (function () {
     };
     ReporteProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__api_api__["a" /* Api */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__api_api__["a" /* Api */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__api_api__["a" /* Api */]) === "function" && _a || Object])
     ], ReporteProvider);
     return ReporteProvider;
+    var _a;
 }());
 
 //# sourceMappingURL=reporte.js.map
@@ -1705,11 +1723,90 @@ var UtilesProvider = /** @class */ (function () {
         }*/
         return true;
     };
+    UtilesProvider.prototype.buscarItemGenerico = function (items, item) {
+        var itemFound = null;
+        items.filter(function (f) { return f.id == item.id; }).forEach(function (data) {
+            itemFound = data;
+        });
+        return itemFound;
+    };
+    UtilesProvider.prototype.cargarRepuestoGenericosPreventivo = function (dbItems, currentItems) {
+        var _this = this;
+        var reporteGenericoItem;
+        var resultList = new Array();
+        var reporteGenericoItemBusqueda;
+        var array1 = new Array();
+        var array2 = new Array();
+        var dbItemsPreve = new Array();
+        dbItems.filter(function (f) { return f.tipo == 'P'; }).forEach(function (currentItem) {
+            dbItemsPreve.push(currentItem);
+        });
+        console.log('dbItemsPreve.length= ' + dbItemsPreve.length + ' , currentItems.length = ' + currentItems.length);
+        //  console.log(dbItems.concat(currentItems));
+        dbItemsPreve.forEach(function (db) {
+            reporteGenericoItem = new __WEBPACK_IMPORTED_MODULE_2__models_models__["p" /* ReporteGenericoItems */]();
+            reporteGenericoItem = db;
+            for (var n = 0; n <= currentItems.length - 1; n++) {
+                console.log(n + '  COMPARACION =   ' + reporteGenericoItem.id + ' == ' + currentItems[n].id + ' , DESC  ' + currentItems[n].descripcion + '  , SELECCION ' + currentItems[n].seleccion);
+                if (currentItems[n].id == reporteGenericoItem.id) {
+                    console.log(n + ' EL MISMO ' + currentItems[n].descripcion);
+                    reporteGenericoItem = currentItems[n];
+                    reporteGenericoItem.seleccion = true;
+                    array1.push(reporteGenericoItem);
+                }
+                else {
+                    if (currentItems[n].id == undefined) {
+                        console.log(n + ' NUEVO ' + currentItems[n].descripcion);
+                        reporteGenericoItem = currentItems[n];
+                        array2.push(reporteGenericoItem);
+                        // break;
+                    }
+                    reporteGenericoItemBusqueda = _this.buscarItemGenerico(dbItemsPreve, reporteGenericoItem);
+                    if (reporteGenericoItemBusqueda != null) {
+                        console.log(n + ' ENCONTRADO ' + reporteGenericoItemBusqueda.descripcion);
+                        reporteGenericoItem = reporteGenericoItemBusqueda;
+                        reporteGenericoItem.seleccion = false;
+                    }
+                    array2.push(reporteGenericoItem);
+                }
+                console.log('                 ');
+            }
+            console.log('         *************          ');
+            console.log('         *************          ');
+        });
+        console.log('  array1   ' + array1.length + '   ' + array2.length);
+        console.log(array1);
+        console.log('         *************          ');
+        console.log(array2);
+        console.log(' ***************************   ');
+        var concatArr = array1.concat(array2);
+        var unique = concatArr.filter(function (elem, index, self) {
+            return index === self.indexOf(elem);
+        });
+        console.log('FILTRADO !!    ');
+        console.log(unique);
+        /* currentItems.forEach(current => {
+           reporteGenericoItem = new ReporteGenericoItems();
+           reporteGenericoItem = current;
+           reporteGenericoItemBusqueda = this.buscarItemGenerico(dbItems, current);
+           if (reporteGenericoItemBusqueda != null) {
+             reporteGenericoItem = reporteGenericoItemBusqueda;
+           } else {
+             reporteGenericoItem.seleccion = true;
+           }
+     
+           resultList.push(reporteGenericoItem);
+           console.log('               *            **                      **               *');
+           console.log('               *            **                      **               *');
+         });*/
+        return resultList;
+    };
     UtilesProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ToastController */], __WEBPACK_IMPORTED_MODULE_3__api_api__["a" /* Api */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ToastController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__api_api__["a" /* Api */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__api_api__["a" /* Api */]) === "function" && _b || Object])
     ], UtilesProvider);
     return UtilesProvider;
+    var _a, _b;
 }());
 
 //# sourceMappingURL=utiles.js.map
@@ -2404,15 +2501,11 @@ var FirstRunPage = 'LoginPage';
 var MainPage = 'TabsPage';
 //export const MainPage = 'ModalItemsGenericosPreventivoPage';
 // The initial root pages for our tabs (remove if not using tabs)
-//export const Tab1Root = 'ListMasterPage';
-var Tab1Root = 'ModalItemsGenericosCorrectivoPage';
+var Tab1Root = 'ListMasterPage';
+//export const Tab1Root = 'ModalItemsGenericosCorrectivoPage';
 var Tab2Root = 'SearchPage';
-//export const Tab3Root = 'SettingsPage';
-var Tab3Root = 'ModalItemsGenericosCorrectivoPage';
-/*
-export const ReporteImpresorasPage = 'ReporteImpresorasPage';
-export const CasaPage = 'CasaPage';
-*/ 
+var Tab3Root = 'SettingsPage';
+//export const Tab3Root = 'ModalItemsGenericosCorrectivoPage';
 //# sourceMappingURL=pages.js.map
 
 /***/ }),
@@ -2610,31 +2703,31 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_9_ionic_angular__["f" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_11__app_component__["a" /* MyApp */], {}, {
                     links: [
                         { loadChildren: '../pages/administracion-reportes/administracion-reportes.module#AdministracionReportesPageModule', name: 'AdministracionReportesPage', segment: 'administracion-reportes', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/item-create/item-create.module#ItemCreatePageModule', name: 'ItemCreatePage', segment: 'item-create', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/cards/cards.module#CardsPageModule', name: 'CardsPage', segment: 'cards', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/list-master/list-master.module#ListMasterPageModule', name: 'ListMasterPage', segment: 'list-master', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/log-out/log-out.module#LogOutPageModule', name: 'LogOutPage', segment: 'log-out', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/content/content.module#ContentPageModule', name: 'ContentPage', segment: 'content', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/modal-correctivos/modal-correctivos.module#ModalCorrectivosPageModule', name: 'ModalCorrectivosPage', segment: 'modal-correctivos', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/item-create/item-create.module#ItemCreatePageModule', name: 'ItemCreatePage', segment: 'item-create', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/item-detail/item-detail.module#ItemDetailPageModule', name: 'ItemDetailPage', segment: 'item-detail', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/list-master/list-master.module#ListMasterPageModule', name: 'ListMasterPage', segment: 'list-master', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/modal-confirmacion-repuesto/modal-confirmacion-repuesto.module#ModalConfirmacionRepuestoPageModule', name: 'ModalConfirmacionRepuestoPage', segment: 'modal-confirmacion-repuesto', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/modal-items-genericos-correctivo/modal-items-genericos-correctivo.module#ModalItemsGenericosCorrectivoPageModule', name: 'ModalItemsGenericosCorrectivoPage', segment: 'modal-items-genericos-correctivo', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/modal-correctivos/modal-correctivos.module#ModalCorrectivosPageModule', name: 'ModalCorrectivosPage', segment: 'modal-correctivos', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-items-genericos-preventivo/modal-items-genericos-preventivo.module#ModalItemsGenericosPreventivoPageModule', name: 'ModalItemsGenericosPreventivoPage', segment: 'modal-items-genericos-preventivo', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-repuestos-seleccionados/modal-repuestos-seleccionados.module#ModalRepuestosSeleccionadosPageModule', name: 'ModalRepuestosSeleccionadosPage', segment: 'modal-repuestos-seleccionados', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/modal-confirmacion-repuesto/modal-confirmacion-repuesto.module#ModalConfirmacionRepuestoPageModule', name: 'ModalConfirmacionRepuestoPage', segment: 'modal-confirmacion-repuesto', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/modal-items-genericos-correctivo/modal-items-genericos-correctivo.module#ModalItemsGenericosCorrectivoPageModule', name: 'ModalItemsGenericosCorrectivoPage', segment: 'modal-items-genericos-correctivo', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/log-out/log-out.module#LogOutPageModule', name: 'LogOutPage', segment: 'log-out', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-repuestos/modal-repuestos.module#ModalRepuestosPageModule', name: 'ModalRepuestosPage', segment: 'modal-repuestos', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-search-cliente/modal-search-cliente.module#ModalSearchClientePageModule', name: 'ModalSearchClientePage', segment: 'modal-search-cliente', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/modal-search-producto/modal-search-producto.module#ModalSearchProductoPageModule', name: 'ModalSearchProductoPage', segment: 'modal-search-producto', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/notifications/notifications.module#NotificationsPageModule', name: 'NotificationsPage', segment: 'notifications', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reporte-generico/reporte-generico.module#ReporteGenericoPageModule', name: 'ReporteGenericoPage', segment: 'reporte-generico', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reporte-impresoras/reporte-impresoras.module#ReporteImpresorasPageModule', name: 'ReporteImpresorasPage', segment: 'reporte-impresoras', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/modal-search-producto/modal-search-producto.module#ModalSearchProductoPageModule', name: 'ModalSearchProductoPage', segment: 'modal-search-producto', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reporte-monitores/reporte-monitores.module#ReporteMonitoresPageModule', name: 'ReporteMonitoresPage', segment: 'reporte-monitores', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/search/search.module#SearchPageModule', name: 'SearchPage', segment: 'search', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reporte-scanners/reporte-scanners.module#ReporteScannersPageModule', name: 'ReporteScannersPage', segment: 'reporte-scanners', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/signup/signup.module#SignupPageModule', name: 'SignupPage', segment: 'signup', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reporte-trituradores/reporte-trituradores.module#ReporteTrituradoresPageModule', name: 'ReporteTrituradoresPage', segment: 'reporte-trituradores', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/search/search.module#SearchPageModule', name: 'SearchPage', segment: 'search', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/settings/settings.module#SettingsPageModule', name: 'SettingsPage', segment: 'settings', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/signup/signup.module#SignupPageModule', name: 'SignupPage', segment: 'signup', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/tabs/tabs.module#TabsPageModule', name: 'TabsPage', segment: 'tabs', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/tutorial/tutorial.module#TutorialPageModule', name: 'TutorialPage', segment: 'tutorial', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/welcome/welcome.module#WelcomePageModule', name: 'WelcomePage', segment: 'welcome', priority: 'low', defaultHistory: [] }
@@ -3021,6 +3114,7 @@ var ProductoClienteReporte = /** @class */ (function () {
         this.idProducto = new __WEBPACK_IMPORTED_MODULE_0__models_models__["j" /* Producto */]();
         this.idProyecto = new __WEBPACK_IMPORTED_MODULE_0__models_models__["n" /* Proyectos */]();
         this.reporteMantenimientoList = new Array();
+        this.reporteGenericoItemsList = new Array();
         this.idDetalleInventarioProducto = new __WEBPACK_IMPORTED_MODULE_0__models_models__["g" /* DetalleInventarioProducto */]();
     }
     return ProductoClienteReporte;
@@ -3173,7 +3267,7 @@ var Proyectos = /** @class */ (function () {
 
 var ReporteGenericoItems = /** @class */ (function () {
     function ReporteGenericoItems() {
-        this.idProductoRepuestoReporte = new __WEBPACK_IMPORTED_MODULE_0__models_models__["m" /* ProductoRepuestoReporte */]();
+        this.idProductoClienteReporte = new __WEBPACK_IMPORTED_MODULE_0__models_models__["k" /* ProductoClienteReporte */]();
     }
     return ReporteGenericoItems;
 }());
@@ -3696,6 +3790,7 @@ var ConsultasProvider = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__reporte_impresoras_reporte_impresoras__ = __webpack_require__(58);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_native_page_transitions__ = __webpack_require__(79);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__reporte_scanners_reporte_scanners__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__reporte_generico_reporte_generico__ = __webpack_require__(149);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3708,6 +3803,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 //import { Cliente, Producto, Modelo, Marca } from '../../models/models';
+
 
 
 
@@ -3772,6 +3868,9 @@ var AdministracionReportesPage = /** @class */ (function () {
         if (item.tipo == 'SCANNERS') {
             this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_7__reporte_scanners_reporte_scanners__["a" /* ReporteScannersPage */], { reporteDto: reporteDto, isEdit: true });
         }
+        if (item.tipo == 'REPORTE_GENERICO') {
+            this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_8__reporte_generico_reporte_generico__["a" /* ReporteGenericoPage */], { reporteDto: reporteDto, isEdit: true });
+        }
     };
     AdministracionReportesPage.prototype.openItem = function (item) {
     };
@@ -3793,12 +3892,10 @@ var AdministracionReportesPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'page-administracion-reportes',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\administracion-reportes\administracion-reportes.html"*/'<!--\n\n  Generated template for the AdministracionReportesPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n    \n\n  <ion-navbar>\n\n      <button ion-button menuToggle color="light">\n\n          <ion-icon name="menu"></ion-icon>\n\n      </button> \n\n    <ion-title>Administración</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n\n\n  <ion-searchbar [(ngModel)]="terms"></ion-searchbar>\n\n  <ion-list>\n\n\n\n\n\n    <ion-item-sliding *ngFor="let c of reportes | searchCliente : terms">\n\n      <ion-item>\n\n        <div>\n\n\n\n          <h2>N Reporte: {{c.numeroFactura}}</h2>\n\n          <h2>Cod Tecn: {{c.codigoTecnico}} ({{c.soporte}})</h2>\n\n          <h2>Tipo: {{c.tipo}}</h2>\n\n          <h2>Fecha: {{c.fecha}}</h2>\n\n          <h2>Factura: {{c.factura}}</h2>\n\n          <h2>Serial: {{c.serial}}</h2>\n\n          <h2>Cliente: {{c.cliente}}</h2>\n\n          <h2>Estado: {{c.estado}}</h2>\n\n        </div>\n\n\n\n      </ion-item>\n\n\n\n      <ion-item-options side="right">\n\n       \n\n        <button ion-button color="secondary" (click)="edit(c)">\n\n          <ion-icon name="create"></ion-icon>\n\n          Editar</button>\n\n        <button ion-button color="danger" (click)="openPdf(c)" download>\n\n          <ion-icon name="archive"></ion-icon>\n\n          Pdf</button>\n\n\n\n      </ion-item-options>\n\n\n\n\n\n\n\n    </ion-item-sliding>\n\n\n\n\n\n\n\n\n\n\n\n  </ion-list>\n\n\n\n\n\n</ion-content>'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\administracion-reportes\administracion-reportes.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_providers__["h" /* ReporteProvider */], __WEBPACK_IMPORTED_MODULE_2__providers_providers__["a" /* Api */],
-            __WEBPACK_IMPORTED_MODULE_3__ionic_native_file__["a" /* File */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_4__ionic_native_file_opener__["a" /* FileOpener */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ToastController */], __WEBPACK_IMPORTED_MODULE_6__ionic_native_native_page_transitions__["a" /* NativePageTransitions */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__providers_providers__["h" /* ReporteProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_providers__["h" /* ReporteProvider */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2__providers_providers__["a" /* Api */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_providers__["a" /* Api */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_file__["a" /* File */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_file__["a" /* File */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_4__ionic_native_file_opener__["a" /* FileOpener */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__ionic_native_file_opener__["a" /* FileOpener */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ToastController */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_6__ionic_native_native_page_transitions__["a" /* NativePageTransitions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__ionic_native_native_page_transitions__["a" /* NativePageTransitions */]) === "function" && _k || Object])
     ], AdministracionReportesPage);
     return AdministracionReportesPage;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
 }());
 
 //# sourceMappingURL=administracion-reportes.js.map

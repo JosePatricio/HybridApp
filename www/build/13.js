@@ -1,6 +1,6 @@
 webpackJsonp([13],{
 
-/***/ 505:
+/***/ 501:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalItemsGenericosCorrectivoPageModule", function() { return ModalItemsGenericosCorrectivoPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_items_genericos_correctivo__ = __webpack_require__(532);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_items_genericos_correctivo__ = __webpack_require__(529);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var ModalItemsGenericosCorrectivoPageModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 532:
+/***/ 529:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78,14 +78,16 @@ var ModalItemsGenericosCorrectivoPage = /** @class */ (function () {
         this.arrayRepuestos = new Array();
         this.reporteGenericoItems = new __WEBPACK_IMPORTED_MODULE_2__models_models__["p" /* ReporteGenericoItems */]();
         this.reporteForm = this.createMyForm();
-        this.arrayRepuestos = navParams.get('arrayRepuestos');
+        if (navParams.get('arrayRepuestosCorrectivos') != undefined) {
+            this.arrayRepuestos = navParams.get('arrayRepuestosCorrectivos');
+        }
     }
     ModalItemsGenericosCorrectivoPage.prototype.ionViewDidLoad = function () {
     };
     ModalItemsGenericosCorrectivoPage.prototype.agregar = function () {
         if (this.reporteGenericoItems.descripcion != undefined) {
             this.reporteGenericoItems.tipo = 'C';
-            console.log('EL OBJECTO ES ' + JSON.stringify(this.reporteGenericoItems));
+            this.reporteGenericoItems.seleccion = true;
             this.arrayRepuestos.push(this.reporteGenericoItems);
             this.reporteGenericoItems = new __WEBPACK_IMPORTED_MODULE_2__models_models__["p" /* ReporteGenericoItems */]();
             this.reporteForm.reset();
@@ -102,19 +104,19 @@ var ModalItemsGenericosCorrectivoPage = /** @class */ (function () {
         }
     };
     ModalItemsGenericosCorrectivoPage.prototype.cancel = function () {
-        this.viewCtrl.dismiss({ arrayRepuestos: this.arrayRepuestos });
+        this.viewCtrl.dismiss({ arrayRepuestosCorrectivos: this.arrayRepuestos });
     };
     ModalItemsGenericosCorrectivoPage.prototype.createMyForm = function () {
         return this.formBuilder.group({
             descripcion: [this.reporteGenericoItems.descripcion],
             cambiado: [this.reporteGenericoItems.cambiado],
             solicitar: [this.reporteGenericoItems.solicitar],
-            codigo: [this.reporteGenericoItems.codigoRepuesto]
+            codigoRepuesto: [this.reporteGenericoItems.codigoRepuesto]
         });
     };
     ModalItemsGenericosCorrectivoPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-modal-items-genericos-correctivo',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\modal-items-genericos-correctivo\modal-items-genericos-correctivo.html"*/'<!--\n  Generated template for the ModalItemsGenericosCorrectivoPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Items Genéricos </ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n  <form [formGroup]="reporteForm">\n    <ion-list>\n\n      <ion-item>\n        <ion-grid item-content>\n\n          <ion-row>\n            <ion-col col-8>\n\n              <ion-label floating>Descripción</ion-label>\n              <ion-input type="text" [(ngModel)]="reporteGenericoItems.descripcion" formControlName="descripcion"></ion-input>\n\n            </ion-col>\n            <ion-col col-4>\n              <button ion-button full (click)="agregar()">\n                <ion-icon name="add"> Agregar </ion-icon>\n              </button>\n            </ion-col>\n\n          </ion-row>\n\n\n\n\n          <ion-row>\n            <ion-col col-6>\n              <ion-label>Cambiado</ion-label>\n              <ion-checkbox [(ngModel)]="reporteGenericoItems.cambiado" formControlName="cambiado"></ion-checkbox>\n            </ion-col>\n            <ion-col col-6>\n              <ion-label>Solicitar</ion-label>\n              <ion-checkbox [(ngModel)]="reporteGenericoItems.solicitar" formControlName="solicitar"></ion-checkbox>\n            </ion-col>\n          </ion-row>\n\n\n          <ion-row>\n              <ion-col col-12>\n                  <ion-label floating>Código</ion-label>\n                  <ion-input type="text" [(ngModel)]="reporteGenericoItems.codigo" formControlName="codigo"></ion-input>\n    \n              </ion-col>\n          \n            </ion-row>\n\n\n        </ion-grid>\n\n      </ion-item>\n\n\n    </ion-list>\n\n    <ion-list>\n      <ion-item-sliding *ngFor="let r of arrayRepuestos">\n        <ion-item>\n          <div>\n            <h2> {{r.descripcion}}</h2>\n            <h2> {{r.cambiado}}</h2>\n            <h2> {{r.solicitar}}</h2>\n            <h2> {{r.codigo}}</h2>\n\n          </div>\n          <ion-icon class="ios-add-size icon icon-md ios-arrow-forward"></ion-icon>\n        </ion-item>\n        <ion-item-options side="right">\n          <button danger (click)="deleteItem(r)" ion-button color="danger">\n            <ion-icon name="trash"></ion-icon> Eliminar</button>\n        </ion-item-options>\n      </ion-item-sliding>\n\n\n      <ion-item>\n\n        <ion-grid>\n          <ion-row align-items-start>\n\n            <ion-col>\n              <button ion-button full (click)="cancel()">\n                Cerrar\n              </button>\n            </ion-col>\n\n          </ion-row>\n        </ion-grid>\n      </ion-item>\n\n    </ion-list>\n  </form>\n</ion-content>'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\modal-items-genericos-correctivo\modal-items-genericos-correctivo.html"*/,
+            selector: 'page-modal-items-genericos-correctivo',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\modal-items-genericos-correctivo\modal-items-genericos-correctivo.html"*/'<!--\n  Generated template for the ModalItemsGenericosCorrectivoPage page.\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Items Genéricos </ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n  <form [formGroup]="reporteForm">\n    <ion-list>\n\n      <ion-item>\n        <ion-grid item-content>\n\n          <ion-row>\n            <ion-col col-8>\n\n              <ion-label floating>Descripción</ion-label>\n              <ion-input type="text" [(ngModel)]="reporteGenericoItems.descripcion" formControlName="descripcion"></ion-input>\n\n            </ion-col>\n            <ion-col col-4>\n              <button ion-button full (click)="agregar()">\n                <ion-icon name="add"> Agregar </ion-icon>\n              </button>\n            </ion-col>\n\n          </ion-row>\n\n\n\n\n          <ion-row>\n            <ion-col col-6>\n              <ion-label>Cambiado</ion-label>\n              <ion-checkbox [(ngModel)]="reporteGenericoItems.cambiado" formControlName="cambiado"></ion-checkbox>\n            </ion-col>\n            <ion-col col-6>\n              <ion-label>Solicitar</ion-label>\n              <ion-checkbox [(ngModel)]="reporteGenericoItems.solicitar" formControlName="solicitar"></ion-checkbox>\n            </ion-col>\n          </ion-row>\n\n\n          <ion-row>\n              <ion-col col-12>\n                  <ion-label floating>Código</ion-label>\n                  <ion-input type="text" [(ngModel)]="reporteGenericoItems.codigoRepuesto" formControlName="codigoRepuesto"></ion-input>\n    \n              </ion-col>\n          \n            </ion-row>\n\n\n        </ion-grid>\n\n      </ion-item>\n\n\n    </ion-list>\n\n\n\n    <ion-list>\n      <ion-item-sliding *ngFor="let r of arrayRepuestos">\n        <ion-item>\n          <div>\n            <p>Descripción: {{r.descripcion}}</p>\n            <p>Cambiado: {{r.cambiado==true ? \'✓\':\'X\' }} - Solicitar {{r.solicitar==true ? \'✓\':\'X\'}}</p>\n            <p>Código: {{r.codigoRepuesto}}</p>\n\n          </div>\n          <ion-icon class="ios-add-size icon icon-md ios-arrow-forward"></ion-icon>\n        </ion-item>\n        <ion-item-options side="right">\n          <button danger (click)="deleteItem(r)" ion-button color="danger">\n            <ion-icon name="trash"></ion-icon> Eliminar</button>\n        </ion-item-options>\n      </ion-item-sliding>\n\n\n      <ion-item>\n\n        <ion-grid>\n          <ion-row align-items-start>\n\n            <ion-col>\n              <button ion-button full (click)="cancel()">\n                Cerrar\n              </button>\n            </ion-col>\n\n          </ion-row>\n        </ion-grid>\n      </ion-item>\n\n    </ion-list>\n  </form>\n</ion-content>'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\modal-items-genericos-correctivo\modal-items-genericos-correctivo.html"*/,
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormBuilder */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__providers_providers__["l" /* UtilesProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_providers__["l" /* UtilesProvider */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* ViewController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* ViewController */]) === "function" && _e || Object])
     ], ModalItemsGenericosCorrectivoPage);

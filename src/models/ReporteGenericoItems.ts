@@ -1,5 +1,5 @@
 
-import { ProductoRepuestoReporte } from '../models/models';
+import {  ProductoClienteReporte } from '../models/models';
 export class ReporteGenericoItems {
 
 
@@ -8,12 +8,12 @@ export class ReporteGenericoItems {
     descripcion: string;
     cambiado: boolean;
     solicitar: boolean;
-    codigoRepuesto: string;
     porcentaje: number;
     estado: boolean;
     seleccionado: boolean;
     seleccion: boolean;
-    idProductoRepuestoReporte: ProductoRepuestoReporte = new ProductoRepuestoReporte();
+    codigoRepuesto: String;
+    idProductoClienteReporte: ProductoClienteReporte = new ProductoClienteReporte();
 
 }
 
