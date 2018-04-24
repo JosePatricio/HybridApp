@@ -386,98 +386,101 @@ export class UtilesProvider {
     let reporteGenericoItemBusqueda: ReporteGenericoItems;
 
 
-    let array1: Array<ReporteGenericoItems> = new Array<ReporteGenericoItems>();
-    let array2: Array<ReporteGenericoItems> = new Array<ReporteGenericoItems>();
 
     let dbItemsPreve: Array<ReporteGenericoItems> = new Array<ReporteGenericoItems>();
     dbItems.filter(f => f.tipo == 'P').forEach(currentItem => {
       dbItemsPreve.push(currentItem);
     });
 
-    console.log('dbItemsPreve.length= ' + dbItemsPreve.length + ' , currentItems.length = ' + currentItems.length)
-
-    //  console.log(dbItems.concat(currentItems));
 
     dbItemsPreve.forEach(db => {
       reporteGenericoItem = new ReporteGenericoItems();
       reporteGenericoItem = db;
-      for (var n = 0; n <= currentItems.length - 1; n++) {
-        console.log(n + '  COMPARACION =   ' + reporteGenericoItem.id + ' == ' + currentItems[n].id + ' , DESC  ' + currentItems[n].descripcion + '  , SELECCION ' + currentItems[n].seleccion);
 
-        if (currentItems[n].id == reporteGenericoItem.id) {
-          console.log(n + ' EL MISMO ' + currentItems[n].descripcion);
-          reporteGenericoItem = currentItems[n];
-          reporteGenericoItem.seleccion = true;
-          array1.push(reporteGenericoItem);
-        } else {
-          if (currentItems[n].id == undefined) {
-            console.log(n + ' NUEVO ' + currentItems[n].descripcion);
-            reporteGenericoItem = currentItems[n];
-            array2.push(reporteGenericoItem);
-           // break;
-          }
+      if (currentItems.length > 0) {
+        for (var n = 0; n <= currentItems.length - 1; n++) {
 
-          reporteGenericoItemBusqueda = this.buscarItemGenerico(dbItemsPreve, reporteGenericoItem);
-          if (reporteGenericoItemBusqueda != null) {
-            console.log(n + ' ENCONTRADO ' + reporteGenericoItemBusqueda.descripcion);
-            reporteGenericoItem = reporteGenericoItemBusqueda;
+
+          if (currentItems[n].id === reporteGenericoItem.id) {
+            reporteGenericoItem.seleccion = true;
+            break;
+          } else {
             reporteGenericoItem.seleccion = false;
+            reporteGenericoItem.id = this.buscarItemGenerico(dbItemsPreve, reporteGenericoItem).id;
           }
-
-
-          array2.push(reporteGenericoItem);
         }
+      } else {
+        let reporteGenericoItemAux: ReporteGenericoItems;
+        reporteGenericoItemAux = this.buscarItemGenerico(dbItemsPreve, reporteGenericoItem);
+        reporteGenericoItem.seleccion = false;
+        reporteGenericoItem.id = reporteGenericoItemAux.id;
 
-
-
-        console.log('                 ');
       }
-      console.log('         *************          ');
-      console.log('         *************          ');
+
+      resultList.push(reporteGenericoItem);
+
     });
 
-
-    console.log('  array1   ' + array1.length + '   ' + array2.length);
-    console.log(array1);
-    console.log('         *************          ');
-    console.log(array2);
-    console.log(' ***************************   ');
-
-
-    var concatArr = array1.concat(array2);
-
+    var concatArr = resultList.concat(currentItems);
     var unique = concatArr.filter(function (elem, index, self) {
       return index === self.indexOf(elem);
     })
-    console.log('FILTRADO !!    ');
+    console.log('FILTRADO PRE ');
     console.log(unique);
-
-    /* currentItems.forEach(current => {
-       reporteGenericoItem = new ReporteGenericoItems();
-       reporteGenericoItem = current;
-       reporteGenericoItemBusqueda = this.buscarItemGenerico(dbItems, current);
-       if (reporteGenericoItemBusqueda != null) {
-         reporteGenericoItem = reporteGenericoItemBusqueda;
-       } else {
-         reporteGenericoItem.seleccion = true;
-       }
- 
-       resultList.push(reporteGenericoItem);
-       console.log('               *            **                      **               *');
-       console.log('               *            **                      **               *');
-     });*/
-
-
-
-
-
-
-
-    return resultList;
+    return unique;
   }
 
 
 
+  public cargarRepuestoGenericosCorrectivo(dbItems: Array<ReporteGenericoItems>, currentItems: Array<ReporteGenericoItems>): Array<ReporteGenericoItems> {
+    let reporteGenericoItem: ReporteGenericoItems;
+    let resultList: Array<ReporteGenericoItems> = new Array<ReporteGenericoItems>();
+    let reporteGenericoItemBusqueda: ReporteGenericoItems;
+
+
+
+    let dbItemsPreve: Array<ReporteGenericoItems> = new Array<ReporteGenericoItems>();
+    dbItems.filter(f => f.tipo == 'C').forEach(currentItem => {
+      dbItemsPreve.push(currentItem);
+    });
+
+
+    dbItemsPreve.forEach(db => {
+      reporteGenericoItem = new ReporteGenericoItems();
+      reporteGenericoItem = db;
+
+      if (currentItems.length > 0) {
+        for (var n = 0; n <= currentItems.length - 1; n++) {
+
+
+          if (currentItems[n].id === reporteGenericoItem.id) {
+            reporteGenericoItem.seleccion = true;
+            break;
+          } else {
+            reporteGenericoItem.seleccion = false;
+            reporteGenericoItem.id = this.buscarItemGenerico(dbItemsPreve, reporteGenericoItem).id;
+          }
+        }
+      } else {
+        let reporteGenericoItemAux: ReporteGenericoItems;
+        reporteGenericoItemAux = this.buscarItemGenerico(dbItemsPreve, reporteGenericoItem);
+        reporteGenericoItem.seleccion = false;
+        reporteGenericoItem.id = reporteGenericoItemAux.id;
+
+      }
+
+      resultList.push(reporteGenericoItem);
+
+    });
+
+    var concatArr = resultList.concat(currentItems);
+    var unique = concatArr.filter(function (elem, index, self) {
+      return index === self.indexOf(elem);
+    })
+    console.log('FILTRADO CORR ');
+    console.log(unique);
+    return unique;
+  }
 
 
 

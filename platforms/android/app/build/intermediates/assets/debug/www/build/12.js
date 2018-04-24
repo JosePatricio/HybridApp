@@ -1,15 +1,14 @@
 webpackJsonp([12],{
 
-/***/ 497:
+/***/ 504:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuPageModule", function() { return MenuPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalItemsGenericosPreventivoPageModule", function() { return ModalItemsGenericosPreventivoPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__ = __webpack_require__(143);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__menu__ = __webpack_require__(518);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_items_genericos_preventivo__ = __webpack_require__(531);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -19,38 +18,36 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-
-var MenuPageModule = /** @class */ (function () {
-    function MenuPageModule() {
+var ModalItemsGenericosPreventivoPageModule = /** @class */ (function () {
+    function ModalItemsGenericosPreventivoPageModule() {
     }
-    MenuPageModule = __decorate([
+    ModalItemsGenericosPreventivoPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_3__menu__["a" /* MenuPage */],
+                __WEBPACK_IMPORTED_MODULE_2__modal_items_genericos_preventivo__["a" /* ModalItemsGenericosPreventivoPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_3__menu__["a" /* MenuPage */]),
-                __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__["b" /* TranslateModule */].forChild()
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__modal_items_genericos_preventivo__["a" /* ModalItemsGenericosPreventivoPage */]),
             ],
-            exports: [
-                __WEBPACK_IMPORTED_MODULE_3__menu__["a" /* MenuPage */]
-            ]
         })
-    ], MenuPageModule);
-    return MenuPageModule;
+    ], ModalItemsGenericosPreventivoPageModule);
+    return ModalItemsGenericosPreventivoPageModule;
 }());
 
-//# sourceMappingURL=menu.module.js.map
+//# sourceMappingURL=modal-items-genericos-preventivo.module.js.map
 
 /***/ }),
 
-/***/ 518:
+/***/ 531:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MenuPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModalItemsGenericosPreventivoPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_models__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_providers__ = __webpack_require__(34);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -62,38 +59,69 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var MenuPage = /** @class */ (function () {
-    function MenuPage(navCtrl) {
+
+
+
+/**
+ * Generated class for the ModalItemsGenericosPreventivoPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var ModalItemsGenericosPreventivoPage = /** @class */ (function () {
+    function ModalItemsGenericosPreventivoPage(navCtrl, navParams, formBuilder, utilesProvider, viewCtrl) {
         this.navCtrl = navCtrl;
-        this.rootPage = 'ContentPage';
-        // used for an example of ngFor and navigation
-        this.pages = [
-            { title: 'Sign in', component: 'LoginPage' },
-            { title: 'Signup', component: 'SignupPage' }
-        ];
+        this.navParams = navParams;
+        this.formBuilder = formBuilder;
+        this.utilesProvider = utilesProvider;
+        this.viewCtrl = viewCtrl;
+        this.arrayRepuestos = new Array();
+        this.reporteGenericoItems = new __WEBPACK_IMPORTED_MODULE_2__models_models__["p" /* ReporteGenericoItems */]();
+        this.reporteForm = this.createMyForm();
+        if (navParams.get('arrayRepuestosPreventivos') != undefined) {
+            this.arrayRepuestos = navParams.get('arrayRepuestosPreventivos');
+            this.coughtArrayRepuestos = this.arrayRepuestos;
+        }
     }
-    MenuPage.prototype.ionViewDidLoad = function () {
-        console.log('Hello MenuPage Page');
+    ModalItemsGenericosPreventivoPage.prototype.ionViewDidLoad = function () {
     };
-    MenuPage.prototype.openPage = function (page) {
-        // Reset the content nav to have just this page
-        // we wouldn't want the back button to show in this scenario
-        this.nav.setRoot(page.component);
+    ModalItemsGenericosPreventivoPage.prototype.agregar = function () {
+        if (this.reporteGenericoItems.descripcion != undefined) {
+            this.reporteGenericoItems.tipo = 'P';
+            this.reporteGenericoItems.seleccion = true;
+            this.arrayRepuestos.push(this.reporteGenericoItems);
+            this.reporteGenericoItems = new __WEBPACK_IMPORTED_MODULE_2__models_models__["p" /* ReporteGenericoItems */]();
+            this.reporteForm.reset();
+        }
+        else {
+            this.utilesProvider.msgToastWarn('El campo no puede estar vacio');
+        }
     };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Nav */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Nav */])
-    ], MenuPage.prototype, "nav", void 0);
-    MenuPage = __decorate([
+    ModalItemsGenericosPreventivoPage.prototype.deleteItem = function (item) {
+        var index = this.arrayRepuestos.indexOf(item);
+        if (index > -1) {
+            this.arrayRepuestos.splice(index, 1);
+        }
+    };
+    ModalItemsGenericosPreventivoPage.prototype.cancel = function () {
+        this.viewCtrl.dismiss({ arrayRepuestosPreventivos: this.arrayRepuestos });
+    };
+    ModalItemsGenericosPreventivoPage.prototype.createMyForm = function () {
+        return this.formBuilder.group({
+            descripcion: [this.reporteGenericoItems.descripcion]
+        });
+    };
+    ModalItemsGenericosPreventivoPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-menu',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\menu\menu.html"*/'<ion-menu [content]="content">\n\n  <ion-content>\n\n    <ion-list>\n\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n\n        {{p.title}}\n\n      </button>\n\n    </ion-list>\n\n  </ion-content>\n\n</ion-menu>\n\n\n\n<ion-nav #content [root]="rootPage"></ion-nav>'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\menu\menu.html"*/
+            selector: 'page-modal-items-genericos-preventivo',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\modal-items-genericos-preventivo\modal-items-genericos-preventivo.html"*/'<!--\n  Generated template for the ModalItemsGenericosPreventivoPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Items Genéricos</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n  <form [formGroup]="reporteForm">\n    <ion-list>\n\n      <ion-item>\n        <ion-grid item-content>\n\n          <ion-row>\n            <ion-col col-8>\n\n              <ion-label floating>Ingresar Item</ion-label>\n              <ion-input type="text" [(ngModel)]="reporteGenericoItems.descripcion" formControlName="descripcion"></ion-input>\n\n            </ion-col>\n            <ion-col col-4>\n              <button ion-button full (click)="agregar()">\n                <ion-icon name="add"> Agregar </ion-icon>\n              </button>\n            </ion-col>\n\n          </ion-row>\n\n\n        </ion-grid>\n\n      </ion-item>\n\n\n    </ion-list>\n\n    <ion-list>\n      <ion-item-sliding *ngFor="let r of arrayRepuestos">\n        <ion-item>\n          <div>\n            <h2> {{r.descripcion}}</h2>\n\n          </div>\n          <ion-icon class="ios-add-size icon icon-md ios-arrow-forward"></ion-icon>\n        </ion-item>\n        <ion-item-options side="right">\n          <button danger (click)="deleteItem(r)" ion-button color="danger">\n            <ion-icon name="trash"></ion-icon> Eliminar</button>\n        </ion-item-options>\n      </ion-item-sliding>\n\n\n      <ion-item>\n\n        <ion-grid>\n          <ion-row align-items-start>\n\n            <ion-col>\n              <button ion-button full (click)="cancel()">\n                Cerrar\n              </button>\n            </ion-col>\n\n          </ion-row>\n        </ion-grid>\n      </ion-item>\n\n    </ion-list>\n  </form>\n</ion-content>'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\modal-items-genericos-preventivo\modal-items-genericos-preventivo.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */]])
-    ], MenuPage);
-    return MenuPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_4__providers_providers__["l" /* UtilesProvider */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* ViewController */]])
+    ], ModalItemsGenericosPreventivoPage);
+    return ModalItemsGenericosPreventivoPage;
 }());
 
-//# sourceMappingURL=menu.js.map
+//# sourceMappingURL=modal-items-genericos-preventivo.js.map
 
 /***/ })
 

@@ -1,14 +1,14 @@
 webpackJsonp([11],{
 
-/***/ 498:
+/***/ 505:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalConfirmacionRepuestoPageModule", function() { return ModalConfirmacionRepuestoPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalRepuestosSeleccionadosPageModule", function() { return ModalRepuestosSeleccionadosPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_confirmacion_repuesto__ = __webpack_require__(519);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_repuestos_seleccionados__ = __webpack_require__(532);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,34 +18,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var ModalConfirmacionRepuestoPageModule = /** @class */ (function () {
-    function ModalConfirmacionRepuestoPageModule() {
+var ModalRepuestosSeleccionadosPageModule = /** @class */ (function () {
+    function ModalRepuestosSeleccionadosPageModule() {
     }
-    ModalConfirmacionRepuestoPageModule = __decorate([
+    ModalRepuestosSeleccionadosPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__modal_confirmacion_repuesto__["a" /* ModalConfirmacionRepuestoPage */],
+                __WEBPACK_IMPORTED_MODULE_2__modal_repuestos_seleccionados__["a" /* ModalRepuestosSeleccionadosPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__modal_confirmacion_repuesto__["a" /* ModalConfirmacionRepuestoPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__modal_repuestos_seleccionados__["a" /* ModalRepuestosSeleccionadosPage */]),
             ],
         })
-    ], ModalConfirmacionRepuestoPageModule);
-    return ModalConfirmacionRepuestoPageModule;
+    ], ModalRepuestosSeleccionadosPageModule);
+    return ModalRepuestosSeleccionadosPageModule;
 }());
 
-//# sourceMappingURL=modal-confirmacion-repuesto.module.js.map
+//# sourceMappingURL=modal-repuestos-seleccionados.module.js.map
 
 /***/ }),
 
-/***/ 519:
+/***/ 532:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModalConfirmacionRepuestoPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModalRepuestosSeleccionadosPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_models__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -57,46 +56,55 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-
 /**
- * Generated class for the ModalConfirmacionRepuestoPage page.
+ * Generated class for the ModalRepuestosSeleccionadosPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-var ModalConfirmacionRepuestoPage = /** @class */ (function () {
-    function ModalConfirmacionRepuestoPage(navCtrl, navParams, viewCtrl) {
+var ModalRepuestosSeleccionadosPage = /** @class */ (function () {
+    function ModalRepuestosSeleccionadosPage(navCtrl, navParams, viewCtrl, modalCtrl, loadingCtrl) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.viewCtrl = viewCtrl;
-        this.productoRepuestoReporte = new __WEBPACK_IMPORTED_MODULE_2__models_models__["m" /* ProductoRepuestoReporte */]();
-        this.cambiado = false;
-        this.solicitar = false;
-        this.productoRepuestoReporte = navParams.get('productoRepuestoReporte');
+        this.modalCtrl = modalCtrl;
+        this.loadingCtrl = loadingCtrl;
+        this.arrayRepuestos = new Array();
+        this.showLoader();
+        this.arrayRepuestos = navParams.get('arrayRepuestos');
+        this.cabecera = navParams.get('cabecera');
+        this.loading.dismiss();
+        /*let swe:ProductoRepuestoReporte=new ProductoRepuestoReporte();
+        swe.idDetalleCatalogoReporte.descripcion;*/
     }
-    ModalConfirmacionRepuestoPage.prototype.ionViewDidLoad = function () {
+    ModalRepuestosSeleccionadosPage.prototype.ionViewDidLoad = function () {
     };
-    ModalConfirmacionRepuestoPage.prototype.aceptar = function () {
-        var obj = new __WEBPACK_IMPORTED_MODULE_2__models_models__["m" /* ProductoRepuestoReporte */]();
-        obj = this.productoRepuestoReporte;
-        obj.solicitar = this.solicitar;
-        obj.cambiado = this.cambiado;
-        obj.porcentaje = this.porcentaje;
-        this.viewCtrl.dismiss({ productoRepuestoReporte: obj });
+    ModalRepuestosSeleccionadosPage.prototype.deleteItem = function (r) {
+        var index = this.arrayRepuestos.indexOf(r);
+        if (index > -1) {
+            this.arrayRepuestos.splice(index, 1); // works
+        }
     };
-    ModalConfirmacionRepuestoPage.prototype.cancel = function () {
-        this.viewCtrl.dismiss();
+    ModalRepuestosSeleccionadosPage.prototype.showLoader = function () {
+        this.loading = this.loadingCtrl.create({
+            content: 'Cargando...'
+        });
+        this.loading.present();
     };
-    ModalConfirmacionRepuestoPage = __decorate([
+    ModalRepuestosSeleccionadosPage.prototype.cancel = function () {
+        this.viewCtrl.dismiss({ cabecera: this.cabecera, arrayRepuestos: this.arrayRepuestos });
+    };
+    ModalRepuestosSeleccionadosPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-modal-confirmacion-repuesto',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\modal-confirmacion-repuesto\modal-confirmacion-repuesto.html"*/'<!--\n\n  Generated template for the ModalConfirmacionRepuestoPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>Confirmación</ion-title>\n\n    <ion-buttons start>\n\n      <button ion-button (click)="cancel()">\n\n        <span color="primary" showWhen="ios">\n\n          Cancelar\n\n        </span>\n\n        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n\n\n  <ion-list>\n\n    <ion-item>\n\n      <ion-label floating>Descripción</ion-label>\n\n      <ion-input [(ngModel)]="productoRepuestoReporte.idProducto.descripcionVenta" style="pointer-events: none"></ion-input>\n\n    </ion-item>\n\n\n\n    <ion-item>\n\n      <ion-label floating>Código</ion-label>\n\n      <ion-input [(ngModel)]="productoRepuestoReporte.idProducto.codigoFabricante" style="pointer-events: none"></ion-input>\n\n    </ion-item>\n\n\n\n    <ion-item>\n\n      <ion-label floating>Marca</ion-label>\n\n      <ion-input [(ngModel)]="productoRepuestoReporte.idProducto.idMarca.marca" style="pointer-events: none"></ion-input>\n\n    </ion-item>\n\n    <ion-item>\n\n      <ion-label floating>Stock</ion-label>\n\n      <ion-input [(ngModel)]="productoRepuestoReporte.stock" style="pointer-events: none"></ion-input>\n\n    </ion-item>\n\n\n\n    <ion-item>\n\n      <ion-label>Cambiado</ion-label>\n\n      <ion-checkbox [(ngModel)]="cambiado"></ion-checkbox>\n\n    </ion-item>\n\n\n\n    <ion-item>\n\n      <ion-label>Solicitar</ion-label>\n\n      <ion-checkbox [(ngModel)]="solicitar"></ion-checkbox>\n\n    </ion-item>\n\n\n\n\n\n    <ion-item>\n\n      <ion-label>Porcentaje</ion-label>\n\n      <ion-input [(ngModel)]="porcentaje" ></ion-input>\n\n    </ion-item>\n\n\n\n\n\n    <ion-item>\n\n\n\n      <ion-grid>\n\n        <ion-row align-items-start>\n\n          <ion-col>\n\n            <button ion-button full (click)="aceptar()">\n\n              <ion-icon> Aceptar </ion-icon>\n\n            </button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-grid>\n\n    </ion-item>\n\n\n\n\n\n\n\n\n\n  </ion-list>\n\n\n\n\n\n\n\n\n\n\n\n</ion-content>'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\modal-confirmacion-repuesto\modal-confirmacion-repuesto.html"*/,
+            selector: 'page-modal-repuestos-seleccionados',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\modal-repuestos-seleccionados\modal-repuestos-seleccionados.html"*/'<!--\n\n  Generated template for the ModalRepuestosSeleccionadosPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>Repuestos Seleccionados</ion-title>\n\n\n\n    <ion-buttons start>\n\n      <button ion-button (click)="cancel()">\n\n        <span color="primary" showWhen="ios">\n\n          Cancelar\n\n        </span>\n\n        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n\n\n\n\n</ion-header>\n\n\n\n<ion-content>\n\n\n\n  <ion-list>\n\n    <ion-item-sliding *ngFor="let r of arrayRepuestos">\n\n      <ion-item>\n\n        <div>\n\n          <h2> {{r.idProducto.codigoFabricante}}</h2>\n\n          <p>Marca: {{r.idProducto.idMarca.marca}}</p>\n\n          <p>Desc: {{r.idProducto.descripcionVenta}}</p>\n\n          \n\n          <p>Detall: {{r.idDetalleCatalogoReporte.descripcion}}</p>\n\n          \n\n        </div>\n\n        <ion-icon class="ios-add-size icon icon-md ios-arrow-forward"></ion-icon>\n\n      </ion-item>\n\n      <ion-item-options side="right">\n\n        <button danger (click)="deleteItem(r)" ion-button color="danger">\n\n          <ion-icon name="trash"></ion-icon> Eliminar</button>\n\n      </ion-item-options>\n\n    </ion-item-sliding>\n\n\n\n\n\n    <ion-item>\n\n\n\n      <ion-grid>\n\n        <ion-row align-items-start>\n\n\n\n          <ion-col>\n\n            <button ion-button full (click)="cancel()">\n\n              Cerrar\n\n            </button>\n\n          </ion-col>\n\n\n\n        </ion-row>\n\n      </ion-grid>\n\n    </ion-item>\n\n\n\n  </ion-list>\n\n\n\n\n\n</ion-content>'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\modal-repuestos-seleccionados\modal-repuestos-seleccionados.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* ViewController */]])
-    ], ModalConfirmacionRepuestoPage);
-    return ModalConfirmacionRepuestoPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* ViewController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */]])
+    ], ModalRepuestosSeleccionadosPage);
+    return ModalRepuestosSeleccionadosPage;
 }());
 
-//# sourceMappingURL=modal-confirmacion-repuesto.js.map
+//# sourceMappingURL=modal-repuestos-seleccionados.js.map
 
 /***/ })
 

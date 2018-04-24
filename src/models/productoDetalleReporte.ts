@@ -24,7 +24,12 @@ export class ProductoDetalleReporte {
   servicioFacturar: number;
   servicioFacturarEstado: boolean;
 
-
+  etiquetaAnterior: String;
+  etiquetaActual: String;
+  etiquetaImpresionReal: String;
+  etiquetaContadorTotal: String;
+  etiquetaContadorColor: String;
+  etiquetaContadorBn: String;
 
 }
 

@@ -28649,6 +28649,18 @@ page-reporte-impresoras signature-pad canvas {
   background-color: #d14747 !important;
 }
 
+page-reporte-scanners signature-pad canvas {
+  border: 1px dashed #333333;
+}
+
+.toastSucces > div {
+  background-color: #32db64 !important;
+}
+
+.toastError > div {
+  background-color: #d14747 !important;
+}
+
 page-tutorial .toolbar-background {
   background: transparent;
   border-color: transparent;

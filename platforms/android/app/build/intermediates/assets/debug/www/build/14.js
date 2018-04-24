@@ -1,15 +1,14 @@
 webpackJsonp([14],{
 
-/***/ 494:
+/***/ 502:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListMasterPageModule", function() { return ListMasterPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalCorrectivosPageModule", function() { return ModalCorrectivosPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__ = __webpack_require__(143);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__list_master__ = __webpack_require__(516);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_correctivos__ = __webpack_require__(529);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -19,41 +18,35 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-
-var ListMasterPageModule = /** @class */ (function () {
-    function ListMasterPageModule() {
+var ModalCorrectivosPageModule = /** @class */ (function () {
+    function ModalCorrectivosPageModule() {
     }
-    ListMasterPageModule = __decorate([
+    ModalCorrectivosPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_3__list_master__["a" /* ListMasterPage */],
+                __WEBPACK_IMPORTED_MODULE_2__modal_correctivos__["a" /* ModalCorrectivosPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_3__list_master__["a" /* ListMasterPage */]),
-                __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__["b" /* TranslateModule */].forChild()
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__modal_correctivos__["a" /* ModalCorrectivosPage */]),
             ],
-            exports: [
-                __WEBPACK_IMPORTED_MODULE_3__list_master__["a" /* ListMasterPage */]
-            ]
         })
-    ], ListMasterPageModule);
-    return ListMasterPageModule;
+    ], ModalCorrectivosPageModule);
+    return ModalCorrectivosPageModule;
 }());
 
-//# sourceMappingURL=list-master.module.js.map
+//# sourceMappingURL=modal-correctivos.module.js.map
 
 /***/ }),
 
-/***/ 516:
+/***/ 529:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListMasterPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModalCorrectivosPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_native_page_transitions__ = __webpack_require__(75);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__notifications_notifications__ = __webpack_require__(144);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_providers__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_models__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_providers__ = __webpack_require__(34);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -67,47 +60,64 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-var ListMasterPage = /** @class */ (function () {
-    function ListMasterPage(navCtrl, modalCtrl, nativePageTransitions, popoverCtrl, notificacionProvider) {
-        //this.currentItems = this.items.query();
+/**
+ * Generated class for the ModalCorrectivosPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var ModalCorrectivosPage = /** @class */ (function () {
+    function ModalCorrectivosPage(navCtrl, navParams, viewCtrl, modalCtrl, loadingCtrl, detalleCatalogoReporteProvider) {
         this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.viewCtrl = viewCtrl;
         this.modalCtrl = modalCtrl;
-        this.nativePageTransitions = nativePageTransitions;
-        this.popoverCtrl = popoverCtrl;
-        this.notificacionProvider = notificacionProvider;
-        this.colorNotification = 'light';
-        this.notificationes = this.notificacionProvider.getnumeroNotificacion();
-        this.colorNotification = this.notificationes == 0 ? 'light' : 'danger';
+        this.loadingCtrl = loadingCtrl;
+        this.detalleCatalogoReporteProvider = detalleCatalogoReporteProvider;
+        this.producto = new __WEBPACK_IMPORTED_MODULE_2__models_models__["j" /* Producto */]();
+        this.cabecera = navParams.get('cabecera');
+        this.producto = navParams.get('producto');
     }
-    ListMasterPage.prototype.ngAfterViewInit = function () {
-        // this.signaturePad is now available
-        //  this.signaturePad.set('minWidth', 5); // set szimek/signature_pad options at runtime
-        // this.signaturePad.clear(); // invoke functions from szimek/signature_pad API
+    ;
+    ModalCorrectivosPage.prototype.cancel = function () {
+        this.viewCtrl.dismiss();
     };
-    /**
-     * The view loaded, let's query our items for the list
-     */
-    ListMasterPage.prototype.ionViewDidLoad = function () {
-    };
-    ListMasterPage.prototype.presentNotifications = function (myEvent) {
-        console.log(myEvent);
-        var popover = this.popoverCtrl.create(__WEBPACK_IMPORTED_MODULE_3__notifications_notifications__["a" /* NotificationsPage */]);
-        popover.present({
-            ev: myEvent
+    ModalCorrectivosPage.prototype.openItem = function (detalle) {
+        var _this = this;
+        var addModal = this.modalCtrl.create('ModalRepuestosPage', { detalle: detalle, producto: this.producto });
+        addModal.onDidDismiss(function (item) {
+            if ((item) && item.productoRepuestoReporte !== undefined) {
+                _this.viewCtrl.dismiss({ cabecera: _this.cabecera, productoRepuestoReporte: item.productoRepuestoReporte });
+            }
         });
+        addModal.present();
     };
-    ListMasterPage = __decorate([
+    ModalCorrectivosPage.prototype.ionViewDidLoad = function () {
+        var _this = this;
+        this.showLoader();
+        this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo(this.cabecera).subscribe(function (data) {
+            _this.catalogos = data;
+        });
+        this.loading.dismiss();
+    };
+    ModalCorrectivosPage.prototype.showLoader = function () {
+        this.loading = this.loadingCtrl.create({
+            content: 'Cargando...'
+        });
+        this.loading.present();
+    };
+    ModalCorrectivosPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-list-master',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\list-master\list-master.html"*/'<ion-header>\n\n\n\n  <ion-navbar>\n\n    <button ion-button menuToggle color="light">\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-title>{{ \'HOME_TITLE\' | translate }}</ion-title>\n\n\n\n    <ion-buttons end>\n\n      <button ion-button tappable (click)="presentNotifications($event)" color="light">\n\n        {{notificationes}}\n\n        <ion-icon name="notifications" color="{{colorNotification}}"></ion-icon>\n\n      </button>\n\n\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n<ion-content>\n\n\n\n\n\n\n\n  <ion-content padding>\n\n\n\n\n\n\n\n\n\n  </ion-content>\n\n\n\n\n\n</ion-content>'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\list-master\list-master.html"*/
+            selector: 'page-modal-correctivos',template:/*ion-inline-start:"C:\PROYECTOS\HybridApp\src\pages\modal-correctivos\modal-correctivos.html"*/'<!--\n\n  Generated template for the ModalCorrectivosPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>Correctivos</ion-title>\n\n\n\n    <ion-buttons start>\n\n      <button ion-button (click)="cancel()">\n\n        <span color="primary" showWhen="ios">\n\n          Cancelar\n\n        </span>\n\n        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n  <ion-item *ngFor="let c of catalogos ">\n\n\n\n      <button ion-item (click)="openItem(c)">\n\n        <h2> {{c.descripcion}}</h2>\n\n      </button>\n\n\n\n    </ion-item>\n\n \n\n\n\n\n\n</ion-content>'/*ion-inline-end:"C:\PROYECTOS\HybridApp\src\pages\modal-correctivos\modal-correctivos.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_native_page_transitions__["a" /* NativePageTransitions */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* PopoverController */], __WEBPACK_IMPORTED_MODULE_4__providers_providers__["e" /* NotificacionProvider */]])
-    ], ListMasterPage);
-    return ListMasterPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* ViewController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_providers__["d" /* DetalleCatalogoReporteProvider */]])
+    ], ModalCorrectivosPage);
+    return ModalCorrectivosPage;
 }());
 
-//# sourceMappingURL=list-master.js.map
+//# sourceMappingURL=modal-correctivos.js.map
 
 /***/ })
 

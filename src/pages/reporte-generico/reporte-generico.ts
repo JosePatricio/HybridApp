@@ -183,6 +183,16 @@ export class ReporteGenericoPage {
           this.tiposVisitas = data;
         });
 
+
+        //TEXTO DEFAULT CONTADORES 
+        this.productoDetalleReporte.etiquetaAnterior = 'Anterior';
+        this.productoDetalleReporte.etiquetaActual = 'Actual';
+        this.productoDetalleReporte.etiquetaImpresionReal = 'Impr. Real';
+        this.productoDetalleReporte.etiquetaContadorTotal = 'Total';
+        this.productoDetalleReporte.etiquetaContadorColor = 'Color';
+        this.productoDetalleReporte.etiquetaContadorBn = 'B/N';
+
+
         //NUEVO REPORTE
         this.reporte.numerofactura = this.numeroReporte;
         this.reporte.tipo = 'REPORTE_GENERICO';
@@ -286,6 +296,14 @@ export class ReporteGenericoPage {
       idClienteSucursal: this.clienteSucursal.id,
       subTipoReporte: this.tipoReporte,
 
+
+      etiquetaAnterior: this.productoDetalleReporte.etiquetaAnterior,
+      etiquetaActual: this.productoDetalleReporte.etiquetaActual,
+      etiquetaImpresionReal: this.productoDetalleReporte.etiquetaImpresionReal,
+      etiquetaContadorTotal: this.productoDetalleReporte.etiquetaContadorTotal,
+      etiquetaContadorColor: this.productoDetalleReporte.etiquetaContadorColor,
+      etiquetaContadorBn: this.productoDetalleReporte.etiquetaContadorBn,
+
     });
 
 
@@ -371,17 +389,6 @@ export class ReporteGenericoPage {
 
       this.reporteGenericoItemsListTemp = data.reporteGenericoItemsList;
 
-      /*
-            this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('PROCESAMIENTO').subscribe(catalogo => {
-              this.arrayPreventivoProcesamientoIds = this.utilesProvider.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList);
-              this.arrayPreventivoProcesamiento = this.utilesProvider.loadReportePreventivos(catalogo, data.reporteMantenimientoList);
-            });*/
-
-
-      //  this.detalleCatalogoReporteProvider.getDetalleCatalogoReporteByCabeceraCodigo('EXTERIORES').subscribe(catalogo => { this.arrayPreventivoExteriores = catalogo; this.arrayPreventivoExterioresIds = this.utilesProvider.loadReportePreventivosIds(catalogo, data.reporteMantenimientoList); });
-
-
-      //  
 
 
 
@@ -407,6 +414,15 @@ export class ReporteGenericoPage {
         ipEquipo: this.productoClienteReporte.ipEquipo,
         puertoUsb: this.productoClienteReporte.puertoUsb,
         email: this.productoClienteReporte.correoAtencion,
+
+
+        etiquetaAnterior: this.productoDetalleReporte.etiquetaAnterior,
+        etiquetaActual: this.productoDetalleReporte.etiquetaActual,
+        etiquetaImpresionReal: this.productoDetalleReporte.etiquetaImpresionReal,
+        etiquetaContadorTotal: this.productoDetalleReporte.etiquetaContadorTotal,
+        etiquetaContadorColor: this.productoDetalleReporte.etiquetaContadorColor,
+        etiquetaContadorBn: this.productoDetalleReporte.etiquetaContadorBn,
+
         contadorTotalAnterior: this.productoDetalleReporte.contadorTotalAnterior,
         contadorColorAnterior: this.productoDetalleReporte.contadorColorAnterior,
         contadorBnAnterior: this.productoDetalleReporte.contadorBnAnterior,
@@ -458,6 +474,15 @@ export class ReporteGenericoPage {
     this.productoClienteReporte.idClienteSucursal.id = this.reporteForm.value.idClienteSucursal;
     this.productoClienteReporte.idProducto = this.producto;
 
+
+    this.productoDetalleReporte.etiquetaAnterior = this.reporteForm.value.etiquetaAnterior;
+    this.productoDetalleReporte.etiquetaActual = this.reporteForm.value.etiquetaActual;
+    this.productoDetalleReporte.etiquetaImpresionReal = this.reporteForm.value.etiquetaImpresionReal;
+    this.productoDetalleReporte.etiquetaContadorTotal = this.reporteForm.value.etiquetaContadorTotal;
+    this.productoDetalleReporte.etiquetaContadorColor = this.reporteForm.value.etiquetaContadorColor;
+    this.productoDetalleReporte.etiquetaContadorBn = this.reporteForm.value.etiquetaContadorBn;
+
+
     this.productoDetalleReporte.contadorTotalAnterior = this.reporteForm.value.contadorTotalAnterior;
     this.productoDetalleReporte.contadorColorAnterior = this.reporteForm.value.contadorColorAnterior;
     this.productoDetalleReporte.contadorBnAnterior = this.reporteForm.value.contadorBnAnterior;
@@ -487,27 +512,27 @@ export class ReporteGenericoPage {
 
 
     if (this.isEdit) {
-      //this.utilesProvider.cargarRepuestoGenericos(this.reporteGenericoItemsListTemp, this.arrayRepuestosGenericosCo);
-
-      // this.datosReporteDTO.itemsReporteGenerico = this.arrayRepuestosGenericosCorrectivos.concat(this.arrayRepuestosGenericosPreventivos);
-
-      this.datosReporteDTO.itemsReporteGenerico = this.utilesProvider.cargarRepuestoGenericosPreventivo(this.reporteGenericoItemsListTemp, this.arrayRepuestosGenericosPreventivos);
+     
+      
+      this.datosReporteDTO.itemsReporteGenerico = this.utilesProvider.cargarRepuestoGenericosCorrectivo(this.reporteGenericoItemsListTemp, this.arrayRepuestosGenericosCorrectivos).concat(
+        this.utilesProvider.cargarRepuestoGenericosPreventivo(this.reporteGenericoItemsListTemp, this.arrayRepuestosGenericosPreventivos)
+      );
 
       console.log('EDITAR');
-      console.log(this.datosReporteDTO.itemsReporteGenerico);
+      console.log(this.datosReporteDTO);
 
-      /*  this.showLoaderSave();
-  
-        this.reporteProvider.updateReporteReporteGenerico(this.datosReporteDTO).then(
-          response => {
-            this.navCtrl.push(AdministracionReportesPage);
-            this.loading.dismiss();
-            this.utilesProvider.msgSaveToast(true);
-          }
-        ).catch((error: any) => {
-          this.utilesProvider.msgSaveToast(false);
+      this.showLoaderSave();
+
+      this.reporteProvider.updateReporteReporteGenerico(this.datosReporteDTO).then(
+        response => {
+          this.navCtrl.push(AdministracionReportesPage);
           this.loading.dismiss();
-        });*/
+          this.utilesProvider.msgSaveToast(true);
+        }
+      ).catch((error: any) => {
+        this.utilesProvider.msgSaveToast(false);
+        this.loading.dismiss();
+      });
 
     } else {
       this.reporte.numerofactura = this.numeroReporte;
@@ -733,6 +758,14 @@ export class ReporteGenericoPage {
       marca: [''],
       modelo: [''],
       serie: [],
+
+      etiquetaAnterior: [],
+      etiquetaActual: [],
+      etiquetaImpresionReal: [],
+      etiquetaContadorTotal: [],
+      etiquetaContadorColor: [],
+      etiquetaContadorBn: [],
+
       contadorTotalAnterior: [''],
       contadorColorAnterior: [],
       contadorBnAnterior: [],
